@@ -1,0 +1,3 @@
+com.qingxinsaas.system.api.factory.RemoteUserFallbackFactory
+com.qingxinsaas.system.api.factory.RemoteLogFallbackFactory
+com.qingxinsaas.system.api.factory.RemoteFileFallbackFactory

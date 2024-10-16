@@ -14,28 +14,28 @@ cp ../sql/ry_config_20240902.sql ./mysql/db
 
 # copy html
 echo "begin copy html "
-cp -r ../ruoyi-ui/dist/** ./nginx/html/dist
+cp -r ../qingxinsaas-ui/dist/** ./nginx/html/dist
 
 
 # copy jar
-echo "begin copy ruoyi-gateway "
-cp ../ruoyi-gateway/target/ruoyi-gateway.jar ./ruoyi/gateway/jar
+echo "begin copy qingxinsaas-gateway "
+cp ../qingxinsaas-gateway/target/qingxinsaas-gateway.jar ./ruoyi/gateway/jar
 
-echo "begin copy ruoyi-auth "
-cp ../ruoyi-auth/target/ruoyi-auth.jar ./ruoyi/auth/jar
+echo "begin copy qingxinsaas-auth "
+cp ../qingxinsaas-auth/target/qingxinsaas-auth.jar ./ruoyi/auth/jar
 
-echo "begin copy ruoyi-visual "
-cp ../ruoyi-visual/ruoyi-monitor/target/ruoyi-visual-monitor.jar  ./ruoyi/visual/monitor/jar
+echo "begin copy qingxinsaas-visual "
+cp ../qingxinsaas-visual/qingxinsaas-monitor/target/qingxinsaas-visual-monitor.jar  ./ruoyi/visual/monitor/jar
 
-echo "begin copy ruoyi-modules-system "
-cp ../ruoyi-modules/ruoyi-system/target/ruoyi-modules-system.jar ./ruoyi/modules/system/jar
+echo "begin copy qingxinsaas-modules-system "
+cp ../qingxinsaas-modules/qingxinsaas-system/target/qingxinsaas-modules-system.jar ./ruoyi/modules/system/jar
 
-echo "begin copy ruoyi-modules-file "
-cp ../ruoyi-modules/ruoyi-file/target/ruoyi-modules-file.jar ./ruoyi/modules/file/jar
+echo "begin copy qingxinsaas-modules-file "
+cp ../qingxinsaas-modules/qingxinsaas-file/target/qingxinsaas-modules-file.jar ./ruoyi/modules/file/jar
 
-echo "begin copy ruoyi-modules-job "
-cp ../ruoyi-modules/ruoyi-job/target/ruoyi-modules-job.jar ./ruoyi/modules/job/jar
+echo "begin copy qingxinsaas-modules-job "
+cp ../qingxinsaas-modules/qingxinsaas-job/target/qingxinsaas-modules-job.jar ./ruoyi/modules/job/jar
 
-echo "begin copy ruoyi-modules-gen "
-cp ../ruoyi-modules/ruoyi-gen/target/ruoyi-modules-gen.jar ./ruoyi/modules/gen/jar
+echo "begin copy qingxinsaas-modules-gen "
+cp ../qingxinsaas-modules/qingxinsaas-gen/target/qingxinsaas-modules-gen.jar ./ruoyi/modules/gen/jar
 

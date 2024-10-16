@@ -1,0 +1,2 @@
+com.qingxinsaas.common.log.service.AsyncLogService
+com.qingxinsaas.common.log.aspect.LogAspect

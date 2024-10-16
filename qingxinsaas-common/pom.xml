@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.qingxinsaas</groupId>
+        <artifactId>qingxinsaas</artifactId>
+        <version>3.6.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>qingxinsaas-common-log</module>
+        <module>qingxinsaas-common-core</module>
+        <module>qingxinsaas-common-redis</module>
+        <module>qingxinsaas-common-seata</module>
+        <module>qingxinsaas-common-swagger</module>
+        <module>qingxinsaas-common-security</module>
+        <module>qingxinsaas-common-sensitive</module>
+        <module>qingxinsaas-common-datascope</module>
+        <module>qingxinsaas-common-datasource</module>
+    </modules>
+
+    <artifactId>qingxinsaas-common</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        qingxinsaas-common通用模块
+    </description>
+
+</project>
