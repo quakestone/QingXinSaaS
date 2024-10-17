@@ -39,13 +39,13 @@ Swagger API文档[Swagger UI](http://localhost:8080/swagger-ui/index.html)（等
         </dependency>
 ```
 
-![](..\pic\cloud-env1.png)
+<img src="..\pic\cloud-env1.png" alt="avatar" />
 
 在bootstrap.yml中配置nacos信息，并登录nacos，为项目创建对应的yml配置文件。
 
 ## 租户数据隔离
 
-![](..\pic\other1.png)
+<img src="..\pic\other1.png" alt="avatar" />
 
 外部项目通过注册到 Nacos 实现服务发现，并且 Gateway 将携带 `TenantName` 的请求转发到相应的外部项目。外部项目可以通过自定义的 `Filter` 或 `Interceptor` 实现租户信息的拦截和数据源的切换。
 
