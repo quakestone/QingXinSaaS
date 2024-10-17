@@ -59,16 +59,22 @@
             <artifactId>qingxinsaas-common-datascope</artifactId>
         </dependency>
         
-        <!-- RuoYi Common Log -->
+        <!-- Common Log -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
             <artifactId>qingxinsaas-common-log</artifactId>
         </dependency>
         
-        <!-- RuoYi Common Swagger -->
+        <!-- Common Swagger -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
             <artifactId>qingxinsaas-common-swagger</artifactId>
+        </dependency>
+
+        <!-- Common MybatisPlus -->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-mybatisplus</artifactId>
         </dependency>
 
     </dependencies>

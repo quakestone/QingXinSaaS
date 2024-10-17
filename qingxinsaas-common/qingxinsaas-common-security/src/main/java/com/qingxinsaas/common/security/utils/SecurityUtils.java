@@ -1,6 +1,8 @@
 package com.qingxinsaas.common.security.utils;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.qingxinsaas.common.core.constant.SecurityConstants;
 import com.qingxinsaas.common.core.constant.TokenConstants;
@@ -8,6 +10,8 @@ import com.qingxinsaas.common.core.context.SecurityContextHolder;
 import com.qingxinsaas.common.core.utils.ServletUtils;
 import com.qingxinsaas.common.core.utils.StringUtils;
 import com.qingxinsaas.system.api.model.LoginUser;
+
+import java.util.Optional;
 
 /**
  * 权限获取工具类
