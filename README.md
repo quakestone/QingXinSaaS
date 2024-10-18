@@ -69,13 +69,15 @@ com.qingxinsaas
 
 - **SaaS多租户**  
 
-  <img src="pic/saas1.png"/>
-
   多租户的数据隔离采用方案：
 
   DATASOURCE 模式：独立数据库
 
+  <img src="pic/saas2.png"/>
+
   一个租户一个数据库，这种方案的用户数据隔离级别最高，安全性最好。
+
+  <img src="pic/saas1.png"/>
 
   1. 层级关系
 
