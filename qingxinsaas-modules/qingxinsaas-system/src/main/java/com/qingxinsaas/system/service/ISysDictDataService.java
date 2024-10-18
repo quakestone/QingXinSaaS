@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.system.api.domain.SysDictData;
 
 /**
@@ -8,7 +10,7 @@ import com.qingxinsaas.system.api.domain.SysDictData;
  * 
  * @author ruoyi
  */
-public interface ISysDictDataService
+public interface ISysDictDataService extends IService<SysDictData>
 {
     /**
      * 根据条件分页查询字典数据

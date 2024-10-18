@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
+
+import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.system.domain.SysPost;
 
 /**
@@ -8,7 +10,7 @@ import com.qingxinsaas.system.domain.SysPost;
  * 
  * @author ruoyi
  */
-public interface SysPostMapper
+public interface SysPostMapper extends BaseMapperX<SysPost>
 {
     /**
      * 查询岗位数据集合

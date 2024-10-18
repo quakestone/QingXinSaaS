@@ -2,6 +2,8 @@ package com.qingxinsaas.system.service;
 
 import java.util.List;
 import java.util.Set;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.system.domain.SysMenu;
 import com.qingxinsaas.system.domain.vo.RouterVo;
 import com.qingxinsaas.system.domain.vo.TreeSelect;
@@ -11,7 +13,7 @@ import com.qingxinsaas.system.domain.vo.TreeSelect;
  * 
  * @author ruoyi
  */
-public interface ISysMenuService
+public interface ISysMenuService extends IService<SysMenu>
 {
     /**
      * 根据用户查询系统菜单列表

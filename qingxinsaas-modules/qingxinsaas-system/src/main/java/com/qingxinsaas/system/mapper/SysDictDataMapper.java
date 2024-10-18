@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
+
+import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Param;
 import com.qingxinsaas.system.api.domain.SysDictData;
 
@@ -9,7 +11,7 @@ import com.qingxinsaas.system.api.domain.SysDictData;
  * 
  * @author ruoyi
  */
-public interface SysDictDataMapper
+public interface SysDictDataMapper extends BaseMapperX<SysDictData>
 {
     /**
      * 根据条件分页查询字典数据

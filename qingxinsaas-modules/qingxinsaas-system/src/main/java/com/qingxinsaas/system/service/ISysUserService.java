@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.system.api.domain.SysUser;
 
 /**
@@ -8,7 +10,7 @@ import com.qingxinsaas.system.api.domain.SysUser;
  * 
  * @author ruoyi
  */
-public interface ISysUserService
+public interface ISysUserService extends IService<SysUser>
 {
     /**
      * 根据条件分页查询用户列表

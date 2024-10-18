@@ -3,6 +3,9 @@ package com.qingxinsaas.system.domain;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.qingxinsaas.common.core.annotation.Excel;
@@ -20,6 +23,7 @@ public class SysPost extends BaseEntity
 
     /** 岗位序号 */
     @Excel(name = "岗位序号", cellType = ColumnType.NUMERIC)
+    @TableId(type = IdType.AUTO)
     private Long postId;
 
     /** 岗位编码 */

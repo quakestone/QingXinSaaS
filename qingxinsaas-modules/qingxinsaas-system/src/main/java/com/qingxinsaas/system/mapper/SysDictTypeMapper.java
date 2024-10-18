@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
+
+import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.system.api.domain.SysDictType;
 
 /**
@@ -8,7 +10,7 @@ import com.qingxinsaas.system.api.domain.SysDictType;
  * 
  * @author ruoyi
  */
-public interface SysDictTypeMapper
+public interface SysDictTypeMapper extends BaseMapperX<SysDictType>
 {
     /**
      * 根据条件分页查询字典类型

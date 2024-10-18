@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
+
+import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Param;
 import com.qingxinsaas.system.api.domain.SysDept;
 
@@ -9,7 +11,7 @@ import com.qingxinsaas.system.api.domain.SysDept;
  * 
  * @author ruoyi
  */
-public interface SysDeptMapper
+public interface SysDeptMapper extends BaseMapperX<SysDept>
 {
     /**
      * 查询部门管理数据
