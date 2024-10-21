@@ -152,6 +152,7 @@ public class SysMenuController extends BaseController
     @GetMapping("getRouters")
     public AjaxResult getRouters()
     {
+        //TODO 获取租户的路由信息
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return success(menuService.buildMenus(menus));

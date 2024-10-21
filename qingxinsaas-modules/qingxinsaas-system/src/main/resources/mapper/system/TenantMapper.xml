@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingxinsaas.system.mapper.TenantMapper">
+    
+    <resultMap type="com.qingxinsaas.system.api.domain.Tenant" id="TenantResult">
+        <result property="id"    column="id"    />
+        <result property="tenant"    column="tenant"    />
+        <result property="url"    column="url"    />
+        <result property="username"    column="username"    />
+        <result property="password"    column="password"    />
+        <result property="databaseName"    column="database_name"    />
+        <result property="hostName"    column="host_name"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactMobile"    column="contact_mobile"    />
+        <result property="expireTime"    column="expire_time"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTenantVo">
+        select id, tenant, url, username, password, database_name, host_name, contact_name, contact_mobile, expire_time, status, del_flag, create_by, create_time, update_by, update_time from sys_tenant
+    </sql>
+
+    <select id="selectTenantList" parameterType="com.qingxinsaas.system.api.domain.Tenant" resultMap="TenantResult">
+        <include refid="selectTenantVo"/>
+        <where>  
+            <if test="tenant != null  and tenant != ''"> and tenant like concat('%', #{tenant}, '%')</if>
+            <if test="hostName != null  and hostName != ''"> and host_name = #{hostName}</if>
+            <if test="contactName != null  and contactName != ''"> and contact_name like concat('%', #{contactName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTenantById" parameterType="Long" resultMap="TenantResult">
+        <include refid="selectTenantVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTenant" parameterType="com.qingxinsaas.system.api.domain.Tenant" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tenant != null">tenant,</if>
+            <if test="url != null">url,</if>
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="databaseName != null">database_name,</if>
+            <if test="hostName != null">host_name,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="contactMobile != null">contact_mobile,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tenant != null">#{tenant},</if>
+            <if test="url != null">#{url},</if>
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="databaseName != null">#{databaseName},</if>
+            <if test="hostName != null">#{hostName},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="contactMobile != null">#{contactMobile},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTenant" parameterType="com.qingxinsaas.system.api.domain.Tenant">
+        update sys_tenant
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenant != null">tenant = #{tenant},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="databaseName != null">database_name = #{databaseName},</if>
+            <if test="hostName != null">host_name = #{hostName},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactMobile != null">contact_mobile = #{contactMobile},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTenantById" parameterType="Long">
+        delete from sys_tenant where id = #{id}
+    </delete>
+
+    <delete id="deleteTenantByIds" parameterType="String">
+        delete from sys_tenant where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
