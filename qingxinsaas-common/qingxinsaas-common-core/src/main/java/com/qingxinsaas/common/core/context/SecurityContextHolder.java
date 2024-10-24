@@ -61,6 +61,16 @@ public class SecurityContextHolder
         set(SecurityConstants.DETAILS_USER_ID, account);
     }
 
+    public static Long getTenantId()
+    {
+        return Convert.toLong(get(SecurityConstants.Tenant_ID), 1L);
+    }
+
+    public static void setTenantId(Long tenantId)
+    {
+        set(SecurityConstants.Tenant_ID, tenantId);
+    }
+
     public static String getUserName()
     {
         return get(SecurityConstants.DETAILS_USERNAME);

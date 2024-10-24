@@ -62,8 +62,12 @@ public class SysMenuController extends BaseController
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysMenu menu)
     {
-        Long userId = SecurityUtils.getUserId();
-        List<SysMenu> menus = menuService.selectMenuList(menu, userId);
+        //TODO 用户登录后，从SecurityUtils.getTenantId()获取TenantId根据TenantId获取菜单下拉树列表
+        //Long tenantId = SecurityUtils.getTenantId();
+        Long tenantId = 1L;
+        List<SysMenu> menus = menuService.selectMenuLists(tenantId);
+        //Long userId = SecurityUtils.getUserId();
+        //List<SysMenu> menus = menuService.selectMenuList(menu, userId);
         return success(menuService.buildMenuTreeSelect(menus));
     }
 
@@ -77,6 +81,22 @@ public class SysMenuController extends BaseController
         List<SysMenu> menus = menuService.selectMenuList(userId);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
+        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
+        return ajax;
+    }
+
+    /**
+     * 加载对应租户菜单列表树
+     */
+    @GetMapping(value = "/tenantMenuTreeselect/{tenantId}")
+    public AjaxResult tenantMenuTreeselect(@PathVariable("tenantId") Long tenantId)
+    {
+        //通过租户Id查询租户拥有的菜单列表  这里的tenantId应该是这个租户的id而不是选择查询的租户的id
+        //Long tenantId = SecurityUtils.getTenantId();
+        Long TenantId = 1L;
+        List<SysMenu> menus = menuService.selectMenuLists(TenantId);
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("checkedKeys", menuService.selectedMenuListByTenantId(tenantId));
         ajax.put("menus", menuService.buildMenuTreeSelect(menus));
         return ajax;
     }

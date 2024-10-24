@@ -60,7 +60,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     public Set<String> getMenuPermission(SysUser user)
     {
         Set<String> perms = new HashSet<String>();
-        // 管理员拥有所有权限
+        // TODO 管理员拥有租户的所有权限
         if (user.isAdmin())
         {
             perms.add("*:*:*");

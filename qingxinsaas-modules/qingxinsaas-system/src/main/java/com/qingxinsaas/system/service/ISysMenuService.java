@@ -143,4 +143,18 @@ public interface ISysMenuService extends IService<SysMenu>
      * @return 结果
      */
     public boolean checkMenuNameUnique(SysMenu menu);
+
+    /**
+     * 通过租户Id查询租户拥有的菜单列表
+     * @param tenantId
+     * @return
+     */
+    List<SysMenu> selectMenuLists(Long tenantId);
+
+    /**
+     * 查询租户拥有的菜单列表
+     * @param tenantId
+     * @return
+     */
+    Object selectedMenuListByTenantId(Long tenantId);
 }

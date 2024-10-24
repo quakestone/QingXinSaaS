@@ -1,7 +1,10 @@
 package com.qingxinsaas.system.controller;
 
+import java.util.Date;
 import java.util.List;
 
+import com.qingxinsaas.common.core.exception.ServiceException;
+import com.qingxinsaas.common.security.utils.SecurityUtils;
 import com.qingxinsaas.system.api.domain.Tenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,7 @@ import com.qingxinsaas.common.core.web.page.TableDataInfo;
 /**
  * 租户Controller
  * 
- * @author qingxinsaas
+ * @author ywk
  * @date 2024-10-21
  */
 @RestController
@@ -63,6 +66,12 @@ public class TenantController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody Tenant tenant)
     {
+        if (!tenantService.checkTenantUnique(tenant)){
+            return error("新增租户'" + tenant.getTenant() + "'失败，租户名称已存在");
+        }
+        tenant.setCreateBy(SecurityUtils.getUsername());
+        //TODO 切换主库和上级数据源 同步租户数据源信息
+        //TODO 新增租户的同时为租户创建租户数据库，并初始化对应的表，设置对应菜单权限
         return toAjax(tenantService.insertTenant(tenant));
     }
 
@@ -74,6 +83,13 @@ public class TenantController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody Tenant tenant)
     {
+//        if (tenant.getId() == 1L){
+//            return error("系统租户不能修改");
+//        }
+        if (!tenantService.checkTenantUnique(tenant)){
+            return error("新增租户'" + tenant.getTenant() + "'失败，租户名称已存在");
+        }
+        tenant.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(tenantService.updateTenant(tenant));
     }
 
@@ -85,6 +101,12 @@ public class TenantController extends BaseController
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
-        return toAjax(tenantService.deleteTenantByIds(ids));
+        int rows;
+        try {
+            rows = tenantService.deleteTenantByIds(ids);
+        } catch (ServiceException e) {
+            return error("系统租户不能删除");
+        }
+        return toAjax(rows);
     }
 }

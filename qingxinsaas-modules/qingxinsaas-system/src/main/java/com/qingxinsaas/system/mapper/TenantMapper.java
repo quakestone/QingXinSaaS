@@ -1,6 +1,8 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
+
+import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.system.api.domain.Tenant;
 
 /**
@@ -9,7 +11,7 @@ import com.qingxinsaas.system.api.domain.Tenant;
  * @author qingxinsaas
  * @date 2024-10-21
  */
-public interface TenantMapper 
+public interface TenantMapper extends BaseMapperX<Tenant>
 {
     /**
      * 查询租户

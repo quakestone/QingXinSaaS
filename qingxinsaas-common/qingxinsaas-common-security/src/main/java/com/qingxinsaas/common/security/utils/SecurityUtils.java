@@ -29,6 +29,14 @@ public class SecurityUtils
     }
 
     /**
+     * 获取租户ID
+     */
+    public static Long getTenantId()
+    {
+        return SecurityContextHolder.getTenantId();
+    }
+
+    /**
      * 获取用户名称
      */
     public static String getUsername()

@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectTenantList" parameterType="com.qingxinsaas.system.api.domain.Tenant" resultMap="TenantResult">
         <include refid="selectTenantVo"/>
-        <where>  
+        <where>
             <if test="tenant != null  and tenant != ''"> and tenant like concat('%', #{tenant}, '%')</if>
             <if test="hostName != null  and hostName != ''"> and host_name = #{hostName}</if>
             <if test="contactName != null  and contactName != ''"> and contact_name like concat('%', #{contactName}, '%')</if>
@@ -102,12 +102,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteTenantById" parameterType="Long">
+    <delete id="deleteTenantById" parameterType="Integer">
         delete from sys_tenant where id = #{id}
     </delete>
 
-    <delete id="deleteTenantByIds" parameterType="String">
-        delete from sys_tenant where id in 
+    <delete id="deleteTenantByIds" parameterType="Integer">
+        delete from sys_tenant where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

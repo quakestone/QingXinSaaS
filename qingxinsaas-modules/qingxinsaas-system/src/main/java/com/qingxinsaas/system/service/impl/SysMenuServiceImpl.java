@@ -1,15 +1,12 @@
 package com.qingxinsaas.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.qingxinsaas.system.api.domain.Tenant;
+import com.qingxinsaas.system.mapper.TenantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.qingxinsaas.common.core.constant.Constants;
@@ -45,6 +42,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
 
     @Autowired
     private SysRoleMenuMapper roleMenuMapper;
+
+    @Autowired
+    private TenantMapper tenantMapper;
 
     /**
      * 根据用户查询系统菜单列表
@@ -346,6 +346,32 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
+    }
+
+    @Override
+    public List<SysMenu> selectMenuLists(Long tenantId) {
+        List<SysMenu> menuList = null;
+        SysMenu menu = new SysMenu();
+        QueryWrapper<Tenant> wrapper = new QueryWrapper<>();
+        wrapper.eq("id", tenantId);
+        Tenant tenant = tenantMapper.selectOne(wrapper);
+        // 总租户显示所有菜单
+        if (tenant.getTenant().equals("qingxinsaas"))
+        {
+            menuList = menuMapper.selectMenuList(menu);
+        }
+        else
+        {
+            //其他租户显示其拥有的菜单
+            menu.getParams().put("tenantId", tenantId);
+            menuList = menuMapper.selectMenuListByTenantId(menu);
+        }
+        return menuList;
+    }
+
+    @Override
+    public List<Long> selectedMenuListByTenantId(Long tenantId) {
+        return menuMapper.selectedMenuListByTenantId(tenantId);
     }
 
     /**

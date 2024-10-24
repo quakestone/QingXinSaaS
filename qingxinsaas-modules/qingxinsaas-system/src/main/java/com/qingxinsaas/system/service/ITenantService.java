@@ -1,15 +1,17 @@
 package com.qingxinsaas.system.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.system.api.domain.Tenant;
 
 /**
  * 租户Service接口
  * 
- * @author qingxinsaas
+ * @author ywk
  * @date 2024-10-21
  */
-public interface ITenantService 
+public interface ITenantService extends IService<Tenant>
 {
     /**
      * 查询租户
@@ -58,4 +60,11 @@ public interface ITenantService
      * @return 结果
      */
     public int deleteTenantById(Long id);
+
+    /**
+     * 校验租户名称是否唯一
+     * @param tenant
+     * @return
+     */
+    boolean checkTenantUnique(Tenant tenant);
 }
