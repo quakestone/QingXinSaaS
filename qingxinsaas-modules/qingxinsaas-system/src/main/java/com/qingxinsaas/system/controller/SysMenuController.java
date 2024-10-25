@@ -75,6 +75,7 @@ public class SysMenuController extends BaseController
     public AjaxResult treeselectByTenantId(SysMenu menu)
     {
         //TODO 用户登录后，从SecurityUtils.getTenantId()获取TenantId根据TenantId获取菜单下拉树列表
+        SecurityUtils.getTenantId();
         Long tenantId = 1L;
         List<SysMenu> menus = menuService.selectMenuLists(tenantId);
         return success(menuService.buildMenuTreeSelect(menus));

@@ -63,12 +63,12 @@ public class SecurityContextHolder
 
     public static Long getTenantId()
     {
-        return Convert.toLong(get(SecurityConstants.Tenant_ID), 1L);
+        return Convert.toLong(get(SecurityConstants.TENANT_ID), 1L);
     }
 
     public static void setTenantId(Long tenantId)
     {
-        set(SecurityConstants.Tenant_ID, tenantId);
+        set(SecurityConstants.TENANT_ID, tenantId);
     }
 
     public static String getUserName()
