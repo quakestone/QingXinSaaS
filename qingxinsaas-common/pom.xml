@@ -19,6 +19,7 @@
         <module>qingxinsaas-common-datascope</module>
         <module>qingxinsaas-common-datasource</module>
         <module>qingxinsaas-common-mybatisplus</module>
+        <module>qingxinsaas-common-tenant</module>
     </modules>
 
     <artifactId>qingxinsaas-common</artifactId>

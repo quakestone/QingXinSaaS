@@ -83,6 +83,12 @@
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-tenant</artifactId>
+            <version>3.6.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
