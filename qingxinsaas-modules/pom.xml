@@ -13,6 +13,7 @@
         <module>qingxinsaas-gen</module>
         <module>qingxinsaas-job</module>
         <module>qingxinsaas-file</module>
+        <module>qingxinsaas-flowable</module>
     </modules>
 
     <artifactId>qingxinsaas-modules</artifactId>

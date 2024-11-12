@@ -40,6 +40,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <hutool.version>5.8.5</hutool.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <flowable.version>6.8.0</flowable.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -229,6 +230,13 @@
                 <version>${qingxinsaas.version}</version>
             </dependency>
 
+            <!-- 多租户 -->
+            <dependency>
+                <groupId>com.qingxinsaas</groupId>
+                <artifactId>qingxinsaas-common-tenant</artifactId>
+                <version>${qingxinsaas.version}</version>
+            </dependency>
+
             <!-- mybatis-plus -->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -242,27 +250,6 @@
                 <artifactId>lombok</artifactId>
                 <optional>true</optional>
                 <version>${lombok.version}</version>
-            </dependency>
-
-            <!-- knife4j -->
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>mapstruct</artifactId>
-                        <groupId>org.mapstruct</groupId> <!-- 避免冲突 -->
-                    </exclusion>
-                    <exclusion>
-                        <groupId>io.springfox</groupId>
-                        <artifactId>springfox-boot-starter</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>io.springfox</groupId>
-                        <artifactId>springfox-swagger</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- 工具包 -->
@@ -301,6 +288,34 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin.version}</version>
+            </dependency>
+
+            <!-- flowable -->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter</artifactId>
+                <version>${flowable.version}</version>
+            </dependency>
+
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mapstruct</artifactId>
+                        <groupId>org.mapstruct</groupId> <!-- 避免冲突 -->
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.springfox</groupId>
+                        <artifactId>springfox-boot-starter</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>io.springfox</groupId>
+                        <artifactId>springfox-swagger</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
         </dependencies>
