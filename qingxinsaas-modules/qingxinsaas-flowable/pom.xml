@@ -53,6 +53,12 @@
         <!--    <artifactId>qingxinsaas-common-log</artifactId>-->
         <!--</dependency>-->
 
+        <!-- RuoYi Common Mybatisplus -->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-mybatisplus</artifactId>
+        </dependency>
+
         <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
@@ -76,12 +82,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <!-- MP模块 -->
-        <dependency>
-            <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-mybatisplus</artifactId>
         </dependency>
 
     </dependencies>
