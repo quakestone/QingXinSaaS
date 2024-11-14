@@ -4,11 +4,13 @@ import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.controller.BaseController;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
 import com.qingxinsaas.common.core.web.page.TableDataInfo;
+import com.qingxinsaas.common.log.annotation.Log;
+import com.qingxinsaas.common.log.enums.BusinessType;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
 import com.qingxinsaas.flowable.domain.SysExpression;
 import com.qingxinsaas.flowable.service.ISysExpressionService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +23,7 @@ import java.util.List;
  * @author wwj
  * @date 2024-11-12
  */
-@Api(tags = "流程达式接口")
+@Tag(name = "流程达式接口")
 @RestController
 @RequestMapping("/expression")
 public class SysExpressionController extends BaseController {
@@ -31,7 +33,7 @@ public class SysExpressionController extends BaseController {
     /**
      * 查询流程达式列表
      */
-    @ApiOperation("查询流程达式列表")
+    @Operation(summary = "查询流程达式列表")
     @RequiresPermissions("flowable:expression:list")
     @GetMapping("/list")
     public TableDataInfo list(SysExpression sysExpression) {
@@ -43,9 +45,9 @@ public class SysExpressionController extends BaseController {
     /**
      * 导出流程达式列表
      */
-    @ApiOperation("导出流程达式列表")
+    @Operation(summary = "导出流程达式列表")
     @RequiresPermissions("flowable:expression:export")
-    // @Log(title = "流程达式", businessType = BusinessType.EXPORT)
+    @Log(title = "流程达式", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysExpression sysExpression) {
         List<SysExpression> list = sysExpressionService.selectSysExpressionList(sysExpression);
@@ -56,7 +58,7 @@ public class SysExpressionController extends BaseController {
     /**
      * 获取流程达式详细信息
      */
-    @ApiOperation("获取流程达式详细信息")
+    @Operation(summary = "获取流程达式详细信息")
     @RequiresPermissions("flowable:expression:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -66,9 +68,9 @@ public class SysExpressionController extends BaseController {
     /**
      * 新增流程达式
      */
-    @ApiOperation("新增流程达式")
+    @Operation(summary = "新增流程达式")
     @RequiresPermissions("flowable:expression:add")
-    // @Log(title = "流程达式", businessType = BusinessType.INSERT)
+    @Log(title = "流程达式", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody SysExpression sysExpression) {
         return toAjax(sysExpressionService.insertSysExpression(sysExpression));
@@ -77,9 +79,9 @@ public class SysExpressionController extends BaseController {
     /**
      * 修改流程达式
      */
-    @ApiOperation("修改流程达式")
+    @Operation(summary = "修改流程达式")
     @RequiresPermissions("flowable:expression:edit")
-    // @Log(title = "流程达式", businessType = BusinessType.UPDATE)
+    @Log(title = "流程达式", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysExpression sysExpression) {
         return toAjax(sysExpressionService.updateSysExpression(sysExpression));
@@ -88,9 +90,9 @@ public class SysExpressionController extends BaseController {
     /**
      * 删除流程达式
      */
-    @ApiOperation("删除流程达式")
+    @Operation(summary = "删除流程达式")
     @RequiresPermissions("flowable:expression:remove")
-    // @Log(title = "流程达式", businessType = BusinessType.DELETE)
+    @Log(title = "流程达式", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(sysExpressionService.deleteSysExpressionByIds(ids));

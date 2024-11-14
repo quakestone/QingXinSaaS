@@ -1,14 +1,17 @@
 package com.qingxinsaas.flowable.controller;
 
+import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.controller.BaseController;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
 import com.qingxinsaas.common.core.web.page.TableDataInfo;
+import com.qingxinsaas.common.log.annotation.Log;
+import com.qingxinsaas.common.log.enums.BusinessType;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
 import com.qingxinsaas.flowable.domain.SysListener;
 import com.qingxinsaas.flowable.service.ISysListenerService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +24,7 @@ import java.util.List;
  * @author wwj
  * @date 2024-11-12
  */
-@Api(tags = "流程监听接口")
+@Tag(name = "流程监听接口")
 @RestController
 @RequestMapping("/listener")
 public class SysListenerController extends BaseController {
@@ -31,7 +34,7 @@ public class SysListenerController extends BaseController {
     /**
      * 查询流程监听列表
      */
-    @ApiOperation("查询流程监听列表")
+    @Operation(summary = "查询流程监听列表")
     @RequiresPermissions("flowable:listener:list")
     @GetMapping("/list")
     public TableDataInfo list(SysListener sysListener) {
@@ -43,9 +46,9 @@ public class SysListenerController extends BaseController {
     /**
      * 导出流程监听列表
      */
-    @ApiOperation("导出流程监听列表")
+    @Operation(summary = "导出流程监听列表")
     @RequiresPermissions("flowable:listener:export")
-    // @Log(title = "流程监听", businessType = BusinessType.EXPORT)
+    @Log(title = "流程监听", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysListener sysListener) {
         List<SysListener> list = sysListenerService.selectSysListenerList(sysListener);
@@ -56,30 +59,30 @@ public class SysListenerController extends BaseController {
     /**
      * 获取流程监听详细信息
      */
-    @ApiOperation("获取流程监听详细信息")
+    @Operation(summary = "获取流程监听详细信息")
     @RequiresPermissions("flowable:listener:query")
     @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return success(sysListenerService.selectSysListenerById(id));
+    public R<SysListener> getInfo(@PathVariable("id") Long id) {
+        return R.ok(sysListenerService.selectSysListenerById(id));
     }
 
     /**
      * 新增流程监听
      */
-    @ApiOperation("新增流程监听")
+    @Operation(summary = "新增流程监听")
     @RequiresPermissions("flowable:listener:add")
-    // @Log(title = "流程监听", businessType = BusinessType.INSERT)
+    @Log(title = "流程监听", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysListener sysListener) {
-        return toAjax(sysListenerService.insertSysListener(sysListener));
+    public R<Integer> add(@RequestBody SysListener sysListener) {
+        return R.ok(sysListenerService.insertSysListener(sysListener));
     }
 
     /**
      * 修改流程监听
      */
-    @ApiOperation("修改流程监听")
+    @Operation(summary = "修改流程监听")
     @RequiresPermissions("flowable:listener:edit")
-    // @Log(title = "流程监听", businessType = BusinessType.UPDATE)
+    @Log(title = "流程监听", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysListener sysListener) {
         return toAjax(sysListenerService.updateSysListener(sysListener));
@@ -88,11 +91,11 @@ public class SysListenerController extends BaseController {
     /**
      * 删除流程监听
      */
-    @ApiOperation("删除流程监听")
+    @Operation(summary = "删除流程监听")
     @RequiresPermissions("flowable:listener:remove")
-    // @Log(title = "流程监听", businessType = BusinessType.DELETE)
+    @Log(title = "流程监听", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public AjaxResult remove(@PathVariable Long[] ids) {
-        return toAjax(sysListenerService.deleteSysListenerByIds(ids));
+    public R<Integer> remove(@PathVariable Long[] ids) {
+        return R.ok(sysListenerService.deleteSysListenerByIds(ids));
     }
 }

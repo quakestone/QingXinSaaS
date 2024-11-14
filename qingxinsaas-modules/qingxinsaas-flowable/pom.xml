@@ -48,10 +48,10 @@
         </dependency>
 
         <!-- RuoYi Common Log -->
-        <!--<dependency>-->
-        <!--    <groupId>com.qingxinsaas</groupId>-->
-        <!--    <artifactId>qingxinsaas-common-log</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-log</artifactId>
+        </dependency>
 
         <!-- RuoYi Common Mybatisplus -->
         <dependency>

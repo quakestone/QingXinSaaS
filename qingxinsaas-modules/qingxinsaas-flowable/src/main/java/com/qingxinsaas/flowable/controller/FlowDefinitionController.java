@@ -2,11 +2,10 @@ package com.qingxinsaas.flowable.controller;
 
 import com.qingxinsaas.common.core.web.controller.BaseController;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
-import com.qingxinsaas.flowable.domain.vo.FlowProcDefVo;
 import com.qingxinsaas.flowable.service.IFlowDefinitionService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ import java.util.Map;
  * @author wwj
  * @date 2024-11-08
  */
-@Api(tags = "流程定义")
+@Tag(name = "流程定义接口")
 @RestController
 @RequestMapping("/definition")
 public class FlowDefinitionController extends BaseController {
@@ -32,14 +31,14 @@ public class FlowDefinitionController extends BaseController {
     private IFlowDefinitionService flowDefinitionService;
 
     @GetMapping(value = "/list")
-    @ApiOperation(value = "流程定义列表", response = FlowProcDefVo.class)
+    @Operation(summary = "流程定义列表")
     public AjaxResult list(@ApiParam(value = "当前页码", required = true) @RequestParam Integer pageNum,
                            @ApiParam(value = "每页条数", required = true) @RequestParam Integer pageSize,
                            @ApiParam(value = "流程名称") @RequestParam(required = false) String name) {
         return AjaxResult.success(flowDefinitionService.list(name, pageNum, pageSize));
     }
 
-    @ApiOperation(value = "读取xml文件")
+    @Operation(summary = "读取xml文件")
     @GetMapping("/readXml/{deployId}")
     public AjaxResult readXml(@ApiParam(value = "流程定义id") @PathVariable(value = "deployId") String deployId) {
         try {
@@ -49,7 +48,7 @@ public class FlowDefinitionController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "读取图片文件")
+    @Operation(summary = "读取图片文件")
     @GetMapping("/readImage/{deployId}")
     public void readImage(@ApiParam(value = "流程定义id") @PathVariable(value = "deployId") String deployId, HttpServletResponse response) {
         OutputStream os = null;
@@ -75,14 +74,14 @@ public class FlowDefinitionController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "发起流程")
+    @Operation(summary = "发起流程")
     @PostMapping("/start/{procDefId}")
     public AjaxResult start(@ApiParam(value = "流程定义id") @PathVariable(value = "procDefId") String procDefId,
                             @ApiParam(value = "变量集合,json对象") @RequestBody Map<String, Object> variables) {
         return flowDefinitionService.startProcessInstanceById(procDefId, variables);
     }
 
-    @ApiOperation(value = "激活或挂起流程定义")
+    @Operation(summary = "激活或挂起流程定义")
     @PutMapping(value = "/updateState")
     public AjaxResult updateState(@ApiParam(value = "1:激活,2:挂起", required = true) @RequestParam Integer state,
                                   @ApiParam(value = "流程部署ID", required = true) @RequestParam String deployId) {
@@ -90,7 +89,7 @@ public class FlowDefinitionController extends BaseController {
         return AjaxResult.success();
     }
 
-    @ApiOperation(value = "删除流程")
+    @Operation(summary = "删除流程")
     @DeleteMapping(value = "/{deployIds}")
     public AjaxResult delete(@PathVariable String[] deployIds) {
         for (String deployId : deployIds) {
