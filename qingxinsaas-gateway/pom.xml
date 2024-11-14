@@ -79,10 +79,16 @@
         <!-- Springdoc -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <artifactId>springdoc-openapi-webflux-core</artifactId>
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!--引入Knife4j的gateway包-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
