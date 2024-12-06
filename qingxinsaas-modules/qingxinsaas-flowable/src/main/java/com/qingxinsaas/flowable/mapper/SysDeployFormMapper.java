@@ -1,6 +1,5 @@
 package com.qingxinsaas.flowable.mapper;
 
-import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.flowable.domain.SysDeployForm;
 import com.qingxinsaas.flowable.domain.SysForm;
 
@@ -10,9 +9,9 @@ import java.util.List;
  * 流程实例关联表单Mapper接口
  *
  * @author wwj
- * @date 2024-11-11
+ * @date 2024-11-22
  */
-public interface SysDeployFormMapper extends BaseMapperX<SysDeployForm> {
+public interface SysDeployFormMapper {
     /**
      * 查询流程实例关联表单
      *

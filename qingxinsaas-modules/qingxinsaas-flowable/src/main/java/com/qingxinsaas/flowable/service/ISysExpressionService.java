@@ -1,17 +1,16 @@
 package com.qingxinsaas.flowable.service;
 
-import java.util.List;
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.flowable.domain.SysExpression;
+
+import java.util.List;
 
 /**
  * 流程达式Service接口
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
-public interface ISysExpressionService extends IService<SysExpression> {
+public interface ISysExpressionService {
     /**
      * 查询流程达式
      *

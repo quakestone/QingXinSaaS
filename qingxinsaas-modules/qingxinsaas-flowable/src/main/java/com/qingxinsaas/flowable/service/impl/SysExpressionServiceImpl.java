@@ -1,24 +1,23 @@
 package com.qingxinsaas.flowable.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qingxinsaas.common.core.utils.DateUtils;
 import com.qingxinsaas.flowable.domain.SysExpression;
 import com.qingxinsaas.flowable.mapper.SysExpressionMapper;
 import com.qingxinsaas.flowable.service.ISysExpressionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 流程达式Service业务层处理
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
 @Service
-public class SysExpressionServiceImpl extends ServiceImpl<SysExpressionMapper, SysExpression> implements ISysExpressionService {
-    @Autowired
+public class SysExpressionServiceImpl implements ISysExpressionService {
+    @Resource
     private SysExpressionMapper sysExpressionMapper;
 
     /**

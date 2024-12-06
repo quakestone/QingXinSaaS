@@ -2,6 +2,9 @@ package com.qingxinsaas.system.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.qingxinsaas.common.core.domain.R;
+import com.qingxinsaas.common.security.annotation.InnerAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -235,5 +238,14 @@ public class SysRoleController extends BaseController
         ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
         ajax.put("depts", deptService.selectDeptTreeList(new SysDept()));
         return ajax;
+    }
+
+    /**
+     * 通过角色ID查询角色
+     */
+    @InnerAuth
+    @GetMapping("/remote/{roleId}")
+    public R<SysRole> getRoleById(@PathVariable("roleId") Long roleId) {
+        return R.ok(roleService.selectRoleById(roleId));
     }
 }

@@ -1,6 +1,5 @@
 package com.qingxinsaas.flowable.mapper;
 
-import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.flowable.domain.SysListener;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
  * 流程监听Mapper接口
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
-public interface SysListenerMapper extends BaseMapperX<SysListener> {
+public interface SysListenerMapper {
     /**
      * 查询流程监听
      *

@@ -2,43 +2,38 @@ package com.qingxinsaas.flowable.domain;
 
 import com.qingxinsaas.common.core.annotation.Excel;
 import com.qingxinsaas.common.core.web.domain.BaseEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.EqualsAndHashCode;
 
 /**
- * 流程达式对象 sys_expression
+ * 流程表达式对象 sys_expression
  *
  * @author wwj
- * @date 2024-11-08
+ * @date 2024-11-22
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@ApiModel(value = "SysExpression", description = "流程达式对象")
-public class SysExpression extends BaseEntity
-{
+@Schema(description = "流程表达式对象")
+public class SysExpression extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
-    /** 表单主键 */
+    @Schema(description = "主键")
     private Long id;
 
-    /** 表达式名称 */
     @Excel(name = "表达式名称")
-    @ApiModelProperty(value = "表达式名称")
+    @Schema(description = "表达式名称")
     private String name;
 
-    /** 表达式内容 */
     @Excel(name = "表达式内容")
-    @ApiModelProperty(value = "表达式内容")
+    @Schema(description = "表达式内容")
     private String expression;
 
-    /** 表达式类型 */
     @Excel(name = "表达式类型")
-    @ApiModelProperty(value = "表达式类型")
+    @Schema(description = "表达式类型")
     private String dataType;
 
-    /** 状态 */
     @Excel(name = "状态")
-    @ApiModelProperty(value = "状态")
-    private Long status;
-
+    @Schema(description = "状态")
+    private Integer status;
 }

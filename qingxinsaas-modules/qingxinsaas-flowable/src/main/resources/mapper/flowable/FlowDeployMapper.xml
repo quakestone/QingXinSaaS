@@ -4,8 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qingxinsaas.flowable.mapper.FlowDeployMapper">
 
-    <select id="selectDeployList" resultType="com.qingxinsaas.flowable.domain.vo.FlowProcDefVo">
-
+    <select id="selectDeployList" resultType="FlowProcDefDto">
         SELECT
         rp.id_ as id,
         rp.deployment_id_ as deploymentId,
@@ -14,7 +13,7 @@
         rp.key_ as flowKey,
         rp.version_ as version,
         rp.suspension_state_ as suspensionState,
-        rd.deploy_time_ as deploymentTime
+        rd.deploy_time_  as deploymentTime
         FROM
         act_re_procdef rp
         LEFT JOIN act_re_deployment rd ON rp.deployment_id_ = rd.id_

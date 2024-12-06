@@ -1,37 +1,42 @@
 package com.qingxinsaas.flowable.factory;
 
+import lombok.Getter;
 import org.flowable.engine.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
- * 引擎注入封装
+ * flowable 引擎注入封装
  *
  * @author wwj
- * @date 2024-11-08
+ * @date 2024-11-22
  */
+@Component
+@Getter
 public class FlowServiceFactory {
 
-    @Autowired
+    @Resource
     protected RepositoryService repositoryService;
 
-    @Autowired
+    @Resource
     protected RuntimeService runtimeService;
 
-    @Autowired
+    @Resource
     protected IdentityService identityService;
 
-    @Autowired
+    @Resource
     protected TaskService taskService;
 
-    @Autowired
+    @Resource
     protected HistoryService historyService;
 
-    @Autowired
+    @Resource
     protected ManagementService managementService;
 
     @Qualifier("processEngine")
-    @Autowired
+    @Resource
     protected ProcessEngine processEngine;
 
 }

@@ -1,8 +1,6 @@
 package com.qingxinsaas.system.service;
 
 import java.util.List;
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.system.domain.SysPost;
 
 /**
@@ -10,7 +8,7 @@ import com.qingxinsaas.system.domain.SysPost;
  * 
  * @author ruoyi
  */
-public interface ISysPostService extends IService<SysPost>
+public interface ISysPostService
 {
     /**
      * 查询岗位信息集合

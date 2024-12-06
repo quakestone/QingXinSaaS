@@ -1,12 +1,13 @@
 package com.qingxinsaas.system.service.impl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qingxinsaas.system.api.domain.Tenant;
-import com.qingxinsaas.system.mapper.TenantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.qingxinsaas.common.core.constant.Constants;
@@ -30,7 +31,7 @@ import com.qingxinsaas.system.service.ISysMenuService;
  * @author ruoyi
  */
 @Service
-public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> implements ISysMenuService
+public class SysMenuServiceImpl implements ISysMenuService
 {
     public static final String PREMISSION_STRING = "perms[\"{0}\"]";
 
@@ -42,9 +43,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
 
     @Autowired
     private SysRoleMenuMapper roleMenuMapper;
-
-    @Autowired
-    private TenantMapper tenantMapper;
 
     /**
      * 根据用户查询系统菜单列表
@@ -348,32 +346,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
         return UserConstants.UNIQUE;
     }
 
-    @Override
-    public List<SysMenu> selectMenuLists(Long tenantId) {
-        List<SysMenu> menuList = null;
-        SysMenu menu = new SysMenu();
-        QueryWrapper<Tenant> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", tenantId);
-        Tenant tenant = tenantMapper.selectOne(wrapper);
-        // 总租户显示所有菜单
-        if (tenant.getTenant().equals("qingxinsaas"))
-        {
-            menuList = menuMapper.selectMenuList(menu);
-        }
-        else
-        {
-            //其他租户显示其拥有的菜单
-            menu.getParams().put("tenantId", tenantId);
-            menuList = menuMapper.selectMenuListByTenantId(menu);
-        }
-        return menuList;
-    }
-
-    @Override
-    public List<Long> selectedMenuListByTenantId(Long tenantId) {
-        return menuMapper.selectedMenuListByTenantId(tenantId);
-    }
-
     /**
      * 获取路由名称
      * 
@@ -393,7 +365,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
     /**
      * 获取路由名称，如没有配置路由名称则取路由地址
      * 
-     * @param name 路由名称
+     * @param routerName 路由名称
      * @param path 路由地址
      * @return 路由名称（驼峰格式）
      */

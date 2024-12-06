@@ -4,10 +4,9 @@ import com.qingxinsaas.flowable.domain.SysDeployForm;
 import com.qingxinsaas.flowable.domain.SysForm;
 import com.qingxinsaas.flowable.mapper.SysDeployFormMapper;
 import com.qingxinsaas.flowable.service.ISysDeployFormService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,12 +14,12 @@ import java.util.Objects;
  * 流程实例关联表单Service业务层处理
  *
  * @author wwj
- * @date 2024-11-11
+ * @date 2024-11-22
  */
 @Service
 public class SysDeployFormServiceImpl implements ISysDeployFormService {
 
-    @Autowired
+    @Resource
     private SysDeployFormMapper sysDeployFormMapper;
 
     /**
@@ -98,7 +97,7 @@ public class SysDeployFormServiceImpl implements ISysDeployFormService {
      * 查询流程挂着的表单
      *
      * @param deployId
-     * @return 结果
+     * @return
      */
     @Override
     public SysForm selectSysDeployFormByDeployId(String deployId) {

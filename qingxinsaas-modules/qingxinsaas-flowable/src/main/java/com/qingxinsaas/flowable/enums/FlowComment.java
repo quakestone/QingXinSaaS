@@ -1,26 +1,24 @@
 package com.qingxinsaas.flowable.enums;
 
+import lombok.Getter;
+
 /**
  * 流程意见类型
  *
  * @author wwj
- * @date 2024-11-08
+ * @date 2024-11-22
  */
+@Getter
 public enum FlowComment {
 
     /**
      * 说明
      */
     NORMAL("1", "正常意见"),
-
     REBACK("2", "退回意见"),
-
     REJECT("3", "驳回意见"),
-
     DELEGATE("4", "委派意见"),
-
     ASSIGN("5", "转办意见"),
-
     STOP("6", "终止流程");
 
     /**
@@ -36,13 +34,5 @@ public enum FlowComment {
     FlowComment(String type, String remark) {
         this.type = type;
         this.remark = remark;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getRemark() {
-        return remark;
     }
 }

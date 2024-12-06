@@ -1,5 +1,6 @@
 package com.qingxinsaas.system.api.factory;
 
+import com.qingxinsaas.common.core.constant.SecurityConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
@@ -8,6 +9,7 @@ import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.system.api.RemoteUserService;
 import com.qingxinsaas.system.api.domain.SysUser;
 import com.qingxinsaas.system.api.model.LoginUser;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * 用户服务降级处理
@@ -41,6 +43,12 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             public R<Boolean> recordUserLogin(SysUser sysUser, String source)
             {
                 return R.fail("记录用户登录信息失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<SysUser> selectUserById(Long userId, String source)
+            {
+                return R.fail("记录用户信息获取失败:" + throwable.getMessage());
             }
         };
     }

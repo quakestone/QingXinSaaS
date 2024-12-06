@@ -1,29 +1,27 @@
 package com.qingxinsaas.flowable.service;
 
-import java.util.List;
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.flowable.domain.SysForm;
 
+import java.util.List;
+
 /**
- * 流程表单Service接口
- * 
+ * 表单
+ *
  * @author wwj
- * @date 2024-11-13
+ * @date 2024-11-22
  */
-public interface ISysFormService extends IService<SysForm>
-{
+public interface ISysFormService {
     /**
      * 查询流程表单
-     * 
-     * @param formId 流程表单主键
+     *
+     * @param formId 流程表单ID
      * @return 流程表单
      */
-    public SysForm selectSysFormByFormId(Long formId);
+    public SysForm selectSysFormById(Long formId);
 
     /**
      * 查询流程表单列表
-     * 
+     *
      * @param sysForm 流程表单
      * @return 流程表单集合
      */
@@ -31,7 +29,7 @@ public interface ISysFormService extends IService<SysForm>
 
     /**
      * 新增流程表单
-     * 
+     *
      * @param sysForm 流程表单
      * @return 结果
      */
@@ -39,7 +37,7 @@ public interface ISysFormService extends IService<SysForm>
 
     /**
      * 修改流程表单
-     * 
+     *
      * @param sysForm 流程表单
      * @return 结果
      */
@@ -47,17 +45,17 @@ public interface ISysFormService extends IService<SysForm>
 
     /**
      * 批量删除流程表单
-     * 
-     * @param formIds 需要删除的流程表单主键集合
+     *
+     * @param formIds 需要删除的流程表单ID
      * @return 结果
      */
-    public int deleteSysFormByFormIds(Long[] formIds);
+    public int deleteSysFormByIds(Long[] formIds);
 
     /**
      * 删除流程表单信息
-     * 
-     * @param formId 流程表单主键
+     *
+     * @param formId 流程表单ID
      * @return 结果
      */
-    public int deleteSysFormByFormId(Long formId);
+    public int deleteSysFormById(Long formId);
 }

@@ -1,35 +1,35 @@
 package com.qingxinsaas.flowable.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qingxinsaas.common.core.utils.DateUtils;
 import com.qingxinsaas.flowable.domain.SysForm;
 import com.qingxinsaas.flowable.mapper.SysFormMapper;
 import com.qingxinsaas.flowable.service.ISysFormService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 流程表单Service业务层处理
  *
  * @author wwj
- * @date 2024-11-13
+ * @date 2024-11-22
  */
 @Service
-public class SysFormServiceImpl extends ServiceImpl<SysFormMapper, SysForm> implements ISysFormService {
-    @Autowired
+public class SysFormServiceImpl implements ISysFormService {
+
+    @Resource
     private SysFormMapper sysFormMapper;
 
     /**
      * 查询流程表单
      *
-     * @param formId 流程表单主键
+     * @param formId 流程表单ID
      * @return 流程表单
      */
     @Override
-    public SysForm selectSysFormByFormId(Long formId) {
-        return sysFormMapper.selectSysFormByFormId(formId);
+    public SysForm selectSysFormById(Long formId) {
+        return sysFormMapper.selectSysFormById(formId);
     }
 
     /**
@@ -70,22 +70,22 @@ public class SysFormServiceImpl extends ServiceImpl<SysFormMapper, SysForm> impl
     /**
      * 批量删除流程表单
      *
-     * @param formIds 需要删除的流程表单主键
+     * @param formIds 需要删除的流程表单ID
      * @return 结果
      */
     @Override
-    public int deleteSysFormByFormIds(Long[] formIds) {
-        return sysFormMapper.deleteSysFormByFormIds(formIds);
+    public int deleteSysFormByIds(Long[] formIds) {
+        return sysFormMapper.deleteSysFormByIds(formIds);
     }
 
     /**
      * 删除流程表单信息
      *
-     * @param formId 流程表单主键
+     * @param formId 流程表单ID
      * @return 结果
      */
     @Override
-    public int deleteSysFormByFormId(Long formId) {
-        return sysFormMapper.deleteSysFormByFormId(formId);
+    public int deleteSysFormById(Long formId) {
+        return sysFormMapper.deleteSysFormById(formId);
     }
 }

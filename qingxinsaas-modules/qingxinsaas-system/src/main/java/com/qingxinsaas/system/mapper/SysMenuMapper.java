@@ -1,8 +1,6 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
-
-import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Param;
 import com.qingxinsaas.system.domain.SysMenu;
 
@@ -11,7 +9,7 @@ import com.qingxinsaas.system.domain.SysMenu;
  * 
  * @author ruoyi
  */
-public interface SysMenuMapper extends BaseMapperX<SysMenu>
+public interface SysMenuMapper
 {
     /**
      * 查询系统菜单列表
@@ -124,18 +122,4 @@ public interface SysMenuMapper extends BaseMapperX<SysMenu>
      * @return 结果
      */
     public SysMenu checkMenuNameUnique(@Param("menuName") String menuName, @Param("parentId") Long parentId);
-
-    /**
-     * 根据租户ID查询菜单列表
-     * @param menu
-     * @return
-     */
-    List<SysMenu> selectMenuListByTenantId(SysMenu menu);
-
-    /**
-     * 查询租户菜单列表
-     * @param tenantId
-     * @return
-     */
-    List<Long> selectedMenuListByTenantId(Long tenantId);
 }

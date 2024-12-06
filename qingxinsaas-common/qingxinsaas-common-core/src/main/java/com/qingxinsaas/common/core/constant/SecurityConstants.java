@@ -13,11 +13,6 @@ public class SecurityConstants
     public static final String DETAILS_USER_ID = "user_id";
 
     /**
-     * 租户ID字段
-     */
-    public static final String TENANT_ID = "TenantId";
-
-    /**
      * 用户名字段
      */
     public static final String DETAILS_USERNAME = "username";
@@ -25,7 +20,7 @@ public class SecurityConstants
     /**
      * 授权信息字段
      */
-    public static final String AUTHORIZATION_HEADER = "authorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
 
     /**
      * 请求来源
@@ -51,4 +46,9 @@ public class SecurityConstants
      * 角色权限
      */
     public static final String ROLE_PERMISSION = "role_permission";
+
+    /**
+     * 租户ID字段
+     */
+    public static final String DETAILS_TENANT_ID = "tenant_id";
 }

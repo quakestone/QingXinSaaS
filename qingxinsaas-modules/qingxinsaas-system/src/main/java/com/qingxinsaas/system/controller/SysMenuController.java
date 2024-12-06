@@ -62,22 +62,8 @@ public class SysMenuController extends BaseController
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysMenu menu)
     {
-        //TODO 菜单权限先从租户的菜单权限下获取，接着再从用户id获取对应的菜单权限
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
-        return success(menuService.buildMenuTreeSelect(menus));
-    }
-
-    /**
-     * 获取菜单下拉树列表
-     */
-    @GetMapping("/treeselectByTenantId")
-    public AjaxResult treeselectByTenantId(SysMenu menu)
-    {
-        //TODO 用户登录后，从SecurityUtils.getTenantId()获取TenantId根据TenantId获取菜单下拉树列表
-        SecurityUtils.getTenantId();
-        Long tenantId = 1L;
-        List<SysMenu> menus = menuService.selectMenuLists(tenantId);
         return success(menuService.buildMenuTreeSelect(menus));
     }
 
@@ -91,22 +77,6 @@ public class SysMenuController extends BaseController
         List<SysMenu> menus = menuService.selectMenuList(userId);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
-        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
-        return ajax;
-    }
-
-    /**
-     * 加载对应租户菜单列表树
-     */
-    @GetMapping(value = "/tenantMenuTreeselect/{tenantId}")
-    public AjaxResult tenantMenuTreeselect(@PathVariable("tenantId") Long tenantId)
-    {
-        //通过租户Id查询租户拥有的菜单列表  这里的tenantId应该是这个租户的id而不是选择查询的租户的id
-        //Long tenantId = SecurityUtils.getTenantId();
-        Long TenantId = 1L;
-        List<SysMenu> menus = menuService.selectMenuLists(TenantId);
-        AjaxResult ajax = AjaxResult.success();
-        ajax.put("checkedKeys", menuService.selectedMenuListByTenantId(tenantId));
         ajax.put("menus", menuService.buildMenuTreeSelect(menus));
         return ajax;
     }
@@ -182,7 +152,6 @@ public class SysMenuController extends BaseController
     @GetMapping("getRouters")
     public AjaxResult getRouters()
     {
-        //TODO 获取租户的路由信息
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return success(menuService.buildMenus(menus));

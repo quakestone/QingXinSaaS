@@ -7,24 +7,24 @@ import com.qingxinsaas.common.core.web.domain.AjaxResult;
 import com.qingxinsaas.common.security.utils.SecurityUtils;
 import com.qingxinsaas.flowable.constant.ProcessConstants;
 import com.qingxinsaas.flowable.domain.SysForm;
-import com.qingxinsaas.flowable.domain.vo.FlowProcDefVo;
+import com.qingxinsaas.flowable.domain.dto.FlowProcDefDto;
 import com.qingxinsaas.flowable.enums.FlowComment;
 import com.qingxinsaas.flowable.factory.FlowServiceFactory;
 import com.qingxinsaas.flowable.mapper.FlowDeployMapper;
 import com.qingxinsaas.flowable.service.IFlowDefinitionService;
 import com.qingxinsaas.flowable.service.ISysDeployFormService;
 import com.qingxinsaas.system.api.domain.SysUser;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.image.impl.DefaultProcessDiagramGenerator;
 import org.flowable.task.api.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -37,18 +37,26 @@ import java.util.Objects;
  * 流程定义
  *
  * @author wwj
- * @date 2024-11-08
+ * @date 2024-11-22
  */
 @Service
 public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFlowDefinitionService {
 
-    @Autowired
+    @Resource
     private ISysDeployFormService sysDeployFormService;
 
-    @Autowired
+    @Resource
     private FlowDeployMapper flowDeployMapper;
 
     private static final String BPMN_FILE_SUFFIX = ".bpmn";
+
+    @Override
+    public boolean exist(String processDefinitionKey) {
+        ProcessDefinitionQuery processDefinitionQuery
+                = repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinitionKey);
+        long count = processDefinitionQuery.count();
+        return count > 0;
+    }
 
     /**
      * 流程定义列表
@@ -58,12 +66,12 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
      * @return 流程定义分页列表数据
      */
     @Override
-    public Page<FlowProcDefVo> list(String name, Integer pageNum, Integer pageSize) {
-        Page<FlowProcDefVo> page = new Page<>();
+    public Page<FlowProcDefDto> list(String name, Integer pageNum, Integer pageSize) {
+        Page<FlowProcDefDto> page = new Page<>();
         PageHelper.startPage(pageNum, pageSize);
-        final List<FlowProcDefVo> dataList = flowDeployMapper.selectDeployList(name);
+        final List<FlowProcDefDto> dataList = flowDeployMapper.selectDeployList(name);
         // 加载挂表单
-        for (FlowProcDefVo procDef : dataList) {
+        for (FlowProcDefDto procDef : dataList) {
             SysForm sysForm = sysDeployFormService.selectSysDeployFormByDeployId(procDef.getDeploymentId());
             if (Objects.nonNull(sysForm)) {
                 procDef.setFormName(sysForm.getFormName());
@@ -77,6 +85,7 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
 
     /**
      * 导入流程文件
+     * <p>
      * 当每个key的流程第一次部署时，指定版本为1。对其后所有使用相同key的流程定义，
      * 部署时版本会在该key当前已部署的最高版本号基础上加1。key参数用于区分流程定义
      *

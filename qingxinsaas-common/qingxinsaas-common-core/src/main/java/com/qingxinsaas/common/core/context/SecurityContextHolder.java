@@ -61,16 +61,6 @@ public class SecurityContextHolder
         set(SecurityConstants.DETAILS_USER_ID, account);
     }
 
-    public static Long getTenantId()
-    {
-        return Convert.toLong(get(SecurityConstants.TENANT_ID), 1L);
-    }
-
-    public static void setTenantId(Long tenantId)
-    {
-        set(SecurityConstants.TENANT_ID, tenantId);
-    }
-
     public static String getUserName()
     {
         return get(SecurityConstants.DETAILS_USERNAME);
@@ -105,4 +95,15 @@ public class SecurityContextHolder
     {
         THREAD_LOCAL.remove();
     }
+
+    public static Long getTenantId()
+    {
+        return Convert.toLong(get(SecurityConstants.DETAILS_TENANT_ID), 0L);
+    }
+
+    public static void setTenantId(String tenantId)
+    {
+        set(SecurityConstants.DETAILS_TENANT_ID, tenantId);
+    }
+
 }

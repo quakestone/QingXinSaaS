@@ -11,23 +11,23 @@ import com.qingxinsaas.flowable.domain.SysExpression;
 import com.qingxinsaas.flowable.service.ISysExpressionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * 流程达式Controller
+ * 流程表达式管理
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
-@Tag(name = "流程达式接口")
 @RestController
+@Tag(name = "流程表达式管理")
 @RequestMapping("/expression")
 public class SysExpressionController extends BaseController {
-    @Autowired
+    @Resource
     private ISysExpressionService sysExpressionService;
 
     /**

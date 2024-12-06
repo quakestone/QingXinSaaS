@@ -1,34 +1,39 @@
 package com.qingxinsaas.flowable.controller;
 
-import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.controller.BaseController;
+import com.qingxinsaas.common.core.web.domain.AjaxResult;
 import com.qingxinsaas.common.core.web.page.TableDataInfo;
 import com.qingxinsaas.common.log.annotation.Log;
 import com.qingxinsaas.common.log.enums.BusinessType;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
+import com.qingxinsaas.flowable.domain.SysDeployForm;
 import com.qingxinsaas.flowable.domain.SysForm;
+import com.qingxinsaas.flowable.service.ISysDeployFormService;
 import com.qingxinsaas.flowable.service.ISysFormService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * 流程表单Controller
+ * 流程表单管理
  *
  * @author wwj
- * @date 2024-11-13
+ * @date 2024-11-22
  */
-@Tag(name = "流程表单接口")
 @RestController
+@Tag(name = "流程表单管理")
 @RequestMapping("/form")
 public class SysFormController extends BaseController {
-    @Autowired
+    @Resource
     private ISysFormService sysFormService;
+
+    @Resource
+    private ISysDeployFormService sysDeployFormService;
 
     /**
      * 查询流程表单列表
@@ -43,16 +48,27 @@ public class SysFormController extends BaseController {
     }
 
     /**
+     * 查询所有流程表单列表
+     */
+    @Operation(summary = "查询所有流程表单列表")
+    @GetMapping("/formList")
+    public AjaxResult formList(SysForm sysForm) {
+        List<SysForm> list = sysFormService.selectSysFormList(sysForm);
+        return AjaxResult.success(list);
+    }
+
+    /**
      * 导出流程表单列表
      */
     @Operation(summary = "导出流程表单列表")
     @RequiresPermissions("flowable:form:export")
     @Log(title = "流程表单", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, SysForm sysForm) {
+    @GetMapping("/export")
+    public AjaxResult export(HttpServletResponse response, SysForm sysForm) {
         List<SysForm> list = sysFormService.selectSysFormList(sysForm);
         ExcelUtil<SysForm> util = new ExcelUtil<SysForm>(SysForm.class);
-        util.exportExcel(response, list, "流程表单数据");
+        util.exportExcel(response, list, "form");
+        return AjaxResult.success();
     }
 
     /**
@@ -61,8 +77,8 @@ public class SysFormController extends BaseController {
     @Operation(summary = "获取流程表单详细信息")
     @RequiresPermissions("flowable:form:query")
     @GetMapping(value = "/{formId}")
-    public R<SysForm> getInfo(@PathVariable("formId") Long formId) {
-        return R.ok(sysFormService.selectSysFormByFormId(formId));
+    public AjaxResult getInfo(@PathVariable("formId") Long formId) {
+        return AjaxResult.success(sysFormService.selectSysFormById(formId));
     }
 
     /**
@@ -72,8 +88,8 @@ public class SysFormController extends BaseController {
     @RequiresPermissions("flowable:form:add")
     @Log(title = "流程表单", businessType = BusinessType.INSERT)
     @PostMapping
-    public R<Integer> add(@RequestBody SysForm sysForm) {
-        return R.ok(sysFormService.insertSysForm(sysForm));
+    public AjaxResult add(@RequestBody SysForm sysForm) {
+        return toAjax(sysFormService.insertSysForm(sysForm));
     }
 
     /**
@@ -83,8 +99,8 @@ public class SysFormController extends BaseController {
     @RequiresPermissions("flowable:form:edit")
     @Log(title = "流程表单", businessType = BusinessType.UPDATE)
     @PutMapping
-    public R<Integer> edit(@RequestBody SysForm sysForm) {
-        return R.ok(sysFormService.updateSysForm(sysForm));
+    public AjaxResult edit(@RequestBody SysForm sysForm) {
+        return toAjax(sysFormService.updateSysForm(sysForm));
     }
 
     /**
@@ -94,7 +110,17 @@ public class SysFormController extends BaseController {
     @RequiresPermissions("flowable:form:remove")
     @Log(title = "流程表单", businessType = BusinessType.DELETE)
     @DeleteMapping("/{formIds}")
-    public R<Integer> remove(@PathVariable Long[] formIds) {
-        return R.ok(sysFormService.deleteSysFormByFormIds(formIds));
+    public AjaxResult remove(@PathVariable Long[] formIds) {
+        return toAjax(sysFormService.deleteSysFormByIds(formIds));
+    }
+
+    /**
+     * 挂载流程表单
+     */
+    @Operation(summary = "挂载流程表单")
+    @Log(title = "流程表单", businessType = BusinessType.INSERT)
+    @PostMapping("/addDeployForm")
+    public AjaxResult addDeployForm(@RequestBody SysDeployForm sysDeployForm) {
+        return toAjax(sysDeployFormService.insertSysDeployForm(sysDeployForm));
     }
 }

@@ -1,22 +1,5 @@
 package com.qingxinsaas.system.controller;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.common.core.utils.StringUtils;
 import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
@@ -27,21 +10,28 @@ import com.qingxinsaas.common.log.annotation.Log;
 import com.qingxinsaas.common.log.enums.BusinessType;
 import com.qingxinsaas.common.security.annotation.InnerAuth;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
+import com.qingxinsaas.common.security.service.TokenService;
 import com.qingxinsaas.common.security.utils.SecurityUtils;
 import com.qingxinsaas.system.api.domain.SysDept;
 import com.qingxinsaas.system.api.domain.SysRole;
 import com.qingxinsaas.system.api.domain.SysUser;
 import com.qingxinsaas.system.api.model.LoginUser;
-import com.qingxinsaas.system.service.ISysConfigService;
-import com.qingxinsaas.system.service.ISysDeptService;
-import com.qingxinsaas.system.service.ISysPermissionService;
-import com.qingxinsaas.system.service.ISysPostService;
-import com.qingxinsaas.system.service.ISysRoleService;
-import com.qingxinsaas.system.service.ISysUserService;
+import com.qingxinsaas.system.service.*;
+import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -65,6 +55,9 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysConfigService configService;
+
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 获取用户列表
@@ -161,17 +154,23 @@ public class SysUserController extends BaseController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
-        SysUser user = userService.selectUserById(SecurityUtils.getUserId());
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        SysUser user = loginUser.getSysUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(user);
+        if (!loginUser.getPermissions().equals(permissions))
+        {
+            loginUser.setPermissions(permissions);
+            tokenService.refreshToken(loginUser);
+        }
         AjaxResult ajax = AjaxResult.success();
         ajax.put("user", user);
         ajax.put("roles", roles);
@@ -186,18 +185,18 @@ public class SysUserController extends BaseController
     @GetMapping(value = { "/", "/{userId}" })
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
-        userService.checkUserDataScope(userId);
         AjaxResult ajax = AjaxResult.success();
-        List<SysRole> roles = roleService.selectRoleAll();
-        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
-        ajax.put("posts", postService.selectPostAll());
         if (StringUtils.isNotNull(userId))
         {
+            userService.checkUserDataScope(userId);
             SysUser sysUser = userService.selectUserById(userId);
             ajax.put(AjaxResult.DATA_TAG, sysUser);
             ajax.put("postIds", postService.selectPostListByUserId(userId));
             ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
         }
+        List<SysRole> roles = roleService.selectRoleAll();
+        ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        ajax.put("posts", postService.selectPostAll());
         return ajax;
     }
 
@@ -337,5 +336,14 @@ public class SysUserController extends BaseController
     public AjaxResult deptTree(SysDept dept)
     {
         return success(deptService.selectDeptTreeList(dept));
+    }
+
+    /**
+     * 通过用户ID查询用户
+     */
+    @InnerAuth
+    @GetMapping("/remote/{userId}")
+    public R<SysUser> getUserById(@PathVariable("userId") Long userId) {
+        return R.ok(userService.selectUserById(userId));
     }
 }

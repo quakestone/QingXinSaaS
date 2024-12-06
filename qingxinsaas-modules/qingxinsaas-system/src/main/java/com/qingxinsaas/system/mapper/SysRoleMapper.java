@@ -1,8 +1,6 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
-
-import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.system.api.domain.SysRole;
 
 /**
@@ -10,7 +8,7 @@ import com.qingxinsaas.system.api.domain.SysRole;
  * 
  * @author ruoyi
  */
-public interface SysRoleMapper extends BaseMapperX<SysRole>
+public interface SysRoleMapper
 {
     /**
      * 根据条件分页查询角色数据

@@ -1,6 +1,5 @@
 package com.qingxinsaas.flowable.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.flowable.domain.SysListener;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
  * 流程监听Service接口
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
-public interface ISysListenerService extends IService<SysListener> {
+public interface ISysListenerService {
     /**
      * 查询流程监听
      *

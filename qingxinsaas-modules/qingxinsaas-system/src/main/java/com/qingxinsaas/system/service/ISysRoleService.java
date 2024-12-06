@@ -2,8 +2,6 @@ package com.qingxinsaas.system.service;
 
 import java.util.List;
 import java.util.Set;
-
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.qingxinsaas.system.api.domain.SysRole;
 import com.qingxinsaas.system.domain.SysUserRole;
 
@@ -12,7 +10,7 @@ import com.qingxinsaas.system.domain.SysUserRole;
  * 
  * @author ruoyi
  */
-public interface ISysRoleService extends IService<SysRole>
+public interface ISysRoleService
 {
     /**
      * 根据条件分页查询角色数据

@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.qingxinsaas</groupId>
         <artifactId>qingxinsaas-modules</artifactId>
-        <version>3.6.4</version>
+        <version>3.6.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -47,16 +47,22 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
+        <!-- RuoYi Common DataSource -->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-datasource</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common DataScope -->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-datascope</artifactId>
+        </dependency>
+
         <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
             <artifactId>qingxinsaas-common-log</artifactId>
-        </dependency>
-
-        <!-- RuoYi Common Mybatisplus -->
-        <dependency>
-            <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-mybatisplus</artifactId>
         </dependency>
 
         <!-- RuoYi Common Swagger -->
@@ -69,6 +75,7 @@
         <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-spring-boot-starter</artifactId>
+            <version>6.8.0</version>
             <!-- 排除flowable自带的权限认证 -->
             <exclusions>
                 <exclusion>
@@ -78,24 +85,14 @@
             </exclusions>
         </dependency>
 
-        <!-- lombok -->
+        <!-- el表达式计算 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>5.3.3</version>
         </dependency>
 
     </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>

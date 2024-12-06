@@ -51,7 +51,7 @@ public class TokenService
         Long userId = loginUser.getSysUser().getUserId();
         String userName = loginUser.getSysUser().getUserName();
         loginUser.setToken(token);
-        loginUser.setUserId(userId);
+        loginUser.setUserid(userId);
         loginUser.setUsername(userName);
         loginUser.setIpaddr(IpUtils.getIpAddr());
         refreshToken(loginUser);

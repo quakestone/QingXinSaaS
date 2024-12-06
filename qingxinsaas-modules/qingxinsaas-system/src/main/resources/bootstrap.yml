@@ -3,27 +3,19 @@ server:
   port: 9201
 
 # Spring
-spring:
+spring: 
   application:
     # 应用名称
     name: qingxinsaas-system
-  boot:
-    admin:
-      client:
-        url: http://localhost:9100
   profiles:
     # 环境配置
     active: dev
   cloud:
     nacos:
       discovery:
-        username: nacos
-        password: nacos
         # 服务注册地址
         server-addr: 127.0.0.1:8848
       config:
-        username: nacos
-        password: nacos
         # 配置中心地址
         server-addr: 127.0.0.1:8848
         # 配置文件格式
@@ -31,6 +23,3 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-logging:
-  file:
-    name: logs/${spring.application.name}/info.log

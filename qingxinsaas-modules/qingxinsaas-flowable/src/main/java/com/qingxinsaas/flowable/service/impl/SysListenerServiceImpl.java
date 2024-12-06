@@ -1,24 +1,23 @@
 package com.qingxinsaas.flowable.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qingxinsaas.common.core.utils.DateUtils;
 import com.qingxinsaas.flowable.domain.SysListener;
 import com.qingxinsaas.flowable.mapper.SysListenerMapper;
 import com.qingxinsaas.flowable.service.ISysListenerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * 流程监听Service业务层处理
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-25
  */
 @Service
-public class SysListenerServiceImpl extends ServiceImpl<SysListenerMapper, SysListener> implements ISysListenerService {
-    @Autowired
+public class SysListenerServiceImpl implements ISysListenerService {
+    @Resource
     private SysListenerMapper sysListenerMapper;
 
     /**

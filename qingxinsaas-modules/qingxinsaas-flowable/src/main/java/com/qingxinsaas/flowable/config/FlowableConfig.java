@@ -9,10 +9,11 @@ import org.springframework.context.annotation.Configuration;
  * 扩展流程配置
  *
  * @author wwj
- * @date 2024-11-08
+ * @date 2024-11-22
  */
 @Configuration
 public class FlowableConfig implements EngineConfigurationConfigurer<SpringProcessEngineConfiguration> {
+
     @Override
     public void configure(SpringProcessEngineConfiguration engineConfiguration) {
         engineConfiguration.setActivityFontName("宋体");

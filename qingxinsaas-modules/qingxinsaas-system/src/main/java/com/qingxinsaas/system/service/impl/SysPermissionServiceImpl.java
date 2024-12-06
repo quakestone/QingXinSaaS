@@ -31,7 +31,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     /**
      * 获取角色数据权限
      * 
-     * @param user 用户Id
+     * @param userId 用户Id
      * @return 角色权限信息
      */
     @Override
@@ -53,14 +53,14 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     /**
      * 获取菜单数据权限
      * 
-     * @param user 用户Id
+     * @param userId 用户Id
      * @return 菜单权限信息
      */
     @Override
     public Set<String> getMenuPermission(SysUser user)
     {
         Set<String> perms = new HashSet<String>();
-        // TODO 管理员拥有租户的所有权限
+        // 管理员拥有所有权限
         if (user.isAdmin())
         {
             perms.add("*:*:*");

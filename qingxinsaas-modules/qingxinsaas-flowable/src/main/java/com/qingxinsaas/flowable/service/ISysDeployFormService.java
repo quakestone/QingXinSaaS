@@ -9,10 +9,9 @@ import java.util.List;
  * 流程实例关联表单Service接口
  *
  * @author wwj
- * @date 2024-11-11
+ * @date 2024-11-22
  */
 public interface ISysDeployFormService {
-
     /**
      * 查询流程实例关联表单
      *
@@ -63,9 +62,9 @@ public interface ISysDeployFormService {
 
     /**
      * 查询流程挂着的表单
+     *
      * @param deployId
-     * @return 结果
+     * @return
      */
     SysForm selectSysDeployFormByDeployId(String deployId);
-
 }

@@ -1,8 +1,6 @@
 package com.qingxinsaas.system.mapper;
 
 import java.util.List;
-
-import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Param;
 import com.qingxinsaas.system.api.domain.SysUser;
 
@@ -11,7 +9,7 @@ import com.qingxinsaas.system.api.domain.SysUser;
  * 
  * @author ruoyi
  */
-public interface SysUserMapper extends BaseMapperX<SysUser>
+public interface SysUserMapper
 {
     /**
      * 根据条件分页查询用户列表

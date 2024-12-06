@@ -1,6 +1,5 @@
 package com.qingxinsaas.flowable.controller;
 
-import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.controller.BaseController;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
@@ -12,30 +11,30 @@ import com.qingxinsaas.flowable.domain.SysListener;
 import com.qingxinsaas.flowable.service.ISysListenerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * 流程监听Controller
+ * 流程监听管理
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
-@Tag(name = "流程监听接口")
 @RestController
+@Tag(name = "流程监听管理")
 @RequestMapping("/listener")
 public class SysListenerController extends BaseController {
-    @Autowired
+    @Resource
     private ISysListenerService sysListenerService;
 
     /**
      * 查询流程监听列表
      */
     @Operation(summary = "查询流程监听列表")
-    @RequiresPermissions("flowable:listener:list")
+    @RequiresPermissions("system:listener:list")
     @GetMapping("/list")
     public TableDataInfo list(SysListener sysListener) {
         startPage();
@@ -47,7 +46,7 @@ public class SysListenerController extends BaseController {
      * 导出流程监听列表
      */
     @Operation(summary = "导出流程监听列表")
-    @RequiresPermissions("flowable:listener:export")
+    @RequiresPermissions("system:listener:export")
     @Log(title = "流程监听", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysListener sysListener) {
@@ -60,28 +59,28 @@ public class SysListenerController extends BaseController {
      * 获取流程监听详细信息
      */
     @Operation(summary = "获取流程监听详细信息")
-    @RequiresPermissions("flowable:listener:query")
+    @RequiresPermissions("system:listener:query")
     @GetMapping(value = "/{id}")
-    public R<SysListener> getInfo(@PathVariable("id") Long id) {
-        return R.ok(sysListenerService.selectSysListenerById(id));
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
+        return success(sysListenerService.selectSysListenerById(id));
     }
 
     /**
      * 新增流程监听
      */
     @Operation(summary = "新增流程监听")
-    @RequiresPermissions("flowable:listener:add")
+    @RequiresPermissions("system:listener:add")
     @Log(title = "流程监听", businessType = BusinessType.INSERT)
     @PostMapping
-    public R<Integer> add(@RequestBody SysListener sysListener) {
-        return R.ok(sysListenerService.insertSysListener(sysListener));
+    public AjaxResult add(@RequestBody SysListener sysListener) {
+        return toAjax(sysListenerService.insertSysListener(sysListener));
     }
 
     /**
      * 修改流程监听
      */
     @Operation(summary = "修改流程监听")
-    @RequiresPermissions("flowable:listener:edit")
+    @RequiresPermissions("system:listener:edit")
     @Log(title = "流程监听", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody SysListener sysListener) {
@@ -92,10 +91,10 @@ public class SysListenerController extends BaseController {
      * 删除流程监听
      */
     @Operation(summary = "删除流程监听")
-    @RequiresPermissions("flowable:listener:remove")
+    @RequiresPermissions("system:listener:remove")
     @Log(title = "流程监听", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public R<Integer> remove(@PathVariable Long[] ids) {
-        return R.ok(sysListenerService.deleteSysListenerByIds(ids));
+    public AjaxResult remove(@PathVariable Long[] ids) {
+        return toAjax(sysListenerService.deleteSysListenerByIds(ids));
     }
 }

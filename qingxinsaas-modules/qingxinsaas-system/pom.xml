@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.qingxinsaas</groupId>
         <artifactId>qingxinsaas-modules</artifactId>
-        <version>3.6.4</version>
+        <version>3.6.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 	
@@ -59,34 +59,16 @@
             <artifactId>qingxinsaas-common-datascope</artifactId>
         </dependency>
         
-        <!-- Common Log -->
+        <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
             <artifactId>qingxinsaas-common-log</artifactId>
         </dependency>
         
-        <!-- Common Swagger -->
+        <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
             <artifactId>qingxinsaas-common-swagger</artifactId>
-        </dependency>
-
-        <!-- Common MybatisPlus -->
-        <dependency>
-            <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-mybatisplus</artifactId>
-        </dependency>
-
-        <!-- SpringBoot Admin Client -->
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-tenant</artifactId>
-            <version>3.6.4</version>
         </dependency>
 
     </dependencies>

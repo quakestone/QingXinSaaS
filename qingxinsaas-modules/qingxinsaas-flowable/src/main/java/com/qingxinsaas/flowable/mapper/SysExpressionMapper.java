@@ -1,6 +1,5 @@
 package com.qingxinsaas.flowable.mapper;
 
-import com.qingxinsaas.common.mybatisplus.mapper.BaseMapperX;
 import com.qingxinsaas.flowable.domain.SysExpression;
 
 import java.util.List;
@@ -9,9 +8,9 @@ import java.util.List;
  * 流程达式Mapper接口
  *
  * @author wwj
- * @date 2024-11-12
+ * @date 2024-11-22
  */
-public interface SysExpressionMapper extends BaseMapperX<SysExpression> {
+public interface SysExpressionMapper {
     /**
      * 查询流程达式
      *

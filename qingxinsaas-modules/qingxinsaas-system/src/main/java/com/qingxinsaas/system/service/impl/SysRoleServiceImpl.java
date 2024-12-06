@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +31,7 @@ import com.qingxinsaas.system.service.ISysRoleService;
  * @author ruoyi
  */
 @Service
-public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole> implements ISysRoleService
+public class SysRoleServiceImpl implements ISysRoleService
 {
     @Autowired
     private SysRoleMapper roleMapper;

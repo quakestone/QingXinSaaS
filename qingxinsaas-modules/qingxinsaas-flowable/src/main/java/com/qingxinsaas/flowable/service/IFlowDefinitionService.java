@@ -2,7 +2,7 @@ package com.qingxinsaas.flowable.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
-import com.qingxinsaas.flowable.domain.vo.FlowProcDefVo;
+import com.qingxinsaas.flowable.domain.dto.FlowProcDefDto;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,9 +10,11 @@ import java.util.Map;
 
 /**
  * @author wwj
- * @date 2024-11-08
+ * @date 2024-11-22
  */
 public interface IFlowDefinitionService {
+
+    boolean exist(String processDefinitionKey);
 
     /**
      * 流程定义列表
@@ -21,7 +23,7 @@ public interface IFlowDefinitionService {
      * @param pageSize 每页条数
      * @return 流程定义分页列表数据
      */
-    Page<FlowProcDefVo> list(String name, Integer pageNum, Integer pageSize);
+    Page<FlowProcDefDto> list(String name, Integer pageNum, Integer pageSize);
 
     /**
      * 导入流程文件
@@ -49,6 +51,7 @@ public interface IFlowDefinitionService {
      * @param variables
      * @return
      */
+
     AjaxResult startProcessInstanceById(String procDefId, Map<String, Object> variables);
 
     /**
