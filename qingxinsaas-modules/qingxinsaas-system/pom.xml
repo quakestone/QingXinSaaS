@@ -46,19 +46,7 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
-        
-        <!-- RuoYi Common DataSource -->
-        <dependency>
-            <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-datasource</artifactId>
-        </dependency>
-        
-        <!-- RuoYi Common DataScope -->
-        <dependency>
-            <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-datascope</artifactId>
-        </dependency>
-        
+
         <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
@@ -69,6 +57,12 @@
         <dependency>
             <groupId>com.qingxinsaas</groupId>
             <artifactId>qingxinsaas-common-swagger</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Tenant -->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-tenant</artifactId>
         </dependency>
 
     </dependencies>
