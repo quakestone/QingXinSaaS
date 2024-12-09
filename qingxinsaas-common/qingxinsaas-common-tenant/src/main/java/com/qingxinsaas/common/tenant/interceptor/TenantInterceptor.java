@@ -48,14 +48,14 @@ public class TenantInterceptor implements HandlerInterceptor {
                 Map<String, Object> map = new HashMap<>();
                 if ("qingxinsaas".equals(tenant)) {
                     map.put("driverClassName", "com.mysql.cj.jdbc.Driver");
-                    map.put("url", "jdbc:mysql://localhost:3306/qx-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
+                    map.put("url", "jdbc:mysql://localhost:3306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
                     map.put("username", "root");
                     map.put("password", "root");
                     map.put("uniqueResourceName", tenant);
                 } else {
                     SysTenant sysTenant = sysTenantService.selectSysTenantByTenantName(tenant);
                     map.put("driverClassName", "com.mysql.cj.jdbc.Driver");
-                    map.put("url", sysTenant.getDbUrl());
+                    map.put("url", sysTenant.getDbUrl() != null ? sysTenant.getDbUrl() : "jdbc:mysql://" + sysTenant.getDbHost() + "/" + sysTenant.getDbName() + "?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
                     map.put("username", sysTenant.getDbUsername());
                     map.put("password", sysTenant.getDbPassword());
                     map.put("uniqueResourceName", tenant);
