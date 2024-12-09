@@ -47,6 +47,11 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/wxLogin',
+    component: () => import('@/views/wxLogin'),
+    hidden: true
+  },
+  {
     path: '/register',
     component: () => import('@/views/register'),
     hidden: true
@@ -74,6 +79,7 @@ export const constantRoutes = [
       }
     ]
   },
+
   {
     path: '/user',
     component: Layout,

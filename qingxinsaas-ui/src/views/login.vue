@@ -1,7 +1,20 @@
 <template>
   <div class="login">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
+
       <h3 class="title">若依后台管理系统</h3>
+      <!-- 新增多租户选择区域 -->
+      <el-form-item>
+        <el-select v-model="selectedTenant" placeholder="请选择租户">
+          <el-option
+            v-for="tenant in tenantList"
+            :key="tenant.id"
+            :label="tenant.name"
+            :value="tenant.id"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -34,37 +47,61 @@
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" @click="getCode" class="login-code-img"/>
+          <img :src="codeUrl" @click="getCode" class="login-code-img" />
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
-      <el-form-item style="width:100%;">
+      <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-form-item style="width: 100%;">
         <el-button
           :loading="loading"
           size="medium"
           type="primary"
-          style="width:100%;"
+          style="width: 100%;"
           @click.native.prevent="handleLogin"
         >
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
+        <!-- 添加微信登录和支付宝登录按钮 -->
+        <el-button
+          size="medium"
+          type="info"
+          style="width: 100%; margin-top: 10px;"
+          @click="handleWeChatLogin"
+        >微信登录</el-button>
+        <el-button
+          size="medium"
+          type="success"
+          style="width: 100%; margin-top: 10px;"
+          @click="handleAlipayLogin"
+        >支付宝登录</el-button>
         <div style="float: right;" v-if="register">
           <router-link class="link-type" :to="'/register'">立即注册</router-link>
         </div>
       </el-form-item>
     </el-form>
+
+
+     <!-- 微信二维码弹窗组件 -->
+     <el-dialog title="微信登录" :visible.sync="dialogVisible" width="30%">
+      <img :src="qrCodeImage" alt="微信登录二维码" style="width: 100%;">
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
+
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2024 ruoyi.vip All Rights Reserved.</span>
+      <span>Copyright © 2018 - 2024 ruoyi.vip All Rights Reserved.</span>
     </div>
   </div>
 </template>
 
 <script>
-import { getCodeImg } from "@/api/login";
+import { getCodeImg,getTenantList,wxLogin} from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
+
 
 export default {
   name: "Login",
@@ -76,7 +113,8 @@ export default {
         password: "admin123",
         rememberMe: false,
         code: "",
-        uuid: ""
+        uuid: "",
+        tenantId: "" // 新增用于存储租户id的字段
       },
       loginRules: {
         username: [
@@ -85,19 +123,36 @@ export default {
         password: [
           { required: true, trigger: "blur", message: "请输入您的密码" }
         ],
-        code: [{ required: true, trigger: "change", message: "请输入验证码" }]
+        code: [
+          { required: true, trigger: "change", message: "请输入验证码" }
+        ]
       },
       loading: false,
       // 验证码开关
       captchaEnabled: true,
       // 注册开关
-      register: false,
-      redirect: undefined
+      register: true,
+      redirect: undefined,
+      selectedTenant: '', // 选中的租户id
+      qrCodeImage:"",
+      dialogVisible:false,//是否显示微信登入弹窗
+      weChatCode: '',  // 微信登录获取的授权码等相关数据（根据微信登录流程确定具体存储内容）
+      alipayCode: '',  // 支付宝登录获取的授权码等相关数据（根据支付宝登录流程确定具体存储内容）
+      tenantList: [
+        {
+          id: "1",
+          name: '若依租户'
+        },
+        {
+          id: "2",
+          name: '氢信'
+        }
+      ]  // 租户列表，从后端获取
     };
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect;
       },
       immediate: true
@@ -106,11 +161,12 @@ export default {
   created() {
     this.getCode();
     this.getCookie();
+    this.getTenantList1(); // 初始化获取租户列表
   },
   methods: {
     getCode() {
       getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
+        this.captchaEnabled = res.captchaEnabled === undefined? true : res.captchaEnabled;
         if (this.captchaEnabled) {
           this.codeUrl = "data:image/gif;base64," + res.img;
           this.loginForm.uuid = res.uuid;
@@ -122,10 +178,19 @@ export default {
       const password = Cookies.get("password");
       const rememberMe = Cookies.get('rememberMe')
       this.loginForm = {
-        username: username === undefined ? this.loginForm.username : username,
-        password: password === undefined ? this.loginForm.password : decrypt(password),
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
+        username: username === undefined? this.loginForm.username : username,
+        password: password === undefined? this.loginForm.password : decrypt(password),
+        rememberMe: rememberMe === undefined? false : Boolean(rememberMe)
       };
+    },
+    // 获取租户列表方法
+    getTenantList1() {
+      getTenantList.then(res => {
+        this.tenantList = res.data;
+      }).catch(() => {
+        // 处理获取失败的情况，比如提示用户
+        this.$message.error('获取租户列表失败，请稍后再试');
+      });
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
@@ -140,8 +205,12 @@ export default {
             Cookies.remove("password");
             Cookies.remove('rememberMe');
           }
+          // 将租户id添加到登录表单数据中传递给后端
+          this.loginForm.tenantId = this.selectedTenant;
+          console.log("提交表单：",this.loginForm);
           this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
+            // login(this.loginForm.username,this.loginForm.password,this.loginForm.code,this.loginForm.uuid,this.loginForm.tenantId).then(()=>{
+            this.$router.push({ path: this.redirect || "/" }).catch(() => { });
           }).catch(() => {
             this.loading = false;
             if (this.captchaEnabled) {
@@ -150,9 +219,35 @@ export default {
           });
         }
       });
+    },
+    // 微信登录方法（简化示例，实际需对接微信开放平台相关接口）
+    handleWeChatLogin() {
+      // 这里引导用户跳转到微信授权页面等操作，实际需按照微信登录流程来
+      // 比如使用微信的SDK或者构造授权链接进行跳转
+
+      // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb9ac2f53388cb7a2&redirect_uri=https://c4b0e58.r23.cpolar.top/wx/wxCallback&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
+      // 后续在回调页面（redirect_uri指向的页面）获取授权码等信息并处理登录逻辑
+      
+      //跳转WxLogin页面，并在回调页面处理微信登录逻辑
+
+      // 请求后端接口
+      wxLogin().then(res => {
+        console.log('微信登录',res);
+        this.qrCodeImage = `data:image/png;base64,${res.data}`;
+        this.dialogVisible = true; // 显示弹窗
+      }).catch(() => {
+        this.$message.error('获取微信登录二维码失败，请稍后再试');
+      });
+    },
+    // 支付宝登录方法（简化示例，实际需对接支付宝开放平台相关接口）
+    handleAlipayLogin() {
+      // 引导用户跳转到支付宝授权登录页面，按照支付宝登录流程构造链接等
+      window.location.href = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=YOUR_APP_ID&scope=auth_user&redirect_uri=YOUR_REDIRECT_URI&state=STATE';
+      // 同样在回调页面处理后续登录逻辑
     }
   }
 };
+
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
@@ -164,6 +259,7 @@ export default {
   background-image: url("../assets/images/login-background.jpg");
   background-size: cover;
 }
+
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
@@ -175,23 +271,25 @@ export default {
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
-  .el-input {
+.el-input {
     height: 38px;
     input {
       height: 38px;
     }
   }
-  .input-icon {
+.input-icon {
     height: 39px;
     width: 14px;
     margin-left: 2px;
   }
 }
+
 .login-tip {
   font-size: 13px;
   text-align: center;
   color: #bfbfbf;
 }
+
 .login-code {
   width: 33%;
   height: 38px;
@@ -201,6 +299,7 @@ export default {
     vertical-align: middle;
   }
 }
+
 .el-login-footer {
   height: 40px;
   line-height: 40px;
@@ -213,6 +312,7 @@ export default {
   font-size: 12px;
   letter-spacing: 1px;
 }
+
 .login-code-img {
   height: 38px;
 }

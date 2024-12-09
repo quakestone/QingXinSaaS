@@ -1,15 +1,16 @@
 import request from '@/utils/request'
 
 // 登录方法
-export function login(username, password, code, uuid) {
+export function login(username, password, code, uuid,tenantId) {
   return request({
     url: '/auth/login',
     headers: {
       isToken: false,
-      repeatSubmit: false
+      repeatSubmit: false,
+      contenType: 'application/json;charset=UTF-8'
     },
     method: 'post',
-    data: { username, password, code, uuid }
+    data: { username, password, code, uuid, tenantId}
   })
 }
 
@@ -58,5 +59,22 @@ export function getCodeImg() {
     },
     method: 'get',
     timeout: 20000
+  })
+}
+
+//获取租户列表
+export function getTenantList() {
+  return request({
+    url: '/auth/tenantList',
+    method: 'get'
+  })
+}
+
+
+//获取微信登录二维码
+export function wxLogin() {
+  return request({
+    url: '/auth/wx/wxLogin',
+    method: 'get'
   })
 }
