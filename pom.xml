@@ -285,13 +285,6 @@
                 <version>${qingxinsaas.version}</version>
             </dependency>
 
-            <!-- 多租户-->
-            <dependency>
-                <groupId>com.qingxinsaas</groupId>
-                <artifactId>qingxinsaas-common-tenant</artifactId>
-                <version>${qingxinsaas.version}</version>
-            </dependency>
-
             <!-- 系统接口 -->
             <dependency>
                 <groupId>com.qingxinsaas</groupId>

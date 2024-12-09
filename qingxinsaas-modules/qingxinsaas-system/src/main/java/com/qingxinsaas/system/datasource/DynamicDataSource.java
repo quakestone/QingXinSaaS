@@ -1,4 +1,4 @@
-package com.qingxinsaas.common.tenant.datasource;
+package com.qingxinsaas.system.datasource;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;

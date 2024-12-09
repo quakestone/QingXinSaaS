@@ -1,4 +1,4 @@
-package com.qingxinsaas.common.tenant.enums;
+package com.qingxinsaas.system.enums;
 
 /**
  * 数据源

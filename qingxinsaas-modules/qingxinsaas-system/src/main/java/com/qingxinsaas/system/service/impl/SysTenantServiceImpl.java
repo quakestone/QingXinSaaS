@@ -1,9 +1,9 @@
-package com.qingxinsaas.common.tenant.service.impl;
+package com.qingxinsaas.system.service.impl;
 
 import com.qingxinsaas.common.core.utils.DateUtils;
-import com.qingxinsaas.common.tenant.mapper.SysTenantMapper;
-import com.qingxinsaas.common.tenant.service.ISysTenantService;
 import com.qingxinsaas.system.api.domain.SysTenant;
+import com.qingxinsaas.system.mapper.SysTenantMapper;
+import com.qingxinsaas.system.service.ISysTenantService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

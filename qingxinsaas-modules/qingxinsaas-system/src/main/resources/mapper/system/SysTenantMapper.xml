@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qingxinsaas.common.tenant.mapper.SysTenantMapper">
+<mapper namespace="com.qingxinsaas.system.mapper.SysTenantMapper">
 
     <resultMap type="SysTenant" id="SysTenantResult">
         <result property="tenantId"    column="tenant_id"    />
@@ -38,6 +38,7 @@
         <include refid="selectSysTenantVo"/>
         where tenant_id = #{tenantId}
     </select>
+
     <select id="selectSysTenantByTenantName" parameterType="String" resultMap="SysTenantResult">
         <include refid="selectSysTenantVo"/>
         where tenant_name = #{tenantName}

@@ -59,10 +59,16 @@
             <artifactId>qingxinsaas-common-swagger</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Tenant -->
+        <!-- RuoYi Common Datascope-->
         <dependency>
             <groupId>com.qingxinsaas</groupId>
-            <artifactId>qingxinsaas-common-tenant</artifactId>
+            <artifactId>qingxinsaas-common-datascope</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Datasource-->
+        <dependency>
+            <groupId>com.qingxinsaas</groupId>
+            <artifactId>qingxinsaas-common-datasource</artifactId>
         </dependency>
 
     </dependencies>

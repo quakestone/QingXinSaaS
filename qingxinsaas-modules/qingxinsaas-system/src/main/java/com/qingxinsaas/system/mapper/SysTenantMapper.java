@@ -1,4 +1,4 @@
-package com.qingxinsaas.common.tenant.mapper;
+package com.qingxinsaas.system.mapper;
 
 import com.qingxinsaas.system.api.domain.SysTenant;
 

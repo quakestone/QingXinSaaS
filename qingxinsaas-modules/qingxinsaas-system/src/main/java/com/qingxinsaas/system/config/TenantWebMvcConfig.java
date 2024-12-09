@@ -1,14 +1,19 @@
-package com.qingxinsaas.common.tenant.config;
+package com.qingxinsaas.system.config;
 
-import com.qingxinsaas.common.tenant.interceptor.TenantInterceptor;
+import com.qingxinsaas.system.interceptor.TenantInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * 租户拦截器配置
+ *
+ * @author wwj
+ */
 @Configuration
-@ComponentScan("com.qingxinsaas.common.tenant")
+@ComponentScan("com.qingxinsaas.system")
 public class TenantWebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
@@ -22,7 +27,7 @@ public class TenantWebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(tenantInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login", "/logout", "/refresh", "/user/info/**")
-                .order(-10);
+                .order(-9);
     }
 
 }

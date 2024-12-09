@@ -1,4 +1,4 @@
-package com.qingxinsaas.common.tenant.service;
+package com.qingxinsaas.system.service;
 
 import com.qingxinsaas.system.api.domain.SysTenant;
 

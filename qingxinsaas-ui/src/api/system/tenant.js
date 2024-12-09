@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询租户列表
+// 查询租户管理列表
 export function listTenant(query) {
   return request({
     url: '/system/tenant/list',
@@ -9,15 +9,15 @@ export function listTenant(query) {
   })
 }
 
-// 查询租户详细
-export function getTenant(id) {
+// 查询租户管理详细
+export function getTenant(tenantId) {
   return request({
-    url: '/system/tenant/' + id,
+    url: '/system/tenant/' + tenantId,
     method: 'get'
   })
 }
 
-// 新增租户
+// 新增租户管理
 export function addTenant(data) {
   return request({
     url: '/system/tenant',
@@ -26,7 +26,7 @@ export function addTenant(data) {
   })
 }
 
-// 修改租户
+// 修改租户管理
 export function updateTenant(data) {
   return request({
     url: '/system/tenant',
@@ -35,10 +35,10 @@ export function updateTenant(data) {
   })
 }
 
-// 删除租户
-export function delTenant(id) {
+// 删除租户管理
+export function delTenant(tenantId) {
   return request({
-    url: '/system/tenant/' + id,
+    url: '/system/tenant/' + tenantId,
     method: 'delete'
   })
 }

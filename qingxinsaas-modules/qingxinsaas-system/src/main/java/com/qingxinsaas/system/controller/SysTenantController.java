@@ -1,11 +1,11 @@
-package com.qingxinsaas.common.tenant.controller;
+package com.qingxinsaas.system.controller;
 
 import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.controller.BaseController;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
 import com.qingxinsaas.common.core.web.page.TableDataInfo;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
-import com.qingxinsaas.common.tenant.service.ISysTenantService;
+import com.qingxinsaas.system.service.ISysTenantService;
 import com.qingxinsaas.system.api.domain.SysTenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
