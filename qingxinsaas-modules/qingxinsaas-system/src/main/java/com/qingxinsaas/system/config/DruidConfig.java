@@ -1,13 +1,13 @@
-package com.qingxinsaas.common.tenant.config;
+package com.qingxinsaas.system.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.util.Utils;
 import com.qingxinsaas.common.core.utils.SpringUtils;
-import com.qingxinsaas.common.tenant.config.properties.DruidProperties;
-import com.qingxinsaas.common.tenant.datasource.DynamicDataSource;
-import com.qingxinsaas.common.tenant.enums.DataSourceType;
+import com.qingxinsaas.system.config.properties.DruidProperties;
+import com.qingxinsaas.system.datasource.DynamicDataSource;
+import com.qingxinsaas.system.enums.DataSourceType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -49,7 +49,7 @@ public class DruidConfig {
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DataSourceType.MASTER.name(), masterDataSource);
         setDataSource(targetDataSources, DataSourceType.SLAVE.name(), "slaveDataSource");
-        return new DynamicDataSource(masterDataSource, targetDataSources);
+        return new DynamicDataSource(masterDataSource, targetDataSources,masterDataSource);
     }
 
     /**

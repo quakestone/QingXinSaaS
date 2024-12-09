@@ -1,4 +1,4 @@
-package com.qingxinsaas.common.tenant.config.properties;
+package com.qingxinsaas.system.config.properties;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;

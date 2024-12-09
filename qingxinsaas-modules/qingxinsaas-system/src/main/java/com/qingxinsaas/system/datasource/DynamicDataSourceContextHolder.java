@@ -1,4 +1,4 @@
-package com.qingxinsaas.common.tenant.datasource;
+package com.qingxinsaas.system.datasource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,13 +1,16 @@
-package com.qingxinsaas.common.tenant.interceptor;
+package com.qingxinsaas.system.interceptor;
 
-import com.qingxinsaas.common.core.utils.StringUtils;
-import com.qingxinsaas.common.tenant.datasource.DynamicDataSource;
-import com.qingxinsaas.common.tenant.datasource.DynamicDataSourceContextHolder;
-import com.qingxinsaas.common.tenant.service.ISysTenantService;
 import com.qingxinsaas.system.api.domain.SysTenant;
+import com.qingxinsaas.system.datasource.DynamicDataSourceContextHolder;
+import com.qingxinsaas.common.core.utils.StringUtils;
+
+import com.qingxinsaas.system.datasource.DynamicDataSource;
+
+import com.qingxinsaas.system.service.ISysTenantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -28,6 +31,9 @@ public class TenantInterceptor implements HandlerInterceptor {
     @Autowired
     private DynamicDataSource dynamicDataSource;
 
+    @Value("${spring.datasource.dynamic.datasource.master.url}")
+    private String masterDataSourceUrl;
+
     @Autowired
     private ISysTenantService sysTenantService;
 
@@ -37,9 +43,9 @@ public class TenantInterceptor implements HandlerInterceptor {
         String tenant = request.getHeader("Tenant");
         // 如果没有提供租户信息，则使用默认租户
         if (tenant == null) {
-            tenant = "qingxinsaas";
+            tenant = "q";
         }
-
+        SysTenant sysTenant = sysTenantService.selectSysTenantByTenantName(tenant);
         log.info("&&&&&&&&&&&&&&&& 租户拦截 &&&&&&&&&&&&&&&&");
         // 判断租户信息是否为空
         if (StringUtils.isNotBlank(tenant)) {
@@ -48,20 +54,20 @@ public class TenantInterceptor implements HandlerInterceptor {
                 Map<String, Object> map = new HashMap<>();
                 if ("qingxinsaas".equals(tenant)) {
                     map.put("driverClassName", "com.mysql.cj.jdbc.Driver");
-                    map.put("url", "jdbc:mysql://localhost:3306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
+                    map.put("url", masterDataSourceUrl);
                     map.put("username", "root");
                     map.put("password", "root");
-                    map.put("uniqueResourceName", tenant);
+                    map.put("database", "ry-cloud");
                 } else {
-                    SysTenant sysTenant = sysTenantService.selectSysTenantByTenantName(tenant);
+//                    SysTenant sysTenant = sysTenantService.selectSysTenantByTenantName(tenant);
                     map.put("driverClassName", "com.mysql.cj.jdbc.Driver");
                     map.put("url", sysTenant.getDbUrl() != null ? sysTenant.getDbUrl() : "jdbc:mysql://" + sysTenant.getDbHost() + "/" + sysTenant.getDbName() + "?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
                     map.put("username", sysTenant.getDbUsername());
                     map.put("password", sysTenant.getDbPassword());
-                    map.put("uniqueResourceName", tenant);
+                    map.put("database", sysTenant.getDbName());
                 }
                 // 添加数据源
-                dynamicDataSource.addDataSource(tenant, map);
+                dynamicDataSource.addDataSourceAndInitialize(tenant, map);
                 log.info("&&&&&&&&&&& 已设置租户:{} 连接信息: {}", tenant, tenant);
             } else {
                 log.info("&&&&&&&&&&& 当前租户:{}", tenant);
