@@ -78,3 +78,12 @@ export function wxLogin() {
     method: 'get'
   })
 }
+
+//保存当前租户id（微信登录使用）
+export function saveTenantId(tenantId) {
+  return request({
+    url: '/auth/wx/saveTenantId',
+    method: 'get',
+    params: {tenantId}
+  })
+}

@@ -42,6 +42,23 @@ public interface ISysUserService
      */
     public SysUser selectUserByUserName(String userName);
 
+
+    /**
+     * 通过用户名和租户id获取用户
+     * @param username
+     * @param tenantId
+     * @return
+     */
+    public SysUser selectUserByUserNameAndTenantId(String username, Long tenantId);
+
+    /**
+     * 通过第三方openId和tenantId查询用户
+     * @param openId
+     * @param tenantId
+     * @return
+     */
+    public SysUser selectUserByOpenIdAndTenantId(String openId,Long tenantId);
+
     /**
      * 通过用户ID查询用户
      * 
@@ -203,4 +220,7 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+
+
 }

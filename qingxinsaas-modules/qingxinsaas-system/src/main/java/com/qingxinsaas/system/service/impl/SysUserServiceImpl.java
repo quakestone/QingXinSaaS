@@ -117,6 +117,28 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
+     * 通过用户名和租户id获取用户
+     * @param username
+     * @param tenantId
+     * @return
+     */
+    @Override
+    public SysUser selectUserByUserNameAndTenantId(String username, Long tenantId){
+        return userMapper.selectUserByUserNameAndTenantId(username,tenantId);
+    }
+
+    /**
+     * 通过第三方openId和tenantId查询用户
+     * @param openId
+     * @param tenantId
+     * @return
+     */
+    @Override
+    public SysUser selectUserByOpenIdAndTenantId(String openId,Long tenantId){
+        return userMapper.selectUserByOpenIdAndTenantId(openId,tenantId);
+    }
+
+    /**
      * 通过用户ID查询用户
      * 
      * @param userId 用户ID

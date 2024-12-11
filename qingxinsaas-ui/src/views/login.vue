@@ -5,7 +5,7 @@
       <h3 class="title">若依后台管理系统</h3>
       <!-- 新增多租户选择区域 -->
       <el-form-item>
-        <el-select v-model="selectedTenant" placeholder="请选择租户">
+        <el-select v-model="selectedTenant" placeholder="请选择租户" @change="handleTenantSelect">
           <el-option
             v-for="tenant in tenantList"
             :key="tenant.id"
@@ -84,6 +84,7 @@
 
      <!-- 微信二维码弹窗组件 -->
      <el-dialog title="微信登录" :visible.sync="dialogVisible" width="30%">
+      <p>微信扫码登入前，请先选择租户！！！</p>
       <img :src="qrCodeImage" alt="微信登录二维码" style="width: 100%;">
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -98,7 +99,7 @@
 </template>
 
 <script>
-import { getCodeImg,getTenantList,wxLogin} from "@/api/login";
+import { getCodeImg,getTenantList,wxLogin,saveTenantId} from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
@@ -220,6 +221,19 @@ export default {
         }
       });
     },
+
+    //租户下拉框选中事件处理函数
+    handleTenantSelect(tenantId) {
+      console.log('选中的租户ID：', tenantId);
+      saveTenantId(tenantId).then(res => {
+        console.log('保存租户ID结果：', res);
+        this.$message.success('租户切换成功');
+      }).catch(() => {
+        this.$message.error('租户切换失败');
+      });
+    },
+
+
     // 微信登录方法（简化示例，实际需对接微信开放平台相关接口）
     handleWeChatLogin() {
       // 这里引导用户跳转到微信授权页面等操作，实际需按照微信登录流程来

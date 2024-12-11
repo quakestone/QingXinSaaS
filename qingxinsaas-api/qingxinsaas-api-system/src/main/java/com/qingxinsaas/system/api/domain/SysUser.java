@@ -89,9 +89,41 @@ public class SysUser extends BaseEntity
     /** 角色ID */
     private Long roleId;
 
+    private Long tenantId;
+
+    private String thirdPartyPlatform;
+
+    private String thirdPartyOpenid;
+
+
+
     public SysUser()
     {
 
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public String getThirdPartyPlatform() {
+        return thirdPartyPlatform;
+    }
+
+    public void setThirdPartyPlatform(String thirdPartyPlatform) {
+        this.thirdPartyPlatform = thirdPartyPlatform;
+    }
+
+    public String getThirdPartyOpenid() {
+        return thirdPartyOpenid;
+    }
+
+    public void setThirdPartyOpenid(String thirdPartyOpenid) {
+        this.thirdPartyOpenid = thirdPartyOpenid;
     }
 
     public SysUser(Long userId)

@@ -5,14 +5,14 @@ import cn.hutool.extra.qrcode.QrCodeUtil;
 
 import com.qingxinsaas.auth.config.WxAppProperties;
 import com.qingxinsaas.auth.domain.WxUserInfo;
+import com.qingxinsaas.auth.service.SysWxLoginService;
 import com.qingxinsaas.auth.utils.WechatUtil;
 import com.qingxinsaas.common.core.domain.R;
+import com.qingxinsaas.common.security.service.TokenService;
+import com.qingxinsaas.system.api.model.LoginUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +29,15 @@ public class WxLoginController {
 
     @Autowired
     private WxAppProperties wxAppProperties;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private SysWxLoginService sysWxLoginService;
+
+    private static Long tenantId1 = null;
+
 
     @RequestMapping("/wxCheck")
     public String wxCheck(
@@ -65,15 +74,29 @@ public class WxLoginController {
     }
 
     @GetMapping("/wxCallback")
-    public WxUserInfo wxCallback(String code, String state, HttpServletRequest request, HttpServletResponse response,
+    public R<?> wxCallback(String code, String state, HttpServletRequest request, HttpServletResponse response,
                                  HttpSession session) throws Exception{
         log.info("获取到的授权码code：{}",code);
-//        String  userInfo = WechatUtil.getUserInfo("wxb9ac2f53388cb7a2", "9d02d31731cfd1cf3c4e7e33e7c46c17", code);
-        WxUserInfo userInfo = WechatUtil.getUserInfo(wxAppProperties.getAppid(), wxAppProperties.getSecret(), code);
-        System.out.println(userInfo);
-//        return code;
-        return userInfo;
+        WxUserInfo wxUserInfo = WechatUtil.getUserInfo(wxAppProperties.getAppid(), wxAppProperties.getSecret(), code);
+        System.out.println(wxUserInfo);
+
+        //微信用户登入
+        LoginUser userInfo = sysWxLoginService.login(wxUserInfo,tenantId1);
+
+        // 获取登录token
+        return R.ok(tokenService.createToken(userInfo));
     }
+
+
+
+//    获取租户id
+        @GetMapping("/saveTenantId")
+        public R<?> saveTenantId(@RequestParam("tenantId") String tenantId){
+            System.out.println("tenantId"+tenantId);
+            tenantId1 = Long.valueOf(tenantId);
+            return R.ok();
+        }
+
 
 
 }
