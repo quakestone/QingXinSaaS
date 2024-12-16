@@ -1,25 +1,25 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" label-width="68px">
-      <el-form-item label="登录地址" prop="ipaddr">
+      <el-form-item :label="$t('h.monitor.online.loginAddress')" prop="ipaddr">
         <el-input
           v-model="queryParams.ipaddr"
-          placeholder="请输入登录地址"
+          :placeholder="$t('h.monitor.online.pleaseInputLoginAddress')"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户名称" prop="userName">
+      <el-form-item :label="$t('h.monitor.online.userName')" prop="userName">
         <el-input
           v-model="queryParams.userName"
-          placeholder="请输入用户名称"
+          :placeholder="$t('h.monitor.online.pleaseInputUserName')"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{$t('h.monitor.online.search')}}</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{$t('h.monitor.online.reset')}}</el-button>
       </el-form-item>
 
     </el-form>
@@ -28,20 +28,20 @@
       :data="list.slice((pageNum-1)*pageSize,pageNum*pageSize)"
       style="width: 100%;"
     >
-      <el-table-column label="序号" type="index" align="center">
+      <el-table-column :label="$t('h.monitor.online.sequenceNumber')" type="index" align="center">
         <template slot-scope="scope">
           <span>{{(pageNum - 1) * pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="会话编号" align="center" prop="tokenId" :show-overflow-tooltip="true" />
-      <el-table-column label="登录名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-      <el-table-column label="主机" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
-      <el-table-column label="登录时间" align="center" prop="loginTime" width="180">
+      <el-table-column :label="$t('h.monitor.online.sessionNumber')" align="center" prop="tokenId" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('h.monitor.online.loginName')" align="center" prop="userName" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('h.monitor.online.host')" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('h.monitor.online.loginTime')" align="center" prop="loginTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.loginTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column :label="$t('h.monitor.online.operation')" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -49,7 +49,7 @@
             icon="el-icon-delete"
             @click="handleForceLogout(scope.row)"
             v-hasPermi="['monitor:online:forceLogout']"
-          >强退</el-button>
+          >{{$t('h.monitor.online.forceLogout')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -105,14 +105,13 @@ export default {
     },
     /** 强退按钮操作 */
     handleForceLogout(row) {
-      this.$modal.confirm('是否确认强退名称为"' + row.userName + '"的用户？').then(function() {
+      this.$modal.confirm(this.$t('h.monitor.online.confirmForceLogout', {userName: row.userName})).then(function() {
         return forceLogout(row.tokenId);
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("强退成功");
+        this.$modal.msgSuccess(this.$t('h.monitor.online.forceLogoutSuccess'));
       }).catch(() => {});
     }
   }
 };
 </script>
-
