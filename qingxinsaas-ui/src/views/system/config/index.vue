@@ -148,7 +148,7 @@
     />
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="$t('h.system.config.title')" :visible.sync="open" width="500px" append-to-body">
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item :label="$t('h.system.config.parameterName')" prop="configName">
           <el-input v-model="form.configName" :placeholder="$t('h.system.config.pleaseInputParameterName')" />
@@ -204,7 +204,7 @@ export default {
       configList: [],
       // 弹出层标题
       title: "",
-      // 是否显示弹出层
+      // 是否显示弹出层，初始化为 false，确保不会自动显示
       open: false,
       // 日期范围
       dateRange: [],
@@ -221,13 +221,13 @@ export default {
       // 表单校验
       rules: {
         configName: [
-          { required: true, message: "$t('h.system.config.parameterNameRequired')", trigger: "blur" }
+          { required: true, message: this.$t('h.system.config.parameterNameRequired'), trigger: "blur" }
         ],
         configKey: [
-          { required: true, message: "$t('h.system.config.parameterKeyRequired')", trigger: "blur" }
+          { required: true, message: this.$t('h.system.config.parameterKeyRequired'), trigger: "blur" }
         ],
         configValue: [
-          { required: true, message: "$t('h.system.config.parameterKeyValueRequired')", trigger: "blur" }
+          { required: true, message: this.$t('h.system.config.parameterKeyValueRequired'), trigger: "blur" }
         ]
       }
     };
@@ -278,7 +278,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "$t('h.system.config.addTitle')";
+      this.title = this.$t('h.system.config.addTitle');
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -289,11 +289,11 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const configId = row.configId || this.ids
+      const configId = row.configId || this.ids;
       getConfig(configId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "$t('h.system.config.updateTitle')";
+        this.title = this.$t('h.system.config.updateTitle');
       });
     },
     /** 提交按钮 */
@@ -302,13 +302,13 @@ export default {
         if (valid) {
           if (this.form.configId!= undefined) {
             updateConfig(this.form).then(response => {
-              this.$modal.msgSuccess("$t('h.system.config.updateSuccess')");
+              this.$modal.msgSuccess(this.$t('h.system.config.updateSuccess'));
               this.open = false;
               this.getList();
             });
           } else {
             addConfig(this.form).then(response => {
-              this.$modal.msgSuccess("$t('h.system.config.addSuccess')");
+              this.$modal.msgSuccess(this.$t('h.system.config.addSuccess'));
               this.open = false;
               this.getList();
             });
@@ -319,12 +319,15 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const configIds = row.configId || this.ids;
-      this.$modal.confirm(this.$t('h.system.config.confirmDelete', {configIds})).then(function() {
+      this.$modal.confirm(this.$t('h.system.config.confirmDelete', {configIds: configIds}))
+.then(() => {
           return delConfig(configIds);
-        }).then(() => {
+        })
+.then(() => {
           this.getList();
-          this.$modal.msgSuccess("$t('h.system.config.deleteSuccess')");
-        }).catch(() => {});
+          this.$modal.msgSuccess(this.$t('h.system.config.deleteSuccess'));
+        })
+.catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -335,7 +338,7 @@ export default {
     /** 刷新缓存按钮操作 */
     handleRefreshCache() {
       refreshCache().then(() => {
-        this.$modal.msgSuccess("$t('h.system.config.refreshSuccess')");
+        this.$modal.msgSuccess(this.$t('h.system.config.refreshSuccess'));
       });
     }
   }

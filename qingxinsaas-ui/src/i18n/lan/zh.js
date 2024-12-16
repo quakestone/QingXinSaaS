@@ -184,33 +184,44 @@ export const h = {
 
 
     system: {
-        config: {
-            parameterName: "参数名称",
-            parameterKey: "参数键名",
-            systemBuiltIn: "系统内置",
-            createTime: "创建时间",
-            search: "搜索",
-            reset: "重置",
-            add: "新增",
-            update: "修改",
-            delete: "删除",
-            export: "导出",
-            refreshCache: "刷新缓存",
-            parameterPrimaryKey: "参数主键",
-            parameterKeyValue: "参数键值",
-            remark: "备注",
-            operation: "操作",
-            confirmDelete: "是否确认删除参数编号为{configIds}的数据项？",
-            deleteSuccess: "删除成功",
-            addSuccess: "新增成功",
-            updateSuccess: "修改成功",
-            refreshSuccess: "刷新成功",
-            pleaseInputParameterName: "请输入参数名称",
-            pleaseInputParameterKey: "请输入参数键名",
-            pleaseInputParameterKeyValue: "请输入参数键值",
-            parameterNameRequired: "参数名称不能为空",
-            parameterKeyRequired: "参数键名不能为空",
-            parameterKeyValueRequired: "参数键值不能为空"
+        "config": {
+            "parameterName": "参数名称",
+            "pleaseInputParameterName": "请输入参数名称",
+            "parameterKey": "参数键",
+            "pleaseInputParameterKey": "请输入参数键",
+            "systemBuiltIn": "系统内置",
+            "createTime": "创建时间",
+            "startDate": "开始日期",
+            "endDate": "结束日期",
+            "search": "搜索",
+            "reset": "重置",
+            "add": "新增",
+            "update": "修改",
+            "delete": "删除",
+            "export": "导出",
+            "refreshCache": "刷新缓存",
+            "parameterPrimaryKey": "参数主键",
+            "parameterKeyValue": "参数键值",
+            "remark": "备注",
+            "operation": "操作",
+            "title": {
+                "addTitle": "新增配置",
+                "updateTitle": "修改配置"
+            },
+            "confirm": "确定",
+            "cancel": "取消",
+            "parameterNameRequired": "参数名称不能为空",
+            "parameterKeyRequired": "参数键不能为空",
+            "parameterKeyValueRequired": "参数键值不能为空",
+            "confirmDelete": "是否确认删除参数主键为 {configIds} 的数据项？",
+            "updateSuccess": "修改成功",
+            "addSuccess": "新增成功",
+            "deleteSuccess": "删除成功",
+            "refreshSuccess": "刷新成功",
+            "addTitle":"新增参数",
+            "updateTitle":"更新参数",
+            "pleaseInputParameterKeyValue":"请输入参数键值",
+            "pleaseInputContent":"请输入内容"
         },
 
         dept: {
@@ -317,6 +328,33 @@ export const h = {
                 "cancel": "取消"
             }
         },
+
+        "logininfo":{
+            "loginAddress": "登录地址",
+            "userName": "用户名称",
+            "status": "状态",
+            "search": "搜索",
+            "reset": "重置",
+            "delete": "删除",
+            "clean": "清空",
+            "unlock": "解锁",
+            "export": "导出",
+            "accessId": "访问编号",
+            "address": "地址",
+            "description": "描述",
+            "accessTime": "访问时间",
+            "confirmDelete": "是否确认删除访问编号为{infoIds}的数据项？",
+            "deleteSuccess": "删除成功",
+            "cleanSuccess": "清空成功",
+            "unlockSuccess": "解锁成功",
+            "pleaseInputLoginAddress": "请输入登录地址",
+            "pleaseInputUserName": "请输入用户名称",
+            "loginStatus": "登录状态",
+            "startPlaceholder": "开始日期",
+            "endPlaceholder": "结束日期"
+        },
+
+
 
 
 
