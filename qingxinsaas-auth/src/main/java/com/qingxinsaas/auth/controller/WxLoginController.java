@@ -59,9 +59,6 @@ public class WxLoginController {
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
                 "appid="+wxAppProperties.getAppid()+"&redirect_uri="+redirectUrl+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         //生成二维码
-//        response.setContentType("image/png");
-//        QrCodeUtil.generate(url, 300, 300, "jpg",response.getOutputStream());
-        // 将图像转换为字节数组
         BufferedImage qrCodeImage = QrCodeUtil.generate(url, 300, 300);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(qrCodeImage, "png", baos);

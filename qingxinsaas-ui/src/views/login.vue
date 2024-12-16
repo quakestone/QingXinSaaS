@@ -1,93 +1,62 @@
 <template>
   <div class="login">
+    <!-- 选择语言 -->
+    <LanguageSelector  class="language-selector" />
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form">
 
-      <h3 class="title">若依后台管理系统</h3>
+      <h3 class="title">{{ $t('h.login.title') }}</h3>
       <!-- 新增多租户选择区域 -->
       <el-form-item>
-        <el-select v-model="selectedTenant" placeholder="请选择租户" @change="handleTenantSelect">
-          <el-option
-            v-for="tenant in tenantList"
-            :key="tenant.id"
-            :label="tenant.name"
-            :value="tenant.id"
-          >
+        <el-select v-model="selectedTenant" :placeholder="$t('h.login.tenant')" @change="handleTenantSelect">
+          <el-option v-for="tenant in tenantList" :key="tenant.id" :label="tenant.name" :value="tenant.id">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item prop="username">
-        <el-input
-          v-model="loginForm.username"
-          type="text"
-          auto-complete="off"
-          placeholder="账号"
-        >
+        <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('h.login.username')">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          v-model="loginForm.password"
-          type="password"
-          auto-complete="off"
-          placeholder="密码"
-          @keyup.enter.native="handleLogin"
-        >
+        <el-input v-model="loginForm.password" type="password" auto-complete="off" :placeholder="$t('h.login.password')"
+          @keyup.enter.native="handleLogin">
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
-        <el-input
-          v-model="loginForm.code"
-          auto-complete="off"
-          placeholder="验证码"
-          style="width: 63%"
-          @keyup.enter.native="handleLogin"
-        >
+        <el-input v-model="loginForm.code" auto-complete="off" :placeholder="$t('h.login.code')" style="width: 63%"
+          @keyup.enter.native="handleLogin">
           <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
         </el-input>
         <div class="login-code">
           <img :src="codeUrl" @click="getCode" class="login-code-img" />
         </div>
       </el-form-item>
-      <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px;">记住密码</el-checkbox>
+      <el-checkbox v-model="loginForm.rememberMe" style="margin: 0px 0px 25px 0px;">{{$t('h.login.rememberme')}}</el-checkbox>
       <el-form-item style="width: 100%;">
-        <el-button
-          :loading="loading"
-          size="medium"
-          type="primary"
-          style="width: 100%;"
-          @click.native.prevent="handleLogin"
-        >
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
+        <el-button :loading="loading" size="medium" type="primary" style="width: 100%;"
+          @click.native.prevent="handleLogin">
+          <span v-if="!loading">{{$t('h.login.logIn')}}</span>
+          <span v-else>{{$t('h.login.loginIng')}}</span>
         </el-button>
         <!-- 添加微信登录和支付宝登录按钮 -->
-        <el-button
-          size="medium"
-          type="info"
-          style="width: 100%; margin-top: 10px;"
-          @click="handleWeChatLogin"
-        >微信登录</el-button>
-        <el-button
-          size="medium"
-          type="success"
-          style="width: 100%; margin-top: 10px;"
-          @click="handleAlipayLogin"
-        >支付宝登录</el-button>
+        <el-button size="medium" type="info" style="width: 100%; margin-top: 10px;"
+          @click="handleWeChatLogin">{{$t('h.login.wxLogin')}}</el-button>
+        <el-button size="medium" type="success" style="width: 100%; margin-top: 10px;"
+          @click="handleAlipayLogin">{{$t('h.login.aliLogin')}}</el-button>
         <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
+          <router-link class="link-type" :to="'/register'">{{$t('h.login.SignUp')}}</router-link>
         </div>
       </el-form-item>
     </el-form>
 
 
-     <!-- 微信二维码弹窗组件 -->
-     <el-dialog title="微信登录" :visible.sync="dialogVisible" width="30%">
-      <p>微信扫码登入前，请先选择租户！！！</p>
-      <img :src="qrCodeImage" alt="微信登录二维码" style="width: 100%;">
+    <!-- 微信二维码弹窗组件 -->
+    <el-dialog :title="$t('h.login.wxTitle')" :visible.sync="dialogVisible" width="30%">
+      <p>{{$t('h.login.wxDes')}}</p>
+      <img :src="qrCodeImage" :alt="$t('h.login.wxCode')" style="width: 100%;">
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="dialogVisible = false">{{$t('h.login.cancel')}}</el-button>
       </span>
     </el-dialog>
 
@@ -99,13 +68,15 @@
 </template>
 
 <script>
-import { getCodeImg,getTenantList,wxLogin,saveTenantId} from "@/api/login";
+import { getCodeImg, getTenantList, wxLogin, saveTenantId } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
 
+
 export default {
   name: "Login",
+  
   data() {
     return {
       codeUrl: "",
@@ -132,11 +103,11 @@ export default {
       // 验证码开关
       captchaEnabled: true,
       // 注册开关
-      register: true,
+      register: false,
       redirect: undefined,
       selectedTenant: '', // 选中的租户id
-      qrCodeImage:"",
-      dialogVisible:false,//是否显示微信登入弹窗
+      qrCodeImage: "",
+      dialogVisible: false,//是否显示微信登入弹窗
       weChatCode: '',  // 微信登录获取的授权码等相关数据（根据微信登录流程确定具体存储内容）
       alipayCode: '',  // 支付宝登录获取的授权码等相关数据（根据支付宝登录流程确定具体存储内容）
       tenantList: [
@@ -167,7 +138,7 @@ export default {
   methods: {
     getCode() {
       getCodeImg().then(res => {
-        this.captchaEnabled = res.captchaEnabled === undefined? true : res.captchaEnabled;
+        this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
         if (this.captchaEnabled) {
           this.codeUrl = "data:image/gif;base64," + res.img;
           this.loginForm.uuid = res.uuid;
@@ -179,9 +150,9 @@ export default {
       const password = Cookies.get("password");
       const rememberMe = Cookies.get('rememberMe')
       this.loginForm = {
-        username: username === undefined? this.loginForm.username : username,
-        password: password === undefined? this.loginForm.password : decrypt(password),
-        rememberMe: rememberMe === undefined? false : Boolean(rememberMe)
+        username: username === undefined ? this.loginForm.username : username,
+        password: password === undefined ? this.loginForm.password : decrypt(password),
+        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
       };
     },
     // 获取租户列表方法
@@ -208,7 +179,7 @@ export default {
           }
           // 将租户id添加到登录表单数据中传递给后端
           this.loginForm.tenantId = this.selectedTenant;
-          console.log("提交表单：",this.loginForm);
+          console.log("提交表单：", this.loginForm);
           this.$store.dispatch("Login", this.loginForm).then(() => {
             // login(this.loginForm.username,this.loginForm.password,this.loginForm.code,this.loginForm.uuid,this.loginForm.tenantId).then(()=>{
             this.$router.push({ path: this.redirect || "/" }).catch(() => { });
@@ -241,12 +212,12 @@ export default {
 
       // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb9ac2f53388cb7a2&redirect_uri=https://c4b0e58.r23.cpolar.top/wx/wxCallback&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
       // 后续在回调页面（redirect_uri指向的页面）获取授权码等信息并处理登录逻辑
-      
+
       //跳转WxLogin页面，并在回调页面处理微信登录逻辑
 
       // 请求后端接口
       wxLogin().then(res => {
-        console.log('微信登录',res);
+        console.log('微信登录', res);
         this.qrCodeImage = `data:image/png;base64,${res.data}`;
         this.dialogVisible = true; // 显示弹窗
       }).catch(() => {
@@ -266,6 +237,7 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .login {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -285,13 +257,16 @@ export default {
   background: #ffffff;
   width: 400px;
   padding: 25px 25px 5px 25px;
-.el-input {
+
+  .el-input {
     height: 38px;
+
     input {
       height: 38px;
     }
   }
-.input-icon {
+
+  .input-icon {
     height: 39px;
     width: 14px;
     margin-left: 2px;
@@ -308,6 +283,7 @@ export default {
   width: 33%;
   height: 38px;
   float: right;
+
   img {
     cursor: pointer;
     vertical-align: middle;
@@ -329,5 +305,12 @@ export default {
 
 .login-code-img {
   height: 38px;
+}
+
+.language-selector {
+  position: fixed;
+  top: 20px; /* 调整顶部距离 */
+  right: 20px; /* 调整右侧距离 */
+  z-index: 1000; /* 确保组件在最上层 */
 }
 </style>
