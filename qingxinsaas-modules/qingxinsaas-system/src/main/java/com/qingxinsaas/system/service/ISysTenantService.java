@@ -4,26 +4,32 @@ import com.qingxinsaas.system.api.domain.SysTenant;
 
 import java.util.List;
 
-
 /**
  * 租户管理Service接口
- * 
- * @author qingxinsaas
- * @date 2024-12-10
+ *
+ * @author wwj
+ * @date 2024-12-06
  */
-public interface ISysTenantService 
-{
+public interface ISysTenantService {
     /**
      * 查询租户管理
-     * 
+     *
      * @param tenantId 租户管理主键
      * @return 租户管理
      */
     public SysTenant selectSysTenantByTenantId(Long tenantId);
 
     /**
+     * 查询租户管理
+     *
+     * @param tenantName 租户管理租户名称
+     * @return 租户管理
+     */
+    public SysTenant selectSysTenantByTenantName(String tenantName);
+
+    /**
      * 查询租户管理列表
-     * 
+     *
      * @param sysTenant 租户管理
      * @return 租户管理集合
      */
@@ -31,7 +37,7 @@ public interface ISysTenantService
 
     /**
      * 新增租户管理
-     * 
+     *
      * @param sysTenant 租户管理
      * @return 结果
      */
@@ -39,7 +45,7 @@ public interface ISysTenantService
 
     /**
      * 修改租户管理
-     * 
+     *
      * @param sysTenant 租户管理
      * @return 结果
      */
@@ -47,7 +53,7 @@ public interface ISysTenantService
 
     /**
      * 批量删除租户管理
-     * 
+     *
      * @param tenantIds 需要删除的租户管理主键集合
      * @return 结果
      */
@@ -55,11 +61,9 @@ public interface ISysTenantService
 
     /**
      * 删除租户管理信息
-     * 
+     *
      * @param tenantId 租户管理主键
      * @return 结果
      */
     public int deleteSysTenantByTenantId(Long tenantId);
-
-    SysTenant selectSysTenantByTenantName(String tenant);
 }
