@@ -3,6 +3,8 @@ package com.qingxinsaas.system.api.domain;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
+
+import com.qingxinsaas.common.core.web.domain.TenantEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.qingxinsaas.common.core.annotation.Excel;
@@ -17,7 +19,7 @@ import com.qingxinsaas.common.core.xss.Xss;
  * 
  * @author ruoyi
  */
-public class SysUser extends BaseEntity
+public class SysUser extends TenantEntity
 {
     private static final long serialVersionUID = 1L;
 
