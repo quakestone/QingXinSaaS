@@ -21,16 +21,20 @@
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="tenantDataType"    column="tenant_data_type"    />
+        <result property="parentTenantId"    column="parent_tenant_id"    />
     </resultMap>
 
     <sql id="selectSysTenantVo">
-        select tenant_id, tenant_name, db_url, db_host, db_name, db_username, db_password, contact_name, contact_mobile, expire_time, status, del_flag, create_by, create_time, update_by, update_time from sys_tenant
+        select tenant_id, tenant_name, db_url, db_host, db_name, db_username, db_password, contact_name, contact_mobile, expire_time, status, del_flag, create_by, create_time, update_by, update_time, tenant_data_type, parent_tenant_id from sys_tenant
     </sql>
 
     <select id="selectSysTenantList" parameterType="SysTenant" resultMap="SysTenantResult">
         <include refid="selectSysTenantVo"/>
         <where>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
+            <if test="tenantDataType != null  and tenantDataType != ''"> and tenant_data_type = #{tenantDataType}</if>
+            <if test="parentTenantId != null "> and parent_tenant_id = #{parentTenantId}</if>
         </where>
     </select>
 
@@ -38,7 +42,6 @@
         <include refid="selectSysTenantVo"/>
         where tenant_id = #{tenantId}
     </select>
-
     <select id="selectSysTenantByTenantName" parameterType="String" resultMap="SysTenantResult">
         <include refid="selectSysTenantVo"/>
         where tenant_name = #{tenantName}
@@ -62,7 +65,9 @@
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
-        </trim>
+            <if test="tenantDataType != null">tenant_data_type,</if>
+            <if test="parentTenantId != null">parent_tenant_id,</if>
+         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="tenantName != null">#{tenantName},</if>
             <if test="dbUrl != null">#{dbUrl},</if>
@@ -79,7 +84,9 @@
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
-        </trim>
+            <if test="tenantDataType != null">#{tenantDataType},</if>
+            <if test="parentTenantId != null">#{parentTenantId},</if>
+         </trim>
     </insert>
 
     <update id="updateSysTenant" parameterType="SysTenant">
@@ -100,6 +107,8 @@
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="tenantDataType != null">tenant_data_type = #{tenantDataType},</if>
+            <if test="parentTenantId != null">parent_tenant_id = #{parentTenantId},</if>
         </trim>
         where tenant_id = #{tenantId}
     </update>

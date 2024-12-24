@@ -26,7 +26,7 @@ public class TenantWebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tenantInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/logout", "/refresh", "/user/info/**")
+                // .excludePathPatterns("/login", "/logout", "/refresh", "/user/info/**")
                 .order(-9);
     }
 
