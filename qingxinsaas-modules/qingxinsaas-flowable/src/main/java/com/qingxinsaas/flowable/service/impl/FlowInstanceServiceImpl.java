@@ -85,7 +85,9 @@ public class FlowInstanceServiceImpl extends FlowServiceFactory implements IFlow
     @Override
     public HistoricProcessInstance getHistoricProcessInstanceById(String processInstanceId) {
         HistoricProcessInstance historicProcessInstance =
-                historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+                historyService.createHistoricProcessInstanceQuery()
+                        .processInstanceId(processInstanceId)
+                        .singleResult();
         if (Objects.isNull(historicProcessInstance)) {
             throw new FlowableObjectNotFoundException("流程实例不存在: " + processInstanceId);
         }

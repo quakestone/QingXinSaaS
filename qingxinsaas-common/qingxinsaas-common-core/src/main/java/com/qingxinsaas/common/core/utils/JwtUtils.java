@@ -120,4 +120,27 @@ public class JwtUtils
     {
         return Convert.toStr(claims.get(key), "");
     }
+
+    /**
+     * 根据令牌获取租户ID
+     *
+     * @param token 令牌
+     * @return 租户ID
+     */
+    public static String getTenantId(String token)
+    {
+        Claims claims = parseToken(token);
+        return getValue(claims, SecurityConstants.DETAILS_TENANT_ID);
+    }
+
+    /**
+     * 根据身份信息获取租户ID
+     *
+     * @param claims 身份信息
+     * @return 租户ID
+     */
+    public static String getTenantId(Claims claims)
+    {
+        return getValue(claims, SecurityConstants.DETAILS_TENANT_ID);
+    }
 }

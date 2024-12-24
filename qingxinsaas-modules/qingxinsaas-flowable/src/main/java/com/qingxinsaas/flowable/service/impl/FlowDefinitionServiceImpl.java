@@ -95,7 +95,12 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
      */
     @Override
     public void importFile(String name, String category, InputStream in) {
-        Deployment deploy = repositoryService.createDeployment().addInputStream(name + BPMN_FILE_SUFFIX, in).name(name).category(category).deploy();
+        Deployment deploy = repositoryService.createDeployment()
+                .addInputStream(name + BPMN_FILE_SUFFIX, in)
+                .name(name)
+                .category(category)
+                .tenantId(SecurityUtils.getLoginUser().getSysUser().getTenantId().toString())
+                .deploy();
         ProcessDefinition definition = repositoryService.createProcessDefinitionQuery().deploymentId(deploy.getId()).singleResult();
         repositoryService.setProcessDefinitionCategory(definition.getId(), category);
     }
@@ -108,7 +113,9 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
      */
     @Override
     public AjaxResult readXml(String deployId) throws IOException {
-        ProcessDefinition definition = repositoryService.createProcessDefinitionQuery().deploymentId(deployId).singleResult();
+        ProcessDefinition definition = repositoryService.createProcessDefinitionQuery()
+                .deploymentId(deployId)
+                .singleResult();
         InputStream inputStream = repositoryService.getResourceAsStream(definition.getDeploymentId(), definition.getResourceName());
         String result = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
         return AjaxResult.success("", result);
@@ -122,7 +129,9 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
      */
     @Override
     public InputStream readImage(String deployId) {
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployId).singleResult();
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .deploymentId(deployId)
+                .singleResult();
         //获得图片流
         DefaultProcessDiagramGenerator diagramGenerator = new DefaultProcessDiagramGenerator();
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
@@ -138,7 +147,6 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
                 null,
                 1.0,
                 false);
-
     }
 
     /**
@@ -151,8 +159,10 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
     @Override
     public AjaxResult startProcessInstanceById(String procDefId, Map<String, Object> variables) {
         try {
-            ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(procDefId)
-                    .latestVersion().singleResult();
+            ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                    .processDefinitionId(procDefId)
+                    .latestVersion()
+                    .singleResult();
             if (Objects.nonNull(processDefinition) && processDefinition.isSuspended()) {
                 return AjaxResult.error("流程已被挂起,请先激活流程");
             }
@@ -164,7 +174,9 @@ public class FlowDefinitionServiceImpl extends FlowServiceFactory implements IFl
             // 流程发起时 跳过发起人节点
             ProcessInstance processInstance = runtimeService.startProcessInstanceById(procDefId, variables);
             // 给第一步申请人节点设置任务执行人和意见
-            Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
+            Task task = taskService.createTaskQuery()
+                    .processInstanceId(processInstance.getProcessInstanceId())
+                    .singleResult();
             if (Objects.nonNull(task)) {
                 taskService.addComment(task.getId(), processInstance.getProcessInstanceId(), FlowComment.NORMAL.getType(), sysUser.getNickName() + "发起流程申请");
                 taskService.complete(task.getId(), variables);

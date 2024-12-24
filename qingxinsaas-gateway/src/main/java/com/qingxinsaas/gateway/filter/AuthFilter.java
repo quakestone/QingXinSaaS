@@ -67,15 +67,17 @@ public class AuthFilter implements GlobalFilter, Ordered
         {
             return unauthorizedResponse(exchange, "登录状态已过期");
         }
+        String tenantid = JwtUtils.getTenantId(claims);
         String userid = JwtUtils.getUserId(claims);
         String username = JwtUtils.getUserName(claims);
-        if (StringUtils.isEmpty(userid) || StringUtils.isEmpty(username))
+        if (StringUtils.isEmpty(tenantid) ||StringUtils.isEmpty(userid) || StringUtils.isEmpty(username))
         {
             return unauthorizedResponse(exchange, "令牌验证失败");
         }
 
         // 设置用户信息到请求
         addHeader(mutate, SecurityConstants.USER_KEY, userkey);
+        addHeader(mutate, SecurityConstants.DETAILS_TENANT_ID, tenantid);
         addHeader(mutate, SecurityConstants.DETAILS_USER_ID, userid);
         addHeader(mutate, SecurityConstants.DETAILS_USERNAME, username);
         // 内部请求来源参数清除
