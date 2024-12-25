@@ -41,8 +41,8 @@
           value-format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
-          start-placeholder="$t('h.system.dict.index.startPlaceholder')"
-          end-placeholder="$t('h.system.dict.index.endPlaceholder')"
+          :start-placeholder="$t('h.system.dict.index.startPlaceholder')"
+          :end-placeholder="$t('h.system.dict.index.endPlaceholder')"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>

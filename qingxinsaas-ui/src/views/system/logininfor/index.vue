@@ -41,8 +41,8 @@
           value-format="yyyy-MM-dd HH:mm:ss"
           type="daterange"
           range-separator="-"
-          start-placeholder="$t('h.system.logininfo.startPlaceholder')"
-          end-placeholder="$t('h.system.logininfo.endPlaceholder')"
+          :start-placeholder="$t('h.system.logininfo.startPlaceholder')"
+          :end-placeholder="$t('h.system.logininfo.endPlaceholder')"
           :default-time="['00:00:00', '23:59:59']"
         ></el-date-picker>
       </el-form-item>

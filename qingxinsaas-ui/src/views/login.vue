@@ -131,11 +131,21 @@ export default {
     }
   },
   created() {
+    this.getCurrentUrl();
     this.getCode();
     this.getCookie();
     this.getTenantList1(); // 初始化获取租户列表
+    
   },
   methods: {
+    //获取当前url域名
+    getCurrentUrl() {
+    const currentUrl = window.location.href;
+    console.log('当前URL:', currentUrl);
+    const url = new URL(currentUrl);
+    const host = url.hostname;
+    console.log('当前URL域名:', host);
+  },
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
@@ -230,7 +240,8 @@ export default {
       window.location.href = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=YOUR_APP_ID&scope=auth_user&redirect_uri=YOUR_REDIRECT_URI&state=STATE';
       // 同样在回调页面处理后续登录逻辑
     }
-  }
+  },
+ 
 };
 
 </script>
