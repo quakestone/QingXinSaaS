@@ -9,6 +9,7 @@ import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.system.api.RemoteUserService;
 import com.qingxinsaas.system.api.domain.SysUser;
 import com.qingxinsaas.system.api.model.LoginUser;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
@@ -28,9 +29,14 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService()
         {
             @Override
-            public R<LoginUser> getUserInfo(String username, String source)
+            public R<LoginUser> getUserInfo(String username,Long tenantId, String source)
             {
                 return R.fail("获取用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<LoginUser> getWxUserInfo(String openId, Long tenantId , String source) {
+                return R.fail("获取微信用户失败:" + throwable.getMessage());
             }
 
             @Override

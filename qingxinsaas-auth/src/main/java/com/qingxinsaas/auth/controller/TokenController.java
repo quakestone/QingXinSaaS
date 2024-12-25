@@ -1,6 +1,9 @@
 package com.qingxinsaas.auth.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.qingxinsaas.auth.service.TenantService;
+import com.qingxinsaas.system.api.model.LoginTenant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,8 @@ import com.qingxinsaas.common.security.service.TokenService;
 import com.qingxinsaas.common.security.utils.SecurityUtils;
 import com.qingxinsaas.system.api.model.LoginUser;
 
+import java.util.List;
+
 /**
  * token 控制
  * 
@@ -31,14 +36,28 @@ public class TokenController
     @Autowired
     private SysLoginService sysLoginService;
 
+    @Autowired
+    private TenantService tenantService;
+
     @PostMapping("login")
     public R<?> login(@RequestBody LoginBody form)
     {
+        System.out.println("租户id："+form.getTenantId());
+        Long tenantId = Long.valueOf(form.getTenantId());
         // 用户登录
-        LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
+        LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword(), tenantId);
         // 获取登录token
         return R.ok(tokenService.createToken(userInfo));
     }
+
+//    @PostMapping("tenantList")
+//    public R<?> tenantList()
+//    {
+//        // 获取租户列表
+//        List<LoginTenant> tenantList = tenantService.getTenantList();
+//        // 获取登录token
+//        return R.ok(tenantList);
+//    }
 
     @DeleteMapping("logout")
     public R<?> logout(HttpServletRequest request)

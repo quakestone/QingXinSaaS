@@ -1,28 +1,28 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="登录地址" prop="ipaddr">
+      <el-form-item :label="$t('h.system.logininfo.loginAddress')" prop="ipaddr">
         <el-input
           v-model="queryParams.ipaddr"
-          placeholder="请输入登录地址"
+          :placeholder="$t('h.system.logininfo.pleaseInputLoginAddress')"
           clearable
           style="width: 240px;"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户名称" prop="userName">
+      <el-form-item :label="$t('h.system.logininfo.userName')" prop="userName">
         <el-input
           v-model="queryParams.userName"
-          placeholder="请输入用户名称"
+          :placeholder="$t('h.system.logininfo.pleaseInputUserName')"
           clearable
           style="width: 240px;"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态" prop="status">
+      <el-form-item :label="$t('h.system.logininfo.status')" prop="status">
         <el-select
           v-model="queryParams.status"
-          placeholder="登录状态"
+          :placeholder="$t('h.system.logininfo.loginStatus')"
           clearable
           style="width: 240px"
         >
@@ -34,21 +34,21 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="登录时间">
+      <el-form-item :label="$t('h.system.logininfo.accessTime')" prop="accessTime">
         <el-date-picker
           v-model="dateRange"
           style="width: 240px"
           value-format="yyyy-MM-dd HH:mm:ss"
           type="daterange"
           range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :start-placeholder="$t('h.system.logininfo.startPlaceholder')"
+          :end-placeholder="$t('h.system.logininfo.endPlaceholder')"
           :default-time="['00:00:00', '23:59:59']"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">{{$t('h.system.logininfo.search')}}</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">{{$t('h.system.logininfo.reset')}}</el-button>
       </el-form-item>
     </el-form>
 
@@ -62,7 +62,7 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['system:logininfor:remove']"
-        >删除</el-button>
+        >{{$t('h.system.logininfo.delete')}}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -72,7 +72,7 @@
           size="mini"
           @click="handleClean"
           v-hasPermi="['system:logininfor:remove']"
-        >清空</el-button>
+        >{{$t('h.system.logininfo.clean')}}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -83,7 +83,7 @@
           :disabled="single"
           @click="handleUnlock"
           v-hasPermi="['system:logininfor:unlock']"
-        >解锁</el-button>
+        >{{$t('h.system.logininfo.unlock')}}</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -93,23 +93,23 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['system:logininfor:export']"
-        >导出</el-button>
+        >{{$t('h.system.logininfo.export')}}</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table ref="tables" v-loading="loading" :data="list" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="访问编号" align="center" prop="infoId" />
-      <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
-      <el-table-column label="地址" align="center" prop="ipaddr" width="130" :show-overflow-tooltip="true" />
-      <el-table-column label="登录状态" align="center" prop="status">
+      <el-table-column :label="$t('h.system.logininfo.accessId')" align="center" prop="infoId" />
+      <el-table-column :label="$t('h.system.logininfo.userName')" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+      <el-table-column :label="$t('h.system.logininfo.address')" align="center" prop="ipaddr" width="130" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('h.system.logininfo.status')" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="描述" align="center" prop="msg" :show-overflow-tooltip="true" />
-      <el-table-column label="访问时间" align="center" prop="accessTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
+      <el-table-column :label="$t('h.system.logininfo.description')" align="center" prop="msg" :show-overflow-tooltip="true" />
+      <el-table-column :label="$t('h.system.logininfo.accessTime')" align="center" prop="accessTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.accessTime) }}</span>
         </template>
@@ -128,7 +128,6 @@
 
 <script>
 import { list, delLogininfor, cleanLogininfor, unlockLogininfor } from "@/api/system/logininfor";
-
 export default {
   name: "Logininfor",
   dicts: ['sys_common_status'],
@@ -193,8 +192,8 @@ export default {
     /** 多选框选中数据 */
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.infoId)
-      this.single = selection.length!=1
-      this.multiple = !selection.length
+      this.single = selection.length!= 1
+      this.multiple =!selection.length
       this.selectName = selection.map(item => item.userName);
     },
     /** 排序触发事件 */
@@ -206,38 +205,43 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const infoIds = row.infoId || this.ids;
-      this.$modal.confirm('是否确认删除访问编号为"' + infoIds + '"的数据项？').then(function() {
-        return delLogininfor(infoIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      this.$modal.confirm(this.$t('h.system.logininfo.confirmDelete', {infoIds: infoIds}))
+.then(() => {
+          return delLogininfor(infoIds);
+        })
+.then(() => {
+          this.getList();
+          this.$modal.msgSuccess(this.$t('h.system.logininfo.deleteSuccess'));
+        })
+.catch(() => {});
     },
     /** 清空按钮操作 */
     handleClean() {
-      this.$modal.confirm('是否确认清空所有登录日志数据项？').then(function() {
+      this.$modal.confirm(this.$t('h.system.logininfo.confirmClean', {})).then(function() {
         return cleanLogininfor();
       }).then(() => {
         this.getList();
-        this.$modal.msgSuccess("清空成功");
+        this.$modal.msgSuccess(this.$t('h.system.logininfo.cleanSuccess'));
       }).catch(() => {});
     },
     /** 解锁按钮操作 */
     handleUnlock() {
       const username = this.selectName;
-      this.$modal.confirm('是否确认解锁用户"' + username + '"数据项?').then(function() {
-        return unlockLogininfor(username);
-      }).then(() => {
-        this.$modal.msgSuccess("用户" + username + "解锁成功");
-      }).catch(() => {});
+      this.$modal.confirm(this.$t('h.system.logininfo.confirmUnlock', {username: username}))
+.then(() => {
+          return unlockLogininfor(username);
+        })
+.then(() => {
+          this.$modal.msgSuccess(this.$t('h.system.logininfo.unlockSuccess'));
+        })
+.catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
       this.download('system/logininfor/export', {
-        ...this.queryParams
-      }, `logininfor_${new Date().getTime()}.xlsx`)
+...this.queryParams
+      }, `logininfor_${new Date().getTime()}.xlsx`);
     }
   }
 };
 </script>
-

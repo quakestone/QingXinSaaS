@@ -41,7 +41,7 @@ public interface SysUserMapper
      * @param userName 用户名
      * @return 用户对象信息
      */
-    public SysUser selectUserByUserName(String userName);
+    public SysUser selectUserByUserName(@Param("userName") String userName);
 
     /**
      * 通过用户ID查询用户
@@ -124,4 +124,20 @@ public interface SysUserMapper
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+    /**
+     * 通过第三方openId查询用户
+     * @param openId
+     * @return
+     */
+    SysUser selectUserByOpenIdAndTenantId(@Param("openId") String openId,@Param("tenantId") Long tenantId);
+
+
+    /**
+     * 通过用户名和租户id获取用户
+     * @param username
+     * @param tenantId
+     * @return
+     */
+    SysUser selectUserByUserNameAndTenantId(@Param("username") String username, @Param("tenantId") Long tenantId);
 }
