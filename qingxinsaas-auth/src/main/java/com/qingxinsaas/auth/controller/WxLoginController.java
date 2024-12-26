@@ -36,7 +36,7 @@ public class WxLoginController {
     @Autowired
     private SysWxLoginService sysWxLoginService;
 
-    private static Long tenantId1 = null;
+    private static Long tenantId1 = 2l;
 
 
     @RequestMapping("/wxCheck")
@@ -51,13 +51,13 @@ public class WxLoginController {
     }
 
     @GetMapping("/wxLogin")
-    public R<?> wxLogin(HttpServletResponse response)throws Exception{
-        System.out.println("wxAppProperties"+wxAppProperties);
+    public R<?> wxLogin(HttpServletResponse response,String domainName)throws Exception{
+        System.out.println("domainName"+domainName);
         //回调地址
         String redirectUrl = URLEncoder.encode(wxAppProperties.getRedirectUrl(),"UTF-8");
         //构造二维码地址
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
-                "appid="+wxAppProperties.getAppid()+"&redirect_uri="+redirectUrl+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+                "appid="+wxAppProperties.getAppid()+"&redirect_uri="+redirectUrl+"&response_type=code&scope="+wxAppProperties.getScope()+"&state=STATE#wechat_redirect";
         //生成二维码
         BufferedImage qrCodeImage = QrCodeUtil.generate(url, 300, 300);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

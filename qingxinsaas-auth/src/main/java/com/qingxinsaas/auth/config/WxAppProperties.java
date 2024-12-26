@@ -19,4 +19,6 @@ public class WxAppProperties {
     private String secret;
     @Value("${oauth2.wx.redirectUrl}")
     private String redirectUrl;
+    @Value("${oauth2.wx.scope}")
+    private String scope;
 }

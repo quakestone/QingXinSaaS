@@ -29,7 +29,7 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService()
         {
             @Override
-            public R<LoginUser> getUserInfo(String username,Long tenantId, String source)
+            public R<LoginUser> getUserInfo(String username,String domainName, String source)
             {
                 return R.fail("获取用户失败:" + throwable.getMessage());
             }

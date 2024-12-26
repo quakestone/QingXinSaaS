@@ -95,8 +95,6 @@ public class SysUser extends BaseEntity
 
     private String thirdPartyOpenid;
 
-
-
     public SysUser()
     {
 

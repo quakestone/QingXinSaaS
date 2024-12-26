@@ -117,14 +117,14 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * 通过用户名和租户id获取用户
+     * 通过用户名和域名获取用户
      * @param username
-     * @param tenantId
+     * @param domainName
      * @return
      */
     @Override
-    public SysUser selectUserByUserNameAndTenantId(String username, Long tenantId){
-        return userMapper.selectUserByUserNameAndTenantId(username,tenantId);
+    public SysUser selectUserByUserNameAndDomainName(String username,String domainName){
+        return userMapper.selectUserByUserNameAndDomainName(username,domainName);
     }
 
     /**

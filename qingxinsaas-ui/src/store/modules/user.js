@@ -42,9 +42,10 @@ const user = {
       const password = userInfo.password
       const code = userInfo.code
       const uuid = userInfo.uuid
-      const tenantId = userInfo.tenantId
+      // const tenantId = userInfo.tenantId
+      const domainName = userInfo.domainName
       return new Promise((resolve, reject) => {
-        login(username, password, code, uuid,tenantId).then(res => {
+        login(username, password, code, uuid,domainName).then(res => {
           let data = res.data
           setToken(data.access_token)
           commit('SET_TOKEN', data.access_token)

@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="thirdPartyPlatform"       column="third_party_platform"       />
 		<result property="thirdPartyOpenid"       column="third_party_openid"       />
 		<result property="tenantId"       column="tenant_id"       />
+		<result property="domainName"       column="domain_name"       />
         <association property="dept"    javaType="SysDept"         resultMap="deptResult" />
         <collection  property="roles"   javaType="java.util.List"  resultMap="RoleResult" />
     </resultMap>
@@ -129,10 +130,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and u.del_flag = '0'
 	</select>
 
-	<select id="selectUserByUserNameAndTenantId" resultType="com.qingxinsaas.system.api.domain.SysUser">
+	<select id="selectUserByUserNameAndDomainName" resultType="com.qingxinsaas.system.api.domain.SysUser">
 		<include refid="selectUserVo"/>
 		where u.user_name = #{username}
-		and u.tenant_id = #{tenantId}
+		and u.domain_name = #{domainName}
 		and u.del_flag = '0'
 	</select>
 

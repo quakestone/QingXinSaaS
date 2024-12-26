@@ -44,12 +44,12 @@ public interface ISysUserService
 
 
     /**
-     * 通过用户名和租户id获取用户
+     * 通过用户名和域名获取用户
      * @param username
-     * @param tenantId
+     * @param domainName
      * @return
      */
-    public SysUser selectUserByUserNameAndTenantId(String username, Long tenantId);
+    public SysUser selectUserByUserNameAndDomainName(String username,String domainName);
 
     /**
      * 通过第三方openId和tenantId查询用户

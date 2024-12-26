@@ -134,10 +134,10 @@ public interface SysUserMapper
 
 
     /**
-     * 通过用户名和租户id获取用户
+     * 通过用户名和域名获取用户
      * @param username
-     * @param tenantId
+     * @param domainName
      * @return
      */
-    SysUser selectUserByUserNameAndTenantId(@Param("username") String username, @Param("tenantId") Long tenantId);
+    SysUser selectUserByUserNameAndDomainName(@Param("username") String username,@Param("domainName") String domainName);
 }

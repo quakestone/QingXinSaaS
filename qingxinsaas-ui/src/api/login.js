@@ -1,7 +1,8 @@
 import request from '@/utils/request'
+import { dataTool } from 'echarts'
 
 // 登录方法
-export function login(username, password, code, uuid,tenantId) {
+export function login(username, password, code, uuid,domainName) {
   return request({
     url: '/auth/login',
     headers: {
@@ -10,7 +11,7 @@ export function login(username, password, code, uuid,tenantId) {
       contenType: 'application/json;charset=UTF-8'
     },
     method: 'post',
-    data: { username, password, code, uuid, tenantId}
+    data: { username, password, code, uuid,domainName}
   })
 }
 
@@ -72,10 +73,11 @@ export function getTenantList() {
 
 
 //获取微信登录二维码
-export function wxLogin() {
+export function wxLogin(domainName) {
   return request({
     url: '/auth/wx/wxLogin',
-    method: 'get'
+    method: 'get',
+    data:{domainName: domainName}
   })
 }
 

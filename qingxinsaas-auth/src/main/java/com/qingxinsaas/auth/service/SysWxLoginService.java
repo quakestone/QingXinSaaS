@@ -53,7 +53,7 @@ public class SysWxLoginService {
         {
             //如果微信用户登入，用户不存在就注册
 //            register(wxUserInfo.getNickname(), wxUserInfo.getOpenid(),tenantId);
-            throw new ServiceException("当前租户下，用户不存在");
+            throw new ServiceException("用户不存在");
 
         }
         LoginUser userInfo = userResult.getData();
