@@ -40,9 +40,9 @@
           <span v-else>{{$t('h.login.loginIng')}}</span>
         </el-button>
         <!-- 添加微信登录和支付宝登录按钮 -->
-        <el-button size="medium" type="info" style="width: 100%; margin-top: 10px;"
-          @click="handleWeChatLogin">{{$t('h.login.wxLogin')}}</el-button>
         <el-button size="medium" type="success" style="width: 100%; margin-top: 10px;"
+          @click="handleWeChatLogin">{{$t('h.login.wxLogin')}}</el-button>
+        <el-button size="medium" type="info" style="width: 100%; margin-top: 10px;"
           @click="handleAlipayLogin">{{$t('h.login.aliLogin')}}</el-button>
         <div style="float: right;" v-if="register">
           <router-link class="link-type" :to="'/register'">{{$t('h.login.SignUp')}}</router-link>
@@ -56,6 +56,7 @@
       <p>{{$t('h.login.wxDes')}}</p>
       <img :src="qrCodeImage" :alt="$t('h.login.wxCode')" style="width: 100%;">
       <span slot="footer" class="dialog-footer">
+        <el-button @click="accessWxLogin" type="success">{{$t('h.login.wxAccessLogin')}}</el-button>
         <el-button @click="dialogVisible = false">{{$t('h.login.cancel')}}</el-button>
       </span>
     </el-dialog>
@@ -68,7 +69,7 @@
 </template>
 
 <script>
-import { getCodeImg, getTenantList, wxLogin, saveTenantId } from "@/api/login";
+import { getCodeImg, getTenantList, wxLogin, accessWxLogin } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
@@ -222,17 +223,10 @@ export default {
     // },
 
 
-    // 微信登录方法（简化示例，实际需对接微信开放平台相关接口）
+    // 微信登录方法
     handleWeChatLogin() {
-      // 这里引导用户跳转到微信授权页面等操作，实际需按照微信登录流程来
-      // 比如使用微信的SDK或者构造授权链接进行跳转
-
-      // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb9ac2f53388cb7a2&redirect_uri=https://c4b0e58.r23.cpolar.top/wx/wxCallback&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-      // 后续在回调页面（redirect_uri指向的页面）获取授权码等信息并处理登录逻辑
-
-      //跳转WxLogin页面，并在回调页面处理微信登录逻辑
-
       // 请求后端接口
+      console.log('微信登录',this.domainName);
       wxLogin(this.domainName).then(res => {
         console.log('微信登录', res);
         this.qrCodeImage = `data:image/png;base64,${res.data}`;
@@ -240,6 +234,17 @@ export default {
       }).catch(() => {
         this.$message.error('获取微信登录二维码失败，请稍后再试');
       });
+    },
+
+    // 微信授权登录
+    accessWxLogin(){
+        console.log('微信授权登录');
+        // this.dialogVisible = false; // 关闭弹窗
+        // 登录逻辑
+        this.$store.dispatch("WxLogin").then(() => {
+          this.$router.push({ path: this.redirect || "/" }).catch(() => { });
+        })
+    
     },
     // 支付宝登录方法（简化示例，实际需对接支付宝开放平台相关接口）
     handleAlipayLogin() {

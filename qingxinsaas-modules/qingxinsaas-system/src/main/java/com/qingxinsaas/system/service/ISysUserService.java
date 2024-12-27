@@ -52,12 +52,12 @@ public interface ISysUserService
     public SysUser selectUserByUserNameAndDomainName(String username,String domainName);
 
     /**
-     * 通过第三方openId和tenantId查询用户
+     * 通过第三方openId和域名查询用户
      * @param openId
-     * @param tenantId
+     * @param domainName
      * @return
      */
-    public SysUser selectUserByOpenIdAndTenantId(String openId,Long tenantId);
+    public SysUser selectUserByOpenIdAndDomainName(String openId,String domainName);
 
     /**
      * 通过用户ID查询用户

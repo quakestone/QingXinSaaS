@@ -35,7 +35,7 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             }
 
             @Override
-            public R<LoginUser> getWxUserInfo(String openId, Long tenantId , String source) {
+            public R<LoginUser> getWxUserInfo(String openId, String domainName , String source) {
                 return R.fail("获取微信用户失败:" + throwable.getMessage());
             }
 

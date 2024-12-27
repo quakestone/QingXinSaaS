@@ -127,10 +127,10 @@ public class SysUserController extends BaseController
      * 获取当前微信用户信息
      */
     @InnerAuth
-    @GetMapping("/wxInfo/{username}/{tenantId}")
-    public R<LoginUser> wxInfo(@PathVariable("username") String openId,@PathVariable("tenantId") Long tenantId)
+    @GetMapping("/wxInfo/{username}/{domainName}")
+    public R<LoginUser> wxInfo(@PathVariable("username") String openId,@PathVariable("domainName") String domainName)
     {
-        SysUser sysUser = userService.selectUserByOpenIdAndTenantId(openId,tenantId);
+        SysUser sysUser = userService.selectUserByOpenIdAndDomainName(openId,domainName);
         if (StringUtils.isNull(sysUser))
         {
             return R.fail("用户名或密码错误");

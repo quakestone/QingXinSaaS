@@ -16,7 +16,8 @@ export const h = {
         wxTitle: "微信登录",
         wxDes: "请扫码登录",
         wxCode: "微信二维码",
-        cancel: "取消"
+        cancel: "取消",
+        wxAccessLogin:"授权成功后，点击登录"
     },
 
     innerLink: {

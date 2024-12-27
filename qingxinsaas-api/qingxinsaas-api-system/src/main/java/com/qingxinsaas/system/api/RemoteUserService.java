@@ -39,8 +39,8 @@ public interface RemoteUserService
      * @param source
      * @return
      */
-    @GetMapping("/user/wxInfo/{openId}/{tenantId}")
-    public R<LoginUser> getWxUserInfo(@PathVariable("openId") String openId,  @PathVariable("tenantId") Long tenantId ,@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    @GetMapping("/user/wxInfo/{openId}/{domainName}")
+    public R<LoginUser> getWxUserInfo(@PathVariable("openId") String openId,  @PathVariable("domainName") String domainName ,@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 注册用户信息

@@ -77,7 +77,20 @@ export function wxLogin(domainName) {
   return request({
     url: '/auth/wx/wxLogin',
     method: 'get',
-    data:{domainName: domainName}
+    params:{domainName: domainName}
+  })
+}
+
+//微信授权登录
+export function accessWxLogin() {
+  return request({
+    url: '/auth/wx/accessWxLogin',
+    headers: {
+      isToken: false,
+      repeatSubmit: false,
+      contenType: 'application/json;charset=UTF-8'
+    },
+    method: 'post',
   })
 }
 

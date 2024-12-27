@@ -126,11 +126,11 @@ public interface SysUserMapper
     public SysUser checkEmailUnique(String email);
 
     /**
-     * 通过第三方openId查询用户
+     * 通过第三方openId和域名查询用户
      * @param openId
      * @return
      */
-    SysUser selectUserByOpenIdAndTenantId(@Param("openId") String openId,@Param("tenantId") Long tenantId);
+    SysUser selectUserByOpenIdAndDomainName(@Param("openId") String openId,@Param("domainName") String domainName);
 
 
     /**

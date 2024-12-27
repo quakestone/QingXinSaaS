@@ -128,14 +128,14 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * 通过第三方openId和tenantId查询用户
+     * 通过第三方openId和域名查询用户
      * @param openId
-     * @param tenantId
+     * @param domainName
      * @return
      */
     @Override
-    public SysUser selectUserByOpenIdAndTenantId(String openId,Long tenantId){
-        return userMapper.selectUserByOpenIdAndTenantId(openId,tenantId);
+    public SysUser selectUserByOpenIdAndDomainName(String openId,String domainName){
+        return userMapper.selectUserByOpenIdAndDomainName(openId,domainName);
     }
 
     /**

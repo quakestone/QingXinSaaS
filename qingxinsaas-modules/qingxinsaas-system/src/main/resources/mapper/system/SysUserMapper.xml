@@ -137,10 +137,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		and u.del_flag = '0'
 	</select>
 
-	<select id="selectUserByOpenIdAndTenantId"  resultMap="SysUserResult">
+	<select id="selectUserByOpenIdAndDomainName"  resultMap="SysUserResult">
 		<include refid="selectUserVo"/>
 		where u.third_party_openid = #{openId}
-		and u.tenant_id = #{tenantId}
+		and u.domain_name = #{domainName}
 		and u.del_flag = '0'
 	</select>
 	

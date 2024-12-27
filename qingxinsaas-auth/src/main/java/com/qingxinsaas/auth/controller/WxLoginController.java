@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -36,7 +37,13 @@ public class WxLoginController {
     @Autowired
     private SysWxLoginService sysWxLoginService;
 
-    private static Long tenantId1 = 2l;
+//    private static Long tenantId1 = 2l;
+
+    //存储域名
+    private static String dn = null;
+
+    //存储用户登录的token
+    private static Map<String, Object> tk = null;
 
 
     @RequestMapping("/wxCheck")
@@ -51,8 +58,8 @@ public class WxLoginController {
     }
 
     @GetMapping("/wxLogin")
-    public R<?> wxLogin(HttpServletResponse response,String domainName)throws Exception{
-        System.out.println("domainName"+domainName);
+    public R<?> wxLogin(HttpServletResponse response,@RequestParam("domainName") String domainName)throws Exception{
+        dn = domainName;
         //回调地址
         String redirectUrl = URLEncoder.encode(wxAppProperties.getRedirectUrl(),"UTF-8");
         //构造二维码地址
@@ -71,28 +78,38 @@ public class WxLoginController {
     }
 
     @GetMapping("/wxCallback")
-    public R<?> wxCallback(String code, String state, HttpServletRequest request, HttpServletResponse response,
+    public String wxCallback(String code, String state, HttpServletRequest request, HttpServletResponse response,
                                  HttpSession session) throws Exception{
         log.info("获取到的授权码code：{}",code);
         WxUserInfo wxUserInfo = WechatUtil.getUserInfo(wxAppProperties.getAppid(), wxAppProperties.getSecret(), code);
         System.out.println(wxUserInfo);
 
         //微信用户登入
-        LoginUser userInfo = sysWxLoginService.login(wxUserInfo,tenantId1);
-
+        LoginUser userInfo = sysWxLoginService.login(wxUserInfo,dn);
+        tk = tokenService.createToken(userInfo);
         // 获取登录token
-        return R.ok(tokenService.createToken(userInfo));
+        return "已授权，请返登录界点击授权登录！";
+    }
+
+    @PostMapping("/accessWxLogin")
+    public R<?> accessWxLogin(){
+        Map<String, Object> tk2 = tk;
+        tk = null;
+        if (tk2 == null){
+            return R.fail("请先授权登录！");
+        }
+        return R.ok(tk2);
     }
 
 
 
 //    获取租户id
-        @GetMapping("/saveTenantId")
-        public R<?> saveTenantId(@RequestParam("tenantId") String tenantId){
-            System.out.println("tenantId"+tenantId);
-            tenantId1 = Long.valueOf(tenantId);
-            return R.ok();
-        }
+//        @GetMapping("/saveTenantId")
+//        public R<?> saveTenantId(@RequestParam("tenantId") String tenantId){
+//            System.out.println("tenantId"+tenantId);
+//            tenantId1 = Long.valueOf(tenantId);
+//            return R.ok();
+//        }
 
 
 
