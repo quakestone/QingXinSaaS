@@ -97,8 +97,6 @@ public class SysUser extends TenantEntity
 
     private String thirdPartyOpenid;
 
-
-
     public SysUser()
     {
 

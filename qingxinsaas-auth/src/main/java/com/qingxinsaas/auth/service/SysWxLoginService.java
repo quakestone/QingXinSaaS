@@ -38,7 +38,7 @@ public class SysWxLoginService {
     /**
      * 登录
      */
-    public LoginUser login(WxUserInfo wxUserInfo,Long tenantId)
+    public LoginUser login(WxUserInfo wxUserInfo,String domainName)
     {
         // IP黑名单校验
         String blackStr = Convert.toStr(redisService.getCacheObject(CacheConstants.SYS_LOGIN_BLACKIPLIST));
@@ -48,12 +48,12 @@ public class SysWxLoginService {
             throw new ServiceException("很遗憾，访问IP已被列入系统黑名单");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getWxUserInfo(wxUserInfo.getOpenid(),tenantId, SecurityConstants.INNER);
+        R<LoginUser> userResult = remoteUserService.getWxUserInfo(wxUserInfo.getOpenid(),domainName, SecurityConstants.INNER);
         if (R.FAIL == userResult.getCode())
         {
             //如果微信用户登入，用户不存在就注册
 //            register(wxUserInfo.getNickname(), wxUserInfo.getOpenid(),tenantId);
-            throw new ServiceException("当前租户下，用户不存在");
+            throw new ServiceException("用户不存在");
 
         }
         LoginUser userInfo = userResult.getData();

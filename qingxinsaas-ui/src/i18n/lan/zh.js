@@ -14,9 +14,10 @@ export const h = {
         aliLogin: "支付宝登录",
         SignUp: "立即注册",
         wxTitle: "微信登录",
-        wxDes: "微信扫码前，请先选择租户!!!",
+        wxDes: "请扫码登录",
         wxCode: "微信二维码",
-        cancel: "取消"
+        cancel: "取消",
+        wxAccessLogin:"授权成功后，点击登录"
     },
 
     innerLink: {

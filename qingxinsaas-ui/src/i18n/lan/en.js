@@ -13,9 +13,10 @@ export const h = {
         aliLogin: "Alipay login",
         SignUp: "Sign Up Now",
         wxTitle: "WeChat login",
-        wxDes: "Before scanning the QR code on WeChat, please select the tenant first!!",
+        wxDes: "Please scan the code to log in",
         wxCode: "WeChat Code",
-        cancel: "cancel"
+        cancel: "cancel",
+        wxAccessLogin:"Once the authorization is successful, click Sign In"
     },
     settings: {
         themeStyle: "Theme Style",

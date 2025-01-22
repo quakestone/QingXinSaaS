@@ -42,7 +42,7 @@ public class SysLoginService
     /**
      * 登录
      */
-    public LoginUser login(String username, String password,Long tenantId)
+    public LoginUser login(String username, String password,String domainName)
     {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password))
@@ -72,12 +72,12 @@ public class SysLoginService
             throw new ServiceException("很遗憾，访问IP已被列入系统黑名单");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username,tenantId, SecurityConstants.INNER);
+        R<LoginUser> userResult = remoteUserService.getUserInfo(username,domainName, SecurityConstants.INNER);
 
         if (R.FAIL == userResult.getCode())
         {
 //            throw new ServiceException(userResult.getMsg());
-            throw new ServiceException("当前租户下用户不存在");
+            throw new ServiceException("用户不存在");
         }
 
         LoginUser userInfo = userResult.getData();

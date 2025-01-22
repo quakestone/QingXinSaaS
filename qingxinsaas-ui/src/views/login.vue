@@ -6,12 +6,12 @@
 
       <h3 class="title">{{ $t('h.login.title') }}</h3>
       <!-- 新增多租户选择区域 -->
-      <el-form-item>
+      <!-- <el-form-item>
         <el-select v-model="selectedTenant" :placeholder="$t('h.login.tenant')" @change="handleTenantSelect">
           <el-option v-for="tenant in tenantList" :key="tenant.id" :label="tenant.name" :value="tenant.id">
           </el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" auto-complete="off" :placeholder="$t('h.login.username')">
           <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
@@ -40,9 +40,9 @@
           <span v-else>{{$t('h.login.loginIng')}}</span>
         </el-button>
         <!-- 添加微信登录和支付宝登录按钮 -->
-        <el-button size="medium" type="info" style="width: 100%; margin-top: 10px;"
-          @click="handleWeChatLogin">{{$t('h.login.wxLogin')}}</el-button>
         <el-button size="medium" type="success" style="width: 100%; margin-top: 10px;"
+          @click="handleWeChatLogin">{{$t('h.login.wxLogin')}}</el-button>
+        <el-button size="medium" type="info" style="width: 100%; margin-top: 10px;"
           @click="handleAlipayLogin">{{$t('h.login.aliLogin')}}</el-button>
         <div style="float: right;" v-if="register">
           <router-link class="link-type" :to="'/register'">{{$t('h.login.SignUp')}}</router-link>
@@ -56,6 +56,7 @@
       <p>{{$t('h.login.wxDes')}}</p>
       <img :src="qrCodeImage" :alt="$t('h.login.wxCode')" style="width: 100%;">
       <span slot="footer" class="dialog-footer">
+        <el-button @click="accessWxLogin" type="success">{{$t('h.login.wxAccessLogin')}}</el-button>
         <el-button @click="dialogVisible = false">{{$t('h.login.cancel')}}</el-button>
       </span>
     </el-dialog>
@@ -68,7 +69,7 @@
 </template>
 
 <script>
-import { getCodeImg, getTenantList, wxLogin, saveTenantId } from "@/api/login";
+import { getCodeImg, getTenantList, wxLogin, accessWxLogin } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 
@@ -86,7 +87,9 @@ export default {
         rememberMe: false,
         code: "",
         uuid: "",
-        tenantId: "" // 新增用于存储租户id的字段
+        // tenantId: "" ,// 新增用于存储租户id的字段
+        domainName: ""// 当前域名
+        
       },
       loginRules: {
         username: [
@@ -110,6 +113,8 @@ export default {
       dialogVisible: false,//是否显示微信登入弹窗
       weChatCode: '',  // 微信登录获取的授权码等相关数据（根据微信登录流程确定具体存储内容）
       alipayCode: '',  // 支付宝登录获取的授权码等相关数据（根据支付宝登录流程确定具体存储内容）
+      domainName: "",
+
       tenantList: [
         {
           id: "1",
@@ -143,8 +148,10 @@ export default {
     const currentUrl = window.location.href;
     console.log('当前URL:', currentUrl);
     const url = new URL(currentUrl);
-    const host = url.hostname;
-    console.log('当前URL域名:', host);
+    const host= url.hostname;
+    this.domainName = host;//将域名赋值给loginForm.host
+    console.log('当前URL域名:', this.domainName);
+   
   },
     getCode() {
       getCodeImg().then(res => {
@@ -188,7 +195,8 @@ export default {
             Cookies.remove('rememberMe');
           }
           // 将租户id添加到登录表单数据中传递给后端
-          this.loginForm.tenantId = this.selectedTenant;
+          // this.loginForm.tenantId = this.selectedTenant;
+          this.loginForm.domainName = this.domainName;
           console.log("提交表单：", this.loginForm);
           this.$store.dispatch("Login", this.loginForm).then(() => {
             // login(this.loginForm.username,this.loginForm.password,this.loginForm.code,this.loginForm.uuid,this.loginForm.tenantId).then(()=>{
@@ -204,35 +212,39 @@ export default {
     },
 
     //租户下拉框选中事件处理函数
-    handleTenantSelect(tenantId) {
-      console.log('选中的租户ID：', tenantId);
-      saveTenantId(tenantId).then(res => {
-        console.log('保存租户ID结果：', res);
-        this.$message.success('租户切换成功');
-      }).catch(() => {
-        this.$message.error('租户切换失败');
-      });
-    },
+    // handleTenantSelect(tenantId) {
+    //   console.log('选中的租户ID：', tenantId);
+    //   saveTenantId(tenantId).then(res => {
+    //     console.log('保存租户ID结果：', res);
+    //     this.$message.success('租户切换成功');
+    //   }).catch(() => {
+    //     this.$message.error('租户切换失败');
+    //   });
+    // },
 
 
-    // 微信登录方法（简化示例，实际需对接微信开放平台相关接口）
+    // 微信登录方法
     handleWeChatLogin() {
-      // 这里引导用户跳转到微信授权页面等操作，实际需按照微信登录流程来
-      // 比如使用微信的SDK或者构造授权链接进行跳转
-
-      // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb9ac2f53388cb7a2&redirect_uri=https://c4b0e58.r23.cpolar.top/wx/wxCallback&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-      // 后续在回调页面（redirect_uri指向的页面）获取授权码等信息并处理登录逻辑
-
-      //跳转WxLogin页面，并在回调页面处理微信登录逻辑
-
       // 请求后端接口
-      wxLogin().then(res => {
+      console.log('微信登录',this.domainName);
+      wxLogin(this.domainName).then(res => {
         console.log('微信登录', res);
         this.qrCodeImage = `data:image/png;base64,${res.data}`;
         this.dialogVisible = true; // 显示弹窗
       }).catch(() => {
         this.$message.error('获取微信登录二维码失败，请稍后再试');
       });
+    },
+
+    // 微信授权登录
+    accessWxLogin(){
+        console.log('微信授权登录');
+        // this.dialogVisible = false; // 关闭弹窗
+        // 登录逻辑
+        this.$store.dispatch("WxLogin").then(() => {
+          this.$router.push({ path: this.redirect || "/" }).catch(() => { });
+        })
+    
     },
     // 支付宝登录方法（简化示例，实际需对接支付宝开放平台相关接口）
     handleAlipayLogin() {

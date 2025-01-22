@@ -21,9 +21,9 @@ public class LoginBody
     private String password;
 
     /**
-     * 租户id
+     * 域名
      */
-    private String tenantId;
+    private String domainName;
 
 //    public String getUsername()
 //    {

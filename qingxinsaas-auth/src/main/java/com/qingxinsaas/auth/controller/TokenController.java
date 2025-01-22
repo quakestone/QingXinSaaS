@@ -42,10 +42,8 @@ public class TokenController
     @PostMapping("login")
     public R<?> login(@RequestBody LoginBody form)
     {
-        System.out.println("租户id："+form.getTenantId());
-        Long tenantId = Long.valueOf(form.getTenantId());
         // 用户登录
-        LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword(), tenantId);
+        LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword(), form.getDomainName());
         // 获取登录token
         return R.ok(tokenService.createToken(userInfo));
     }
