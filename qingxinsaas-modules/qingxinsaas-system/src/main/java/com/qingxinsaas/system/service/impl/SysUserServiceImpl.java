@@ -117,28 +117,6 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
-     * 通过用户名和域名获取用户
-     * @param username
-     * @param domainName
-     * @return
-     */
-    @Override
-    public SysUser selectUserByUserNameAndDomainName(String username,String domainName){
-        return userMapper.selectUserByUserNameAndDomainName(username,domainName);
-    }
-
-    /**
-     * 通过第三方openId和域名查询用户
-     * @param openId
-     * @param domainName
-     * @return
-     */
-    @Override
-    public SysUser selectUserByOpenIdAndDomainName(String openId,String domainName){
-        return userMapper.selectUserByOpenIdAndDomainName(openId,domainName);
-    }
-
-    /**
      * 通过用户ID查询用户
      * 
      * @param userId 用户ID

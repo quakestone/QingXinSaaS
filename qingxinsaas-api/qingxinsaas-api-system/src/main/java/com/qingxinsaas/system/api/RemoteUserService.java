@@ -1,12 +1,7 @@
 package com.qingxinsaas.system.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 import com.qingxinsaas.common.core.constant.SecurityConstants;
 import com.qingxinsaas.common.core.constant.ServiceNameConstants;
 import com.qingxinsaas.common.core.domain.R;
@@ -29,18 +24,19 @@ public interface RemoteUserService
      * @param source 请求来源
      * @return 结果
      */
-    @GetMapping("/user/info/{username}/{domainName}")
-    public R<LoginUser> getUserInfo(@PathVariable("username") String username,@PathVariable("domainName") String domainName,@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
-
+    @GetMapping("/user/info/{username}")
+    public R<LoginUser> getUserInfo(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
-     * 通过微信openId查询用户信息
-     * @param openId
-     * @param source
-     * @return
+     * 通过用户名查询用户信息
+     *
+     * @param username 用户名
+     * @param domainName 域名
+     * @param source 请求来源
+     * @return 结果
      */
-    @GetMapping("/user/wxInfo/{openId}/{domainName}")
-    public R<LoginUser> getWxUserInfo(@PathVariable("openId") String openId,  @PathVariable("domainName") String domainName ,@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    @GetMapping("/user/info/login")
+    public R<LoginUser> getLoginUserInfo(@RequestParam("username") String username, @RequestParam("domainName") String domainName, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 注册用户信息

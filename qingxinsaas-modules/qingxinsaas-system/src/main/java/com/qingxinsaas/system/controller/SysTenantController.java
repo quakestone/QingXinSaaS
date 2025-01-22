@@ -1,25 +1,18 @@
 package com.qingxinsaas.system.controller;
 
-import com.qingxinsaas.system.api.domain.SysTenant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.qingxinsaas.common.log.annotation.Log;
-import com.qingxinsaas.common.log.enums.BusinessType;
-import com.qingxinsaas.common.security.annotation.RequiresPermissions;
-
-import com.qingxinsaas.system.service.ISysTenantService;
+import com.qingxinsaas.common.core.domain.R;
+import com.qingxinsaas.common.core.utils.StringUtils;
+import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.controller.BaseController;
 import com.qingxinsaas.common.core.web.domain.AjaxResult;
-import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
 import com.qingxinsaas.common.core.web.page.TableDataInfo;
+import com.qingxinsaas.common.log.annotation.Log;
+import com.qingxinsaas.common.log.enums.BusinessType;
+import com.qingxinsaas.common.security.annotation.InnerAuth;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
+import com.qingxinsaas.common.security.utils.SecurityUtils;
+import com.qingxinsaas.system.api.domain.SysUser;
+import com.qingxinsaas.system.api.domain.vo.SysTenantVo;
 import com.qingxinsaas.system.service.ISysTenantService;
 import com.qingxinsaas.system.api.domain.SysTenant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,23 +24,31 @@ import java.util.List;
 /**
  * 租户管理Controller
  *
- * @author qingxinsaas
- * @date 2024-12-10
+ * @author wwj
+ * @date 2024-12-06
  */
 @RestController
 @RequestMapping("/tenant")
-public class SysTenantController extends BaseController
-{
+public class SysTenantController extends BaseController {
     @Autowired
     private ISysTenantService sysTenantService;
+
+    /**
+     * 状态修改
+     */
+    @RequiresPermissions("system:tenant:edit")
+    @PutMapping("/changeStatus")
+    public AjaxResult changeStatus(@RequestBody SysTenant sysTenant)
+    {
+        return toAjax(sysTenantService.updateTenantStatus(sysTenant));
+    }
 
     /**
      * 查询租户管理列表
      */
     @RequiresPermissions("system:tenant:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysTenant sysTenant)
-    {
+    public TableDataInfo list(SysTenant sysTenant) {
         startPage();
         List<SysTenant> list = sysTenantService.selectSysTenantList(sysTenant);
         return getDataTable(list);
@@ -57,10 +58,8 @@ public class SysTenantController extends BaseController
      * 导出租户管理列表
      */
     @RequiresPermissions("system:tenant:export")
-    @Log(title = "租户管理", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysTenant sysTenant)
-    {
+    public void export(HttpServletResponse response, SysTenant sysTenant) {
         List<SysTenant> list = sysTenantService.selectSysTenantList(sysTenant);
         ExcelUtil<SysTenant> util = new ExcelUtil<SysTenant>(SysTenant.class);
         util.exportExcel(response, list, "租户管理数据");
@@ -71,19 +70,39 @@ public class SysTenantController extends BaseController
      */
     @RequiresPermissions("system:tenant:query")
     @GetMapping(value = "/{tenantId}")
-    public AjaxResult getInfo(@PathVariable("tenantId") Long tenantId)
-    {
-        return success(sysTenantService.selectSysTenantByTenantId(tenantId));
+    public R<SysTenant> getInfo(@PathVariable("tenantId") Long tenantId) {
+        return R.ok(sysTenantService.selectSysTenantByTenantId(tenantId));
+    }
+
+    /**
+     * 获取租户管理详细信息
+     */
+    @InnerAuth
+    @GetMapping(value = "/remote/{tenantId}")
+    public R<SysTenantVo> getSysTenantByTenantId(@PathVariable("tenantId") Long tenantId) {
+        return R.ok(sysTenantService.selectSysTenantVoByTenantId(tenantId));
+    }
+
+    /**
+     * 获取租户管理详细信息
+     */
+    @InnerAuth
+    @GetMapping(value = "/remote/domainName")
+    public R<SysTenantVo> getSysTenantByDomainName(@RequestParam("domainName") String domainName) {
+        SysTenantVo sysTenantVo = sysTenantService.selectSysTenantByDomainName(domainName);
+        if (StringUtils.isNull(sysTenantVo))
+        {
+            return R.fail("租户信息错误");
+        }
+        return R.ok(sysTenantVo);
     }
 
     /**
      * 新增租户管理
      */
     @RequiresPermissions("system:tenant:add")
-    @Log(title = "租户管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody SysTenant sysTenant)
-    {
+    public AjaxResult add(@RequestBody SysTenant sysTenant) {
         return toAjax(sysTenantService.insertSysTenant(sysTenant));
     }
 
@@ -91,10 +110,8 @@ public class SysTenantController extends BaseController
      * 修改租户管理
      */
     @RequiresPermissions("system:tenant:edit")
-    @Log(title = "租户管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody SysTenant sysTenant)
-    {
+    public AjaxResult edit(@RequestBody SysTenant sysTenant) {
         return toAjax(sysTenantService.updateSysTenant(sysTenant));
     }
 
@@ -102,10 +119,8 @@ public class SysTenantController extends BaseController
      * 删除租户管理
      */
     @RequiresPermissions("system:tenant:remove")
-    @Log(title = "租户管理", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{tenantIds}")
-    public AjaxResult remove(@PathVariable Long[] tenantIds)
-    {
+    @DeleteMapping("/{tenantIds}")
+    public AjaxResult remove(@PathVariable Long[] tenantIds) {
         return toAjax(sysTenantService.deleteSysTenantByTenantIds(tenantIds));
     }
 }

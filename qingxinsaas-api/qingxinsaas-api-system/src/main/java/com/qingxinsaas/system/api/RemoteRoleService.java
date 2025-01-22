@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * @author wwj
- * @date 2024-11-22
  */
 @FeignClient(contextId = "remoteRoleService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteRoleFallbackFactory.class)
 public interface RemoteRoleService {

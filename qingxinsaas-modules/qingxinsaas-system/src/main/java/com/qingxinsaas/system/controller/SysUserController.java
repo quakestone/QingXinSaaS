@@ -1,5 +1,6 @@
 package com.qingxinsaas.system.controller;
 
+import com.qingxinsaas.common.core.context.SecurityContextHolder;
 import com.qingxinsaas.common.core.domain.R;
 import com.qingxinsaas.common.core.utils.StringUtils;
 import com.qingxinsaas.common.core.utils.poi.ExcelUtil;
@@ -12,6 +13,7 @@ import com.qingxinsaas.common.security.annotation.InnerAuth;
 import com.qingxinsaas.common.security.annotation.RequiresPermissions;
 import com.qingxinsaas.common.security.service.TokenService;
 import com.qingxinsaas.common.security.utils.SecurityUtils;
+import com.qingxinsaas.common.tenant.utils.DataSourceUtils;
 import com.qingxinsaas.system.api.domain.SysDept;
 import com.qingxinsaas.system.api.domain.SysRole;
 import com.qingxinsaas.system.api.domain.SysUser;
@@ -59,6 +61,9 @@ public class SysUserController extends BaseController
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private DataSourceUtils dataSourceUtils;
+
     /**
      * 获取用户列表
      */
@@ -104,10 +109,10 @@ public class SysUserController extends BaseController
      * 获取当前用户信息
      */
     @InnerAuth
-    @GetMapping("/info/{username}/{domainName}")
-    public R<LoginUser> info(@PathVariable("username") String username,@PathVariable("domainName") String domainName)
+    @GetMapping("/info/{username}")
+    public R<LoginUser> info(@PathVariable("username") String username)
     {
-        SysUser sysUser = userService.selectUserByUserNameAndDomainName(username,domainName);
+        SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser))
         {
             return R.fail("用户名或密码错误");
@@ -124,13 +129,14 @@ public class SysUserController extends BaseController
     }
 
     /**
-     * 获取当前微信用户信息
+     * 获取当前用户登录信息
      */
     @InnerAuth
-    @GetMapping("/wxInfo/{username}/{domainName}")
-    public R<LoginUser> wxInfo(@PathVariable("username") String openId,@PathVariable("domainName") String domainName)
+    @GetMapping("/info/login")
+    public R<LoginUser> infoLogin(@RequestParam("username") String username, @RequestParam("domainName") String domainName)
     {
-        SysUser sysUser = userService.selectUserByOpenIdAndDomainName(openId,domainName);
+        dataSourceUtils.changeDataSource(domainName);
+        SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser))
         {
             return R.fail("用户名或密码错误");

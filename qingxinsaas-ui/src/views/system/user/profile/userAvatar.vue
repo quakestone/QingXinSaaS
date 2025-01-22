@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="user-info-head" @click="editCropper()"><img v-bind:src="options.img" :title="$t('h.system.user.profile.userAvatar.upload')" class="img-circle img-lg" /></div>
-    <el-dialog :title="$t('h.system.user.profile.userAvatar.title')" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"  @close="closeDialog">
+    <div class="user-info-head" @click="editCropper()"><img v-bind:src="options.img" title="点击上传头像" class="img-circle img-lg" /></div>
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body @opened="modalOpened"  @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" :style="{height: '350px'}">
           <vue-cropper
@@ -28,7 +28,7 @@
         <el-col :lg="2" :sm="3" :xs="3">
           <el-upload action="#" :http-request="requestUpload" :show-file-list="false" :before-upload="beforeUpload">
             <el-button size="small">
-              {{ $t('h.system.user.profile.userAvatar.select') }}
+              选择
               <i class="el-icon-upload el-icon--right"></i>
             </el-button>
           </el-upload>
@@ -46,7 +46,7 @@
           <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
         </el-col>
         <el-col :lg="{span: 2, offset: 6}" :sm="2" :xs="2">
-          <el-button type="primary" size="small" @click="uploadImg()">{{$t('h.system.user.profile.userAvatar.submit')}}</el-button>
+          <el-button type="primary" size="small" @click="uploadImg()">提 交</el-button>
         </el-col>
       </el-row>
     </el-dialog>
@@ -120,7 +120,7 @@ export default {
     // 上传预处理
     beforeUpload(file) {
       if (file.type.indexOf("image/") == -1) {
-        this.$modal.msgError(this.$t('h.system.user.profile.userAvatar.fileTypeError'));
+        this.$modal.msgError("文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。");
       } else {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -139,7 +139,7 @@ export default {
           this.open = false;
           this.options.img = response.imgUrl;
           store.commit('SET_AVATAR', this.options.img);
-          this.$modal.msgSuccess(this.$t('h.system.user.profile.userAvatar.successMessage'));
+          this.$modal.msgSuccess("修改成功");
           this.visible = false;
         });
       });
@@ -157,3 +157,28 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+.user-info-head {
+  position: relative;
+  display: inline-block;
+  height: 120px;
+}
+
+.user-info-head:hover:after {
+  content: '+';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  color: #eee;
+  background: rgba(0, 0, 0, 0.5);
+  font-size: 24px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: pointer;
+  line-height: 110px;
+  border-radius: 50%;
+}
+</style>

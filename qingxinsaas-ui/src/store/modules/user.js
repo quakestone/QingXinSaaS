@@ -1,4 +1,4 @@
-import { login, logout, getInfo, refreshToken,accessWxLogin } from '@/api/login'
+import { login, logout, getInfo, refreshToken } from '@/api/login'
 import { getToken, setToken, setExpiresIn, removeToken } from '@/utils/auth'
 
 const user = {
@@ -42,25 +42,9 @@ const user = {
       const password = userInfo.password
       const code = userInfo.code
       const uuid = userInfo.uuid
-      // const tenantId = userInfo.tenantId
       const domainName = userInfo.domainName
       return new Promise((resolve, reject) => {
-        login(username, password, code, uuid,domainName).then(res => {
-          let data = res.data
-          setToken(data.access_token)
-          commit('SET_TOKEN', data.access_token)
-          setExpiresIn(data.expires_in)
-          commit('SET_EXPIRES_IN', data.expires_in)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-    //微信授权登录
-    WxLogin({ commit }) {
-      return new Promise((resolve, reject) => {
-        accessWxLogin().then(res => {
+        login(username, password, code, uuid, domainName).then(res => {
           let data = res.data
           setToken(data.access_token)
           commit('SET_TOKEN', data.access_token)
@@ -107,7 +91,7 @@ const user = {
         })
       })
     },
-    
+
     // 退出系统
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

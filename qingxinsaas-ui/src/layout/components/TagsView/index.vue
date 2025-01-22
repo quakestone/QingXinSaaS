@@ -18,12 +18,12 @@
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)"><i class="el-icon-refresh-right"></i> {{$t('h.tagsVies.loadPage')}}</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)"><i class="el-icon-close"></i> {{$t('h.tagsVies.closeThis')}}</li>
-      <li @click="closeOthersTags"><i class="el-icon-circle-close"></i> {{$t('h.tagsVies.closeOther')}}</li>
-      <li v-if="!isFirstView()" @click="closeLeftTags"><i class="el-icon-back"></i> {{$t('h.tagsVies.closeLeft')}}</li>
-      <li v-if="!isLastView()" @click="closeRightTags"><i class="el-icon-right"></i> {{$t('h.tagsVies.closeRight')}}</li>
-      <li @click="closeAllTags(selectedTag)"><i class="el-icon-circle-close"></i> {{$t('h.tagsVies.closeAll')}}</li>
+      <li @click="refreshSelectedTag(selectedTag)"><i class="el-icon-refresh-right"></i> 刷新页面</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)"><i class="el-icon-close"></i> 关闭当前</li>
+      <li @click="closeOthersTags"><i class="el-icon-circle-close"></i> 关闭其他</li>
+      <li v-if="!isFirstView()" @click="closeLeftTags"><i class="el-icon-back"></i> 关闭左侧</li>
+      <li v-if="!isLastView()" @click="closeRightTags"><i class="el-icon-right"></i> 关闭右侧</li>
+      <li @click="closeAllTags(selectedTag)"><i class="el-icon-circle-close"></i> 全部关闭</li>
     </ul>
   </div>
 </template>

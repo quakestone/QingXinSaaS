@@ -7,34 +7,32 @@
     <resultMap type="SysTenant" id="SysTenantResult">
         <result property="tenantId"    column="tenant_id"    />
         <result property="tenantName"    column="tenant_name"    />
-        <result property="dbUrl"    column="db_url"    />
-        <result property="dbHost"    column="db_host"    />
-        <result property="dbName"    column="db_name"    />
-        <result property="dbUsername"    column="db_username"    />
-        <result property="dbPassword"    column="db_password"    />
+        <result property="datasourceId"    column="datasource_id"    />
+        <result property="domainName"    column="domain_name"    />
+        <result property="logo"    column="logo"    />
         <result property="contactName"    column="contact_name"    />
-        <result property="contactMobile"    column="contact_mobile"    />
+        <result property="contactPhone"    column="contact_phone"    />
+        <result property="packageId"    column="package_id"    />
         <result property="expireTime"    column="expire_time"    />
         <result property="status"    column="status"    />
         <result property="delFlag"    column="del_flag"    />
+        <result property="parentId"    column="parent_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
-        <result property="tenantDataType"    column="tenant_data_type"    />
-        <result property="parentTenantId"    column="parent_tenant_id"    />
+        <result property="remark"    column="remark"    />
     </resultMap>
 
     <sql id="selectSysTenantVo">
-        select tenant_id, tenant_name, db_url, db_host, db_name, db_username, db_password, contact_name, contact_mobile, expire_time, status, del_flag, create_by, create_time, update_by, update_time, tenant_data_type, parent_tenant_id from sys_tenant
+        select tenant_id, tenant_name, datasource_id, domain_name, logo, contact_name, contact_phone, package_id, expire_time, status, del_flag, parent_id, create_by, create_time, update_by, update_time, remark from sys_tenant
     </sql>
 
     <select id="selectSysTenantList" parameterType="SysTenant" resultMap="SysTenantResult">
         <include refid="selectSysTenantVo"/>
         <where>
             <if test="tenantName != null  and tenantName != ''"> and tenant_name like concat('%', #{tenantName}, '%')</if>
-            <if test="tenantDataType != null  and tenantDataType != ''"> and tenant_data_type = #{tenantDataType}</if>
-            <if test="parentTenantId != null "> and parent_tenant_id = #{parentTenantId}</if>
+            <if test="contactName != null  and contactName != ''"> and contact_name like concat('%', #{contactName}, '%')</if>
         </where>
     </select>
 
@@ -42,73 +40,71 @@
         <include refid="selectSysTenantVo"/>
         where tenant_id = #{tenantId}
     </select>
-    <select id="selectSysTenantByTenantName" parameterType="String" resultMap="SysTenantResult">
+
+    <select id="selectSysTenantByDomainName" parameterType="String" resultMap="SysTenantResult">
         <include refid="selectSysTenantVo"/>
-        where tenant_name = #{tenantName}
+        where domain_name = #{domainName}
     </select>
 
     <insert id="insertSysTenant" parameterType="SysTenant" useGeneratedKeys="true" keyProperty="tenantId">
         insert into sys_tenant
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="tenantName != null">tenant_name,</if>
-            <if test="dbUrl != null">db_url,</if>
-            <if test="dbHost != null">db_host,</if>
-            <if test="dbName != null">db_name,</if>
-            <if test="dbUsername != null">db_username,</if>
-            <if test="dbPassword != null">db_password,</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name,</if>
+            <if test="datasourceId != null">datasource_id,</if>
+            <if test="domainName != null">domain_name,</if>
+            <if test="logo != null">logo,</if>
             <if test="contactName != null">contact_name,</if>
-            <if test="contactMobile != null">contact_mobile,</if>
+            <if test="contactPhone != null">contact_phone,</if>
+            <if test="packageId != null">package_id,</if>
             <if test="expireTime != null">expire_time,</if>
             <if test="status != null">status,</if>
             <if test="delFlag != null">del_flag,</if>
+            <if test="parentId != null">parent_id,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
-            <if test="tenantDataType != null">tenant_data_type,</if>
-            <if test="parentTenantId != null">parent_tenant_id,</if>
-         </trim>
+            <if test="remark != null">remark,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="tenantName != null">#{tenantName},</if>
-            <if test="dbUrl != null">#{dbUrl},</if>
-            <if test="dbHost != null">#{dbHost},</if>
-            <if test="dbName != null">#{dbName},</if>
-            <if test="dbUsername != null">#{dbUsername},</if>
-            <if test="dbPassword != null">#{dbPassword},</if>
+            <if test="tenantName != null and tenantName != ''">#{tenantName},</if>
+            <if test="datasourceId != null">#{datasourceId},</if>
+            <if test="domainName != null">#{domainName},</if>
+            <if test="logo != null">#{logo},</if>
             <if test="contactName != null">#{contactName},</if>
-            <if test="contactMobile != null">#{contactMobile},</if>
+            <if test="contactPhone != null">#{contactPhone},</if>
+            <if test="packageId != null">#{packageId},</if>
             <if test="expireTime != null">#{expireTime},</if>
             <if test="status != null">#{status},</if>
             <if test="delFlag != null">#{delFlag},</if>
+            <if test="parentId != null">#{parentId},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
-            <if test="tenantDataType != null">#{tenantDataType},</if>
-            <if test="parentTenantId != null">#{parentTenantId},</if>
-         </trim>
+            <if test="remark != null">#{remark},</if>
+        </trim>
     </insert>
 
     <update id="updateSysTenant" parameterType="SysTenant">
         update sys_tenant
         <trim prefix="SET" suffixOverrides=",">
-            <if test="tenantName != null">tenant_name = #{tenantName},</if>
-            <if test="dbUrl != null">db_url = #{dbUrl},</if>
-            <if test="dbHost != null">db_host = #{dbHost},</if>
-            <if test="dbName != null">db_name = #{dbName},</if>
-            <if test="dbUsername != null">db_username = #{dbUsername},</if>
-            <if test="dbPassword != null">db_password = #{dbPassword},</if>
+            <if test="tenantName != null and tenantName != ''">tenant_name = #{tenantName},</if>
+            <if test="datasourceId != null">datasource_id = #{datasourceId},</if>
+            <if test="domainName != null">domain_name = #{domainName},</if>
+            <if test="logo != null">logo = #{logo},</if>
             <if test="contactName != null">contact_name = #{contactName},</if>
-            <if test="contactMobile != null">contact_mobile = #{contactMobile},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="packageId != null">package_id = #{packageId},</if>
             <if test="expireTime != null">expire_time = #{expireTime},</if>
             <if test="status != null">status = #{status},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="tenantDataType != null">tenant_data_type = #{tenantDataType},</if>
-            <if test="parentTenantId != null">parent_tenant_id = #{parentTenantId},</if>
+            <if test="remark != null">remark = #{remark},</if>
         </trim>
         where tenant_id = #{tenantId}
     </update>

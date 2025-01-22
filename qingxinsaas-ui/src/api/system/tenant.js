@@ -42,3 +42,16 @@ export function delTenant(tenantId) {
     method: 'delete'
   })
 }
+
+// 改变租户状态
+export function changeTenantStatus(tenantId, status) {
+  const data = {
+    tenantId,
+    status
+  }
+  return request({
+    url: '/system/tenant/changeStatus',
+    method: 'put',
+    data: data
+  })
+}

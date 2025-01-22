@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  * 角色服务降级处理
  *
  * @author wwj
- * @date 2024-11-22
  */
 @Component
 public class RemoteRoleFallbackFactory implements FallbackFactory<RemoteRoleService> {

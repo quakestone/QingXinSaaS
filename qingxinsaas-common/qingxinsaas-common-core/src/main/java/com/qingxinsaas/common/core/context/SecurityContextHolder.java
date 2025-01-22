@@ -98,7 +98,7 @@ public class SecurityContextHolder
 
     public static Long getTenantId()
     {
-        return Convert.toLong(get(SecurityConstants.DETAILS_TENANT_ID), 1L);
+        return Convert.toLong(get(SecurityConstants.DETAILS_TENANT_ID), 0L);
     }
 
     public static void setTenantId(String tenantId)

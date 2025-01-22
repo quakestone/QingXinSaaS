@@ -2,19 +2,14 @@ package com.qingxinsaas.system.service.impl;
 
 import com.qingxinsaas.common.core.utils.DateUtils;
 import com.qingxinsaas.system.api.domain.SysTenant;
-import com.qingxinsaas.system.api.domain.SysUser;
-import com.qingxinsaas.system.datasource.DynamicDataSource;
-import com.qingxinsaas.system.datasource.DynamicDataSourceContextHolder;
+import com.qingxinsaas.system.api.domain.vo.SysTenantVo;
 import com.qingxinsaas.system.mapper.SysTenantMapper;
-import com.qingxinsaas.system.mapper.SysUserMapper;
+import com.qingxinsaas.system.service.ISysDatasourceService;
 import com.qingxinsaas.system.service.ISysTenantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 租户管理Service业务层处理
@@ -27,11 +22,8 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Resource
     private SysTenantMapper sysTenantMapper;
 
-    @Autowired
-    private SysUserMapper sysUserMapper;
-
-    @Autowired
-    private DynamicDataSource dynamicDataSource;
+    @Resource
+    private ISysDatasourceService sysDatasourceService;
 
     /**
      * 查询租户管理
@@ -47,12 +39,29 @@ public class SysTenantServiceImpl implements ISysTenantService {
     /**
      * 查询租户管理
      *
-     * @param tenantName 租户管理租户名称
+     * @param tenantId 租户管理主键
      * @return 租户管理
      */
     @Override
-    public SysTenant selectSysTenantByTenantName(String tenantName) {
-        return sysTenantMapper.selectSysTenantByTenantName(tenantName);
+    public SysTenantVo selectSysTenantVoByTenantId(Long tenantId) {
+        SysTenantVo sysTenantVo = new SysTenantVo();
+        sysTenantVo.setTenant(sysTenantMapper.selectSysTenantByTenantId(tenantId));
+        sysTenantVo.setDatasource(sysDatasourceService.selectSysDatasourceByDatasourceId(sysTenantVo.getTenant().getDatasourceId()));
+        return sysTenantVo;
+    }
+
+    /**
+     * 查询租户管理
+     *
+     * @param domainName 域名
+     * @return 租户管理
+     */
+    @Override
+    public SysTenantVo selectSysTenantByDomainName(String domainName) {
+        SysTenantVo sysTenantVo = new SysTenantVo();
+        sysTenantVo.setTenant(sysTenantMapper.selectSysTenantByDomainName(domainName));
+        sysTenantVo.setDatasource(sysDatasourceService.selectSysDatasourceByDatasourceId(sysTenantVo.getTenant().getDatasourceId()));
+        return sysTenantVo;
     }
 
     /**
@@ -75,28 +84,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public int insertSysTenant(SysTenant sysTenant) {
         sysTenant.setCreateTime(DateUtils.getNowDate());
-        SysUser newUser = new SysUser();
-        newUser.setNickName(sysTenant.getContactName());
-        newUser.setUserName("admin");
-        newUser.setPhonenumber(sysTenant.getContactMobile());
-        newUser.setPassword("123456");
-        int i = sysTenantMapper.insertSysTenant(sysTenant);
-        if (i>0){
-            String tenant = sysTenant.getTenantName();
-            Map<String, Object> map = new HashMap<>();
-            map.put("driverClassName", "com.mysql.cj.jdbc.Driver");
-            map.put("url", sysTenant.getDbUrl() != null ? sysTenant.getDbUrl() : "jdbc:mysql://" + sysTenant.getDbHost() + "/" + sysTenant.getDbName() + "?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
-            map.put("username", sysTenant.getDbUsername());
-            map.put("password", sysTenant.getDbPassword());
-            map.put("database", sysTenant.getDbName());
-            // 添加数据源
-            dynamicDataSource.addDataSourceAndInitialize(tenant, map);
-            DynamicDataSourceContextHolder.setDataSourceType(tenant);
-            sysUserMapper.insertUser(newUser);
-            sysTenantMapper.insertSysTenant(sysTenant);
-        }
-
-        return i;
+        return sysTenantMapper.insertSysTenant(sysTenant);
     }
 
     /**
@@ -131,5 +119,10 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public int deleteSysTenantByTenantId(Long tenantId) {
         return sysTenantMapper.deleteSysTenantByTenantId(tenantId);
+    }
+
+    @Override
+    public int updateTenantStatus(SysTenant sysTenant) {
+        return sysTenantMapper.updateSysTenant(sysTenant);
     }
 }

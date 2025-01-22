@@ -1,13 +1,13 @@
 package com.qingxinsaas.common.tenant.handler;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import com.qingxinsaas.common.core.context.SecurityContextHolder;
+import com.qingxinsaas.common.core.utils.StringUtils;
 import com.qingxinsaas.common.security.utils.SecurityUtils;
 import com.qingxinsaas.common.tenant.config.properties.TenantProperties;
+import lombok.AllArgsConstructor;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,13 +15,10 @@ import java.util.List;
  *
  * @author wwj
  */
+@AllArgsConstructor
 public class MultiTenantHandler implements TenantLineHandler {
 
     private final TenantProperties properties;
-
-    public MultiTenantHandler(TenantProperties properties) {
-        this.properties = properties;
-    }
 
     /**
      * 获取租户ID值表达式，只支持单个ID值 (实际应该从用户信息中获取)
@@ -30,12 +27,7 @@ public class MultiTenantHandler implements TenantLineHandler {
      */
     @Override
     public Expression getTenantId() {
-        // 从用户信息中获取租户ID
-        Long tenantId = SecurityContextHolder.getTenantId();
-        if (tenantId != null) {
-            return new LongValue(tenantId);
-        }
-        return new LongValue(1);
+        return new LongValue(SecurityUtils.getTenantId());
     }
 
     /**
@@ -58,8 +50,12 @@ public class MultiTenantHandler implements TenantLineHandler {
      */
     @Override
     public boolean ignoreTable(String tableName) {
-        //忽略指定表对租户数据的过滤
         List<String> ignoreTables = properties.getIgnoreTables();
-        return null != ignoreTables && ignoreTables.contains(tableName);
+        // 指定表对租户数据的过滤
+        if (StringUtils.isEmpty(ignoreTables)) {
+            return StringUtils.containsAny(properties.getFilterTables(), tableName);
+        }
+        // 忽略指定表对租户数据的过滤
+        return ignoreTables.contains(tableName);
     }
 }

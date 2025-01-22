@@ -1,17 +1,15 @@
 import request from '@/utils/request'
-import { dataTool } from 'echarts'
 
 // 登录方法
-export function login(username, password, code, uuid,domainName) {
+export function login(username, password, code, uuid, domainName) {
   return request({
     url: '/auth/login',
     headers: {
       isToken: false,
-      repeatSubmit: false,
-      contenType: 'application/json;charset=UTF-8'
+      repeatSubmit: false
     },
     method: 'post',
-    data: { username, password, code, uuid,domainName}
+    data: { username, password, code, uuid, domainName }
   })
 }
 
@@ -63,42 +61,16 @@ export function getCodeImg() {
   })
 }
 
-//获取租户列表
-export function getTenantList() {
+// 修改语言
+export function changeLanguage(lang){
   return request({
-    url: '/auth/tenantList',
-    method: 'get'
-  })
-}
-
-
-//获取微信登录二维码
-export function wxLogin(domainName) {
-  return request({
-    url: '/auth/wx/wxLogin',
+    url: '/changeLanguage',
     method: 'get',
-    params:{domainName: domainName}
-  })
-}
-
-//微信授权登录
-export function accessWxLogin() {
-  return request({
-    url: '/auth/wx/accessWxLogin',
     headers: {
       isToken: false,
-      repeatSubmit: false,
-      contenType: 'application/json;charset=UTF-8'
     },
-    method: 'post',
-  })
-}
-
-//保存当前租户id（微信登录使用）
-export function saveTenantId(tenantId) {
-  return request({
-    url: '/auth/wx/saveTenantId',
-    method: 'get',
-    params: {tenantId}
+    params: {
+      lang: lang
+    }
   })
 }

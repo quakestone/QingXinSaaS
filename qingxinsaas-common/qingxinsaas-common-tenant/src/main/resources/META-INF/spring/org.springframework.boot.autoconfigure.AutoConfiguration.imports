@@ -1,1 +1,2 @@
 com.qingxinsaas.common.tenant.config.MybatisPlusConfig
+com.qingxinsaas.common.tenant.config.TenantWebMvcConfig

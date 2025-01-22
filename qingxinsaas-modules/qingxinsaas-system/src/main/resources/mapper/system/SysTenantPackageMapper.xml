@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qingxinsaas.system.mapper.SysTenantPackageMapper">
+
+    <resultMap type="SysTenantPackage" id="SysTenantPackageResult">
+        <result property="packageId"    column="package_id"    />
+        <result property="packageName"    column="package_name"    />
+        <result property="menuIds"    column="menu_ids"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysTenantPackageVo">
+        select package_id, package_name, menu_ids, status, del_flag, create_by, create_time, update_by, update_time, remark from sys_tenant_package
+    </sql>
+
+    <select id="selectSysTenantPackageList" parameterType="SysTenantPackage" resultMap="SysTenantPackageResult">
+        <include refid="selectSysTenantPackageVo"/>
+        <where>
+            <if test="packageName != null  and packageName != ''"> and package_name like concat('%', #{packageName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectSysTenantPackageByPackageId" parameterType="Long" resultMap="SysTenantPackageResult">
+        <include refid="selectSysTenantPackageVo"/>
+        where package_id = #{packageId}
+    </select>
+
+    <insert id="insertSysTenantPackage" parameterType="SysTenantPackage">
+        insert into sys_tenant_package
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="packageId != null">package_id,</if>
+            <if test="packageName != null">package_name,</if>
+            <if test="menuIds != null">menu_ids,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="packageId != null">#{packageId},</if>
+            <if test="packageName != null">#{packageName},</if>
+            <if test="menuIds != null">#{menuIds},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysTenantPackage" parameterType="SysTenantPackage">
+        update sys_tenant_package
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="packageName != null">package_name = #{packageName},</if>
+            <if test="menuIds != null">menu_ids = #{menuIds},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where package_id = #{packageId}
+    </update>
+
+    <delete id="deleteSysTenantPackageByPackageId" parameterType="Long">
+        delete from sys_tenant_package where package_id = #{packageId}
+    </delete>
+
+    <delete id="deleteSysTenantPackageByPackageIds" parameterType="String">
+        delete from sys_tenant_package where package_id in
+        <foreach item="packageId" collection="array" open="(" separator="," close=")">
+            #{packageId}
+        </foreach>
+    </delete>
+</mapper>

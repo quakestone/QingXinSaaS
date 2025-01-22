@@ -9,17 +9,17 @@
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
 
-        <!-- <el-tooltip content="源码地址" effect="dark" placement="bottom">
+        <el-tooltip content="源码地址" effect="dark" placement="bottom">
           <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
         </el-tooltip>
 
         <el-tooltip content="文档地址" effect="dark" placement="bottom">
           <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
-        </el-tooltip> -->
+        </el-tooltip>
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-        <el-tooltip :content="$t('h.navbar.layoutSize')" effect="dark" placement="bottom">
+        <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect" />
         </el-tooltip>
 
@@ -32,13 +32,13 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/user/profile">
-            <el-dropdown-item>{{$t('h.navbar.mine')}}</el-dropdown-item>
+            <el-dropdown-item>个人中心</el-dropdown-item>
           </router-link>
           <el-dropdown-item @click.native="setting = true">
-            <span>{{$t('h.navbar.layoutSet')}}</span>
+            <span>布局设置</span>
           </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
-            <span>{{$t('h.navbar.logOut')}}</span>
+            <span>退出登录</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -96,9 +96,9 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      this.$confirm(this.$t('h.navbar.logOutTip'), this.$t('h.navbar.title'), {
-        confirmButtonText: this.$t('h.navbar.confirm'),
-        cancelButtonText: this.$t('h.navbar.cancel'),
+      this.$confirm('确定注销并退出系统吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.$store.dispatch('LogOut').then(() => {

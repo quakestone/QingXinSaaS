@@ -1,19 +1,19 @@
 <template>
   <div class="errPage-container">
     <el-button icon="arrow-left" class="pan-back-btn" @click="back">
-      {{$t('h.401.back')}}
+      返回
     </el-button>
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">
-          {{$t('h.401.error')}}
+          401错误!
         </h1>
-        <h2>{{$t('h.401.noPermissions')}}</h2>
-        <h6>{{$t('h.401.noAction')}}</h6>
+        <h2>您没有访问权限！</h2>
+        <h6>对不起，您没有访问权限，请不要进行非法操作！您可以返回主页面</h6>
         <ul class="list-unstyled">
           <li class="link-type">
             <router-link to="/">
-              {{$t('h.401.backIndex')}}
+              回首页
             </router-link>
           </li>
         </ul>

@@ -1,6 +1,7 @@
 package com.qingxinsaas.system.service;
 
 import com.qingxinsaas.system.api.domain.SysTenant;
+import com.qingxinsaas.system.api.domain.vo.SysTenantVo;
 
 import java.util.List;
 
@@ -22,10 +23,18 @@ public interface ISysTenantService {
     /**
      * 查询租户管理
      *
-     * @param tenantName 租户管理租户名称
+     * @param tenantId 租户管理主键
      * @return 租户管理
      */
-    public SysTenant selectSysTenantByTenantName(String tenantName);
+    public SysTenantVo selectSysTenantVoByTenantId(Long tenantId);
+
+    /**
+     * 查询租户管理
+     *
+     * @param domainName 域名
+     * @return 租户管理
+     */
+    public SysTenantVo selectSysTenantByDomainName(String domainName);
 
     /**
      * 查询租户管理列表
@@ -66,4 +75,12 @@ public interface ISysTenantService {
      * @return 结果
      */
     public int deleteSysTenantByTenantId(Long tenantId);
+
+    /**
+     * 修改租户状态
+     *
+     * @param sysTenant 租户信息
+     * @return 结果
+     */
+    public int updateTenantStatus(SysTenant sysTenant);
 }

@@ -43,12 +43,8 @@ import vform from '@/components/vform/VFormDesigner.umd.min.js'
 import '@/components/vform/VFormDesigner.css'
 // 流程设计器
 import modelerStore from '@/components/Process/common/global'
-//语言选择组件
-import LanguageSelector from '@/components/LanguageSelector/index.vue';
-
-// 国际化
-import { i18n } from './i18n/index' //国际化
-
+// i18n国际化
+import i18n from './lang'
 
 // 全局方法挂载
 Vue.prototype.modelerStore = modelerStore
@@ -71,7 +67,6 @@ Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
 Vue.component('tinymce', Tinymce)
-Vue.component('LanguageSelector', LanguageSelector);
 
 //同时注册了v-form-designer、v-form-render等组件
 Vue.use(vform)
@@ -91,6 +86,7 @@ DictData.install()
  */
 
 Vue.use(Element, {
+  i18n: (key, value) => i18n.t(key, value),
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
 
@@ -100,6 +96,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  i18n, //使用国际化
+  i18n,
   render: h => h(App)
 })

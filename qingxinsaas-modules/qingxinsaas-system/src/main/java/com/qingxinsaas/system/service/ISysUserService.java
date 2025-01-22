@@ -42,23 +42,6 @@ public interface ISysUserService
      */
     public SysUser selectUserByUserName(String userName);
 
-
-    /**
-     * 通过用户名和域名获取用户
-     * @param username
-     * @param domainName
-     * @return
-     */
-    public SysUser selectUserByUserNameAndDomainName(String username,String domainName);
-
-    /**
-     * 通过第三方openId和域名查询用户
-     * @param openId
-     * @param domainName
-     * @return
-     */
-    public SysUser selectUserByOpenIdAndDomainName(String openId,String domainName);
-
     /**
      * 通过用户ID查询用户
      * 
@@ -220,7 +203,4 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
-
-
-
 }

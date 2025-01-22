@@ -20,6 +20,14 @@ public interface SysTenantMapper {
     public SysTenant selectSysTenantByTenantId(Long tenantId);
 
     /**
+     * 查询租户管理
+     *
+     * @param domainName 域名
+     * @return 租户管理
+     */
+    public SysTenant selectSysTenantByDomainName(String domainName);
+
+    /**
      * 查询租户管理列表
      *
      * @param sysTenant 租户管理
@@ -58,12 +66,4 @@ public interface SysTenantMapper {
      * @return 结果
      */
     public int deleteSysTenantByTenantIds(Long[] tenantIds);
-
-    /**
-     * 查询租户管理
-     *
-     * @param tenantName 租户管理租户名称
-     * @return 租户管理
-     */
-    SysTenant selectSysTenantByTenantName(String tenantName);
 }

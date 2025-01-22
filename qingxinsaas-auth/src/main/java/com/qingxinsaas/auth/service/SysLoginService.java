@@ -1,5 +1,7 @@
 package com.qingxinsaas.auth.service;
 
+import com.qingxinsaas.common.core.context.SecurityContextHolder;
+import com.qingxinsaas.common.core.utils.ServletUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.qingxinsaas.common.core.constant.CacheConstants;
@@ -42,7 +44,7 @@ public class SysLoginService
     /**
      * 登录
      */
-    public LoginUser login(String username, String password,String domainName)
+    public LoginUser login(String username, String password, String domainName)
     {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password))
@@ -71,13 +73,18 @@ public class SysLoginService
             recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, "很遗憾，访问IP已被列入系统黑名单");
             throw new ServiceException("很遗憾，访问IP已被列入系统黑名单");
         }
+        // 域名信息为空 错误
+        if (StringUtils.isNull(ServletUtils.getRequest()) || StringUtils.isEmpty(ServletUtils.getRequest().getHeader("Host")))
+        {
+            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, "获取租户信息失败");
+            throw new ServiceException("获取租户信息失败");
+        }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username,domainName, SecurityConstants.INNER);
+        R<LoginUser> userResult = remoteUserService.getLoginUserInfo(username, domainName, SecurityConstants.INNER);
 
         if (R.FAIL == userResult.getCode())
         {
-//            throw new ServiceException(userResult.getMsg());
-            throw new ServiceException("用户不存在");
+            throw new ServiceException(userResult.getMsg());
         }
 
         LoginUser userInfo = userResult.getData();
